@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+    <h:head>
+        <title>#{bundle.FamiliaTitle}</title>
+    </h:head>
+    <ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.FamiliaTitle}" />
+        </ui:define>
+        <ui:define name="content">
+            
+            <br/> 
+            
+            <h:form>
+                <p:panel id="familiaForm" 
+                         header="#{bundle.FamiliaListTitle}" 
+                         style="margin-bottom:10px;">
+
+                    <h:panelGrid columns="6">
+                        <p:commandButton icon="ui-icon-newwin" 
+                                         value="Agregar Nuevo" 
+                                         action="#{mbFamilia.prepareCreate}"/>
+                        
+                        <p:commandButton icon="ui-icon-refresh" 
+                                         value="Refrescar Listado" 
+                                         action="#{mbFamilia.prepareList}" 
+                                         update="familiaList"/>
+                        
+                        <p:commandButton icon="ui-icon-home" 
+                                         value="Inicio" 
+                                         action="#{mbFamilia.prepareInicio()}"/>
+                    </h:panelGrid>
+
+                </p:panel>
+
+                <br/>           
+
+                <p:dataTable value="#{mbFamilia.items}" 
+                             var="e" 
+                             id="familiaList" 
+                             rows="5"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+
+                    <f:facet name="header">
+                       #{bundle.FamiliaListTitle}  
+                        
+                        <p:commandButton id="toggler" 
+                                         type="button" 
+                                         value="Columnas" 
+                                         icon="ui-icon-calculator" 
+                                         style="margin-left: 10px" />
+                        
+                        <p:columnToggler datasource="familiaList" 
+                                         trigger="toggler" />
+                    </f:facet>
+ 
+                    <p:column headerText="Nombre" 
+                              sortBy="#{e.nombre}"  
+                              filterBy="#{e.nombre}">
+                        <p:outputLabel value="#{e.nombre}"/>
+                    </p:column>
+
+                    <p:column headerText="Acciones" 
+                              style="width:135px">
+                        <p:commandButton icon="ui-icon-zoomin" 
+                                         action="#{mbFamilia.prepareView}" 
+                                         title="Ver Detalle">
+                            <f:setPropertyActionListener value="#{e}" 
+                                                         target="#{mbFamilia.current}" />  
+                        </p:commandButton>
+
+                        <p:commandButton icon="ui-icon-pencil" 
+                                         action="#{mbFamilia.prepareEdit}" 
+                                         title="Editar" >
+                            <f:setPropertyActionListener value="#{e}" 
+                                                         target="#{mbFamilia.current}" /> 
+                        </p:commandButton>
+                                                     
+                        <p:commandButton icon="ui-icon-trash" 
+                                         action="#{mbFamilia.prepareDestroy}" 
+                                         title="Borrar">
+                            <f:setPropertyActionListener value="#{e}" 
+                                                         target="#{mbFamilia.current}" />
+                                <p:confirm header="Confirmar" 
+                                           message="¿Desea deshabilitar el registro de Familia?" 
+                                           icon="ui-icon-alert" />
+                        </p:commandButton>     
+                        
+                        <p:confirmDialog global="true" 
+                                         showEffect="fade" 
+                                         hideEffect="fade">
+                            
+                            <p:commandButton value="Si" 
+                                             type="button" 
+                                             styleClass="ui-confirmdialog-yes" 
+                                             icon="ui-icon-check" />
+                            
+                            <p:commandButton value="No" 
+                                             type="button" 
+                                             styleClass="ui-confirmdialog-no" 
+                                             icon="ui-icon-close" />
+                            
+                        </p:confirmDialog>      
+
+                    </p:column>                
+           
+                </p:dataTable>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

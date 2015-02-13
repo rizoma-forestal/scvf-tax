@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.FamiliaTitle}" />
+        </ui:define>
+        <ui:define name="content">
+            
+            <br/>
+
+            <h:form id="frmFamiliaView">
+                <p:panel id="pnView" 
+                         header="#{bundle.FamiliaViewTitle}" 
+                         style="margin-bottom:10px;">
+                    <p:messages id="messages" />
+                    
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="#{bundle.CreateFamiliaLabel_nombre}"/>
+                        <h:outputText value="#{mbFamilia.selected.nombre}" 
+                                      title="#{bundle.CreateFamiliaTitle_nombre}"/>
+                    </h:panelGrid>                    
+                </p:panel>
+                
+                <p:toolbar>
+                    <f:facet name="left">
+                        <p:commandButton icon="ui-icon-refresh" 
+                                         action="#{mbFamilia.prepareList}" 
+                                         value="Volver" 
+                                         ajax="false"/>
+                    </f:facet>
+                </p:toolbar>
+
+            </h:form>
+        </ui:define>
+        
+    </ui:composition>
+</html>
+
+
