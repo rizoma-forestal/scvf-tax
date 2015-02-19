@@ -68,8 +68,28 @@
                         <p:outputLabel value="#{e.nombre}"/>
                     </p:column>
 
+                    <p:column filterBy="#{e.admin.habilitado}" 
+                              headerText="Estado" 
+                              filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('espTable').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="Todos" 
+                                              itemValue="" />
+                                <f:selectItem itemLabel="Activos" 
+                                              itemValue="true" />
+                                <f:selectItem itemLabel="Inactivos" 
+                                              itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <h:outputText value="#{e.admin.habilitado ? 'Habilitado': 'Deshabilitado'}" />
+                    </p:column>
+                    
+
                     <p:column headerText="Acciones" 
                               style="width:135px">
+                        <p:growl id="messages" 
+                                 showDetail="true" />                           
                         <p:commandButton icon="ui-icon-zoomin" 
                                          action="#{mbFamilia.prepareView}" 
                                          title="Ver Detalle">
@@ -83,16 +103,17 @@
                             <f:setPropertyActionListener value="#{e}" 
                                                          target="#{mbFamilia.current}" /> 
                         </p:commandButton>
-                                                     
+                                                   
                         <p:commandButton icon="ui-icon-trash" 
-                                         action="#{mbFamilia.prepareDestroy}" 
-                                         title="Borrar">
+                                         action="#{mbFamilia.prepareDestroy}"
+                                         title="Deshabilitar" >
                             <f:setPropertyActionListener value="#{e}" 
                                                          target="#{mbFamilia.current}" />
-                                <p:confirm header="Confirmar" 
-                                           message="¿Desea deshabilitar el registro de Familia?" 
-                                           icon="ui-icon-alert" />
-                        </p:commandButton>     
+                            <p:confirm header="Confirmar" 
+                                       message="¿Desea deshabilitar la Familia?" 
+                                       icon="ui-icon-alert" />
+                        </p:commandButton>                
+  
                         
                         <p:confirmDialog global="true" 
                                          showEffect="fade" 

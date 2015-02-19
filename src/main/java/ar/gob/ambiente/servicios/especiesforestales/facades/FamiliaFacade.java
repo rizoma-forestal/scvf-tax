@@ -42,7 +42,7 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
         List<Familia> result;
         
         String queryString = "SELECT fam FROM Familia fam "
-                + "WHERE fam.nombre LIKE :stringParam";
+                + "WHERE fam.nombre LIKE :stringParam ";
         
         Query q = em.createQuery(queryString)
                 .setParameter("stringParam", "%" + stringParam + "%");        

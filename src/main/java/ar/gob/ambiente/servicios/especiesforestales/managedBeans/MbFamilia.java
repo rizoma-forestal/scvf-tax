@@ -148,19 +148,37 @@ public class MbFamilia implements Serializable{
     public void setCurrent(Familia current) {
         this.current = current;
     }
-    
-    /**
+        /**
      * Método que verifica que el Tipo de Capacitación que se quiere eliminar no esté siento utilizado por otra entidad
      * @return 
      */
-    public String prepareDestroy(){
+    public String prepareBajaLogica(){
         current = (Familia) getItems().getRowData();
         boolean libre = getFacade().tieneDependencias(current.getId());
 
         if (libre){
             // Elimina
             selectedItemIndex = getItems().getRowIndex();
-            performDestroy();
+            update();
+            recreateModel();
+        }else{
+            //No Elimina 
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaNonDeletable"));
+        }
+        return "view";
+    }
+    /**
+     * Método que verifica que el Tipo de Capacitación que se quiere eliminar no esté siento utilizado por otra entidad
+     * @return 
+     */
+    public String prepareDestroy(){
+        //current = (Familia) getItems().getRowData();
+        boolean libre = getFacade().tieneDependencias(current.getId());
+
+        if (libre){
+            // Elimina
+            selectedItemIndex = getItems().getRowIndex();
+            destroy();
             recreateModel();
         }else{
             //No Elimina 
@@ -250,10 +268,12 @@ public class MbFamilia implements Serializable{
      * @return mensaje que notifica el borrado
      */    
     public String destroy() {
-        current = (Familia) getItems().getRowData();
+        //current = (Familia) getItems().getRowData();
         //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        selectedItemIndex = getItems().getRowIndex();
-        performDestroy();
+        //selectedItemIndex = getItems().getRowIndex();
+        current.getAdmin().setHabilitado(false);
+        //performDestroy();
+        update();    
         //recreatePagination();
         recreateModel();
         return "view";
@@ -317,7 +337,7 @@ public class MbFamilia implements Serializable{
      */
     private void performDestroy() {
         try {
-            getFacade().remove(current);
+            //getFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("FamiliaDeletedErrorOccured"));
