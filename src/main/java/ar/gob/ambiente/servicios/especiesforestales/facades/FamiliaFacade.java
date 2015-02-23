@@ -50,29 +50,40 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
         result = q.getResultList();
         return result;
     }
-    
-    public boolean tieneDependencias(Long id){
-        em = getEntityManager();        
-        
-        String queryString = "SELECT gen FROM Genero gen " 
-                + "WHERE gen.familia.id = :idParam";        
-        
-        Query q = em.createQuery(queryString)
-                .setParameter("idParam", id);
-        
-        return q.getResultList().isEmpty();
-    }
-    
-    
-    public boolean existe(String nombre){
+
+    /**
+     * Metodo que verifica si ya existe la entidad.
+     * @param aBuscar: es la cadena que buscara para ver si ya existe en la BDD
+     * @return: devuelve True o False
+     */
+    public boolean existe(String aBuscar){
         em = getEntityManager();       
         String queryString = "SELECT fam.nombre FROM Familia fam "
-                + "WHERE fam.nombre = :nombre";
+                + "WHERE fam.nombre = :stringParam";
         Query q = em.createQuery(queryString)
-                .setParameter("nombre", nombre);
-        return q.getResultList().isEmpty();        
-        
-    }    
+                .setParameter("stringParam", aBuscar);
+        return q.getResultList().isEmpty();
+    }        
+    
+    
+    /**
+     * Método que verifica si la entidad tiene dependencia (Hijos) en estado HABILITADO
+     * @param id: ID de la entidad
+     * @return: True o False
+     */
+    public boolean tieneDependencias(Long id){
+        em = getEntityManager();        
+        String queryString = "SELECT gen FROM Genero gen " 
+                + "WHERE gen.familia.id = :idParam "
+                + "AND gen.adminentidad.habilitado = true";        
+        Query q = em.createQuery(queryString)
+                .setParameter("idParam", id);
+        return q.getResultList().isEmpty();
+    }
+     /**
+     * Metodo para el autocompletado de la búsqueda por nombre
+     * @return 
+     */  
 
     public List<String> getNombres(){
         em = getEntityManager();

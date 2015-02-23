@@ -30,7 +30,7 @@ import javax.faces.validator.ValidatorException;
 
 /**
  *
- * @author lagarcia
+ * @author carmendariz
  */
 public class MbFamilia implements Serializable{
     
@@ -48,8 +48,17 @@ public class MbFamilia implements Serializable{
      * Creates a new instance of MbFamilia
      */
     public MbFamilia() {
+        
     }
     
+    public Familia getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(Familia current) {
+        this.current = current;
+    }
+
     /********************************
      ** Métodos para la navegación **
      ********************************/
@@ -102,8 +111,6 @@ public class MbFamilia implements Serializable{
      * @return acción para el detalle de la entidad
      */
     public String prepareView() {
-        //current = (Familia) getItems().getRowData();
-        selectedItemIndex = getItems().getRowIndex();
         return "view";
     }
 
@@ -112,7 +119,7 @@ public class MbFamilia implements Serializable{
      */
     public String prepareCreate() {
         current = new Familia();
-        selectedItemIndex = -1;
+        //selectedItemIndex = -1;
         return "new";
     }
 
@@ -120,9 +127,6 @@ public class MbFamilia implements Serializable{
      * @return acción para la edición de la entidad
      */
     public String prepareEdit() {
-        //current = (Familia) getItems().getRowData();
-        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        //selectedItemIndex = getItems().getRowIndex();
         return "edit";
     }
     
@@ -136,38 +140,12 @@ public class MbFamilia implements Serializable{
      * @return la ruta a la vista que muestra los resultados de la consulta en forma de listado
      */
     public String prepareSelect(){
-        items = null;
-        buscarFamilia();
+        //items = null;
+        //buscarFamilia();
         return "list";
     }
 
-    public Familia getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(Familia current) {
-        this.current = current;
-    }
         /**
-     * Método que verifica que el Tipo de Capacitación que se quiere eliminar no esté siento utilizado por otra entidad
-     * @return 
-     */
-    public String prepareBajaLogica(){
-        current = (Familia) getItems().getRowData();
-        boolean libre = getFacade().tieneDependencias(current.getId());
-
-        if (libre){
-            // Elimina
-            selectedItemIndex = getItems().getRowIndex();
-            update();
-            recreateModel();
-        }else{
-            //No Elimina 
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaNonDeletable"));
-        }
-        return "view";
-    }
-    /**
      * Método que verifica que el Tipo de Capacitación que se quiere eliminar no esté siento utilizado por otra entidad
      * @return 
      */
@@ -177,7 +155,7 @@ public class MbFamilia implements Serializable{
 
         if (libre){
             // Elimina
-            selectedItemIndex = getItems().getRowIndex();
+            //selectedItemIndex = getItems().getRowIndex();
             destroy();
             recreateModel();
         }else{
@@ -254,6 +232,13 @@ public class MbFamilia implements Serializable{
      * @return mensaje que notifica la actualización
      */
     public String update() {
+        Date date = new Date(System.currentTimeMillis());
+        AdminEntidad admEnt = new AdminEntidad();
+        admEnt.setFechaModif(date);
+        //admEnt.setHabilitado(true);
+        admEnt.setUsModif(2);
+        current.setAdmin(admEnt);
+        
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaUpdated"));
@@ -268,6 +253,7 @@ public class MbFamilia implements Serializable{
      * @return mensaje que notifica el borrado
      */    
     public String destroy() {
+        
         //current = (Familia) getItems().getRowData();
         //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         //selectedItemIndex = getItems().getRowIndex();
@@ -376,15 +362,15 @@ public class MbFamilia implements Serializable{
         this.selectParam = selectParam;
     }
     
-    private void buscarFamilia(){
+   /* private void buscarFamilia(){
         items = new ListDataModel(getFacade().getXString(selectParam)); 
-    }   
+    }   */
     
     /**
      * Método para llegar la lista para el autocompletado de la búsqueda de nombres
      * @param query
      * @return 
-     */
+     *//*
     public List<String> completeNombres(String query){
         listaNombres = getFacade().getNombres();
         List<String> nombres = new ArrayList();
@@ -397,13 +383,13 @@ public class MbFamilia implements Serializable{
         }
         return nombres;
     }
-        
+        */
     
     /********************************************************************
     ** Converter. Se debe actualizar la entidad y el facade respectivo **
     *********************************************************************/
-    @FacesConverter(forClass = Familia.class)
-    public static class FamiliaControllerConverter implements Converter {
+@FacesConverter(forClass = Familia.class)
+public static class FamiliaControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {

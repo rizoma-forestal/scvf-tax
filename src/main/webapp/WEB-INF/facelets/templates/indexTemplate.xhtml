@@ -13,16 +13,22 @@
             <div id="header">
                 
                 <div id="logo" style="position: relative;">
-                    <img src= "#{bundle.Servidor}#{bundle.RutaAplicacion}/faces/resources/img/header.png" alt="header" style="alignment-adjust: central"/>
+                    <img src= "#{bundle.Servidor}#{bundle.RutaAplicacion}/faces/resources/img/header.png" 
+                         alt="header" 
+                         style="alignment-adjust: central"/>
                 </div>
                 
                 <h:form>
                     <p:menubar>
-                        <p:menuitem value="Inicio" url="#{bundle.Servidor}#{bundle.RutaAplicacion}" />
+                        <p:menuitem value="Inicio" 
+                                    url="#{bundle.Servidor}#{bundle.RutaAplicacion}" />
                         <p:submenu label="Administración">
-                            <p:menuitem value="Familia" url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizFamilia}/list.xhtml"/>
-                            <p:menuitem value="Genero" url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizGenero}/list.xhtml"/> 
-                            <p:menuitem value="Especie" url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizEspecie}/list.xhtml"/>                              
+                            <p:menuitem value="Familia" 
+                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizFamilia}/list.xhtml"/>
+                            <p:menuitem value="Genero" 
+                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizGenero}/list.xhtml"/> 
+                            <p:menuitem value="Especie" 
+                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizEspecie}/list.xhtml"/>                              
                                                                             
                         </p:submenu>                         
                     </p:menubar>
@@ -36,7 +42,8 @@
                 </ui:insert>
             </div>
 
-            <div id="footer" style="position: relative; left: 18%">
+            <div id="footer" 
+                 style="position: relative; left: 18%">
                 <p>Secretaría de Ambiente y Desarrollo Sustentable - San Martín 451 • C1004AAI  C. de Buenos Aires • Argentina • Tel (54) (11) 4348 8200 • Fax (54) (11) 4348 8300
 </p>
  

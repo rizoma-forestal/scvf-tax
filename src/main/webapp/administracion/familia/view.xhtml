@@ -24,14 +24,46 @@
                         <h:outputText value="#{mbFamilia.selected.nombre}" 
                                       title="#{bundle.CreateFamiliaTitle_nombre}"/>
                         
+                                                
                         <h:outputLabel value="#{bundle.UsuarioAlta}"/>
-                        <h:outputText value="#{mbFamilia.selected.admin.usAlta}"
-                                      title="usuarioAlta"/>
-                        
-                        
-                    </h:panelGrid>                    
+                        <h:outputText value="#{mbFamilia.selected.admin.usAlta}" 
+                                      title="#{bundle.UsuarioAlta}"/>                        
+
+                        <h:outputLabel value="#{bundle.FechaAlta}"/>
+                        <h:outputText value="#{mbFamilia.selected.admin.fechaAlta}" 
+                                      title="#{bundle.FechaAlta}"/>                         
+
+                        <h:outputLabel value="#{bundle.UsuarioModifica}"/>
+                        <h:outputText value="#{mbFamilia.selected.admin.usModif}" 
+                                      title="#{bundle.UsuarioModifica}"/>                        
+
+                        <h:outputLabel value="#{bundle.FechaModifica}"/>
+                        <h:outputText value="#{mbFamilia.selected.admin.fechaModif}" 
+                                      title="#{bundle.FechaModifica}"/>                          
+
+                        <h:outputLabel value="#{bundle.UsuarioBaja}"/>
+                        <h:outputText value="#{mbFamilia.selected.admin.usBaja}" 
+                                      title="#{bundle.UsuarioBaja}"/>                        
+
+                        <h:outputLabel value="#{bundle.FechaBaja}"/>
+                        <h:outputText value="#{mbFamilia.selected.admin.fechaBaja}"
+                                      title="#{bundle.FechaBaja}"/>                 
+                    </h:panelGrid>    
                 </p:panel>
+
                 
+                <p:dataTable value="#{mbFamilia.selected.generos}" 
+                             var="g" 
+                             id="familiaList" >
+                    <f:facet name="header">
+                        Listado de Generos asociados a la familia
+                    </f:facet>
+                    <p:column headerText="Nombre" 
+                              sortBy="#{r.nombre}">
+                        <p:outputLabel value="#{r.nombre}"/>
+                    </p:column>                        
+                </p:dataTable>
+                  
                 <p:toolbar>
                     <f:facet name="left">
                         <p:commandButton icon="ui-icon-refresh" 
@@ -43,7 +75,6 @@
 
             </h:form>
         </ui:define>
-        
     </ui:composition>
 </html>
 
