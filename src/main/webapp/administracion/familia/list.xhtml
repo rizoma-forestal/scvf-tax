@@ -46,7 +46,7 @@
                              id="familiaList" 
                              rows="5"
                              paginator="true"
-                             widgetVar="espTable"                             
+                             widgetVar="famTable"                             
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15">
 
@@ -63,7 +63,8 @@
                                          trigger="toggler" />
                     </f:facet>
  
-                    <p:column headerText="Nombre" filterMatchMode="contains"
+                    <p:column headerText="Nombre" 
+                              filterMatchMode="contains"
                               sortBy="#{e.nombre}"  
                               filterBy="#{e.nombre}">
                         <p:outputLabel value="#{e.nombre}"/>
@@ -74,7 +75,7 @@
                               footerText=""                               
                               filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('espTable').filter()">
+                            <p:selectOneButton onchange="PF('famTable').filter()">
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
                                               itemValue="" />

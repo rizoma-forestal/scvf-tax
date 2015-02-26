@@ -118,8 +118,6 @@ private DataModel items = null;
      * @return acción para el detalle de la entidad
      */
     public String prepareView() {
-        //current = (Especie) getItems().getRowData();
-        selectedItemIndex = getItems().getRowIndex();
         return "view";
     }
 
@@ -128,7 +126,7 @@ private DataModel items = null;
      */
     public String prepareCreate() {
         current = new Especie();
-        selectedItemIndex = -1;
+        //selectedItemIndex = -1;
         return "new";
     }
   
@@ -136,9 +134,6 @@ private DataModel items = null;
      * @return acción para la edición de la entidad
      */
     public String prepareEdit() {
-        //current = (Especie) getItems().getRowData();
-        listaGenero =generoFacade.findAll();
-        selectedItemIndex = getItems().getRowIndex();
         return "edit";
     }
     
@@ -152,8 +147,8 @@ private DataModel items = null;
      * @return la ruta a la vista que muestra los resultados de la consulta en forma de listado
      */
     public String prepareSelect(){
-        items = null;
-        buscarEspecie();
+        //items = null;
+        //buscarEspecie();
         return "list";
     }
     
@@ -163,10 +158,9 @@ private DataModel items = null;
      * @return 
      */
     public String prepareDestroy(){
-        //current = (Especie) getItems().getRowData();
-        selectedItemIndex = getItems().getRowIndex();
-        performDestroy();
-        recreateModel();     
+        //Se deshabilita directamente porque no tiene dependencias
+            destroy();
+            recreateModel();
         return "view"; 
     }
     
@@ -226,10 +220,10 @@ private DataModel items = null;
         current.setAdmin(admEnt);        
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieCreated"));
             return "view";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("FamiliaCreatedErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieCreatedErrorOccured"));
             return null;
         }
     }
@@ -252,8 +246,10 @@ private DataModel items = null;
        public String destroy() {
         //current = (Especie) getItems().getRowData();
         //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        selectedItemIndex = getItems().getRowIndex();
-        performDestroy();
+        //selectedItemIndex = getItems().getRowIndex();
+        current.getAdmin().setHabilitado(false);
+        //performDestroy();
+        update();
         //recreatePagination();
         recreateModel();
         return "view";
@@ -318,7 +314,7 @@ private DataModel items = null;
      */
     private void performDestroy() {
         try {
-            getFacade().remove(current);
+            //getFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieDeletedErrorOccured"));

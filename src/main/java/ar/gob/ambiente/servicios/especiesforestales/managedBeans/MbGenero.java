@@ -172,13 +172,14 @@ private DataModel items = null;
      * @return 
      */
     public String prepareDestroy(){
-        current = (Genero) getItems().getRowData();
+        //current = (Genero) getItems().getRowData();
         boolean libre = getFacade().tieneDependencias(current.getId());
 
         if (libre){
             // Elimina
             selectedItemIndex = getItems().getRowIndex();
-            performDestroy();
+            //performDestroy();
+            destroy();
             recreateModel();
         }else{
             //No Elimina 
@@ -269,10 +270,12 @@ private DataModel items = null;
      * @return mensaje que notifica el borrado
      */    
     public String destroy() {
-        current = (Genero) getItems().getRowData();
+        //current = (Genero) getItems().getRowData();
         //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        selectedItemIndex = getItems().getRowIndex();
-        performDestroy();
+        //selectedItemIndex = getItems().getRowIndex();
+        current.getAdminentidad().setHabilitado(false);
+        //performDestroy();
+        update();
         //recreatePagination();
         recreateModel();
         return "view";
@@ -336,7 +339,7 @@ private DataModel items = null;
      */
     private void performDestroy() {
         try {
-            getFacade().remove(current);
+            //getFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("GeneroDeletedErrorOccured"));

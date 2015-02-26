@@ -45,6 +45,7 @@
                              id="GeneroList" 
                              rows="5"
                              paginator="true"
+                             widgetVar="genTable"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15">
                     
@@ -72,7 +73,26 @@
                               filterBy="#{e.nombre}">
                         <p:outputLabel value="#{e.nombre}"/>
                     </p:column>
-
+                    
+                    <p:column filterBy="#{e.adminentidad.habilitado}" 
+                              headerText="Estado" 
+                              footerText=""                               
+                              filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('genTable').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="Todos" 
+                                              itemValue="" />
+                                <f:selectItem itemLabel="Activos" 
+                                              itemValue="true" />
+                                <f:selectItem itemLabel="Inactivos" 
+                                              itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
+                    </p:column>
+                    
+                     
                     <p:column headerText="Acciones" 
                               style="width:135px">
                         <p:commandButton icon="ui-icon-zoomin" 
@@ -91,7 +111,7 @@
                                                      
                         <p:commandButton icon="ui-icon-trash" 
                                          action="#{mbGenero.prepareDestroy}" 
-                                         title="Borrar">
+                                         title="Deshabilitar">
                             <f:setPropertyActionListener value="#{e}" 
                                                          target="#{mbGenero.current}" />
                                 <p:confirm header="Confirmar" 

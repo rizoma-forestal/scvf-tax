@@ -145,7 +145,7 @@ public class MbFamilia implements Serializable{
         return "list";
     }
 
-        /**
+    /**
      * Método que verifica que el Tipo de Capacitación que se quiere eliminar no esté siento utilizado por otra entidad
      * @return 
      */

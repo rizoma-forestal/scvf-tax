@@ -14,8 +14,7 @@
             <h:outputText value="#{bundle.EspecieTitle}" />
         </ui:define>
         <ui:define name="content">
-            
-            <br/> 
+    <br/> 
             
             <h:form>
                 <p:panel id="EspecieForm" 
@@ -46,6 +45,7 @@
                              id="EspecieList" 
                              rows="5"
                              paginator="true"
+                             widgetVar="espTable"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15">
                     
@@ -64,12 +64,14 @@
                     </f:facet>
                     
                     <p:column headerText="Nombre Cientifico" 
+                              filterMatchMode="contains"
                               sortBy="#{e.nombrecientifico}" 
                               filterBy="#{e.nombrecientifico}">
                         <p:outputLabel value="#{e.nombrecientifico}"/>
                     </p:column>
                       
                     <p:column headerText="Genero" 
+                              filterMatchMode="contains"
                               sortBy="#{e.genero.nombre}" 
                               filterBy="#{e.genero.nombre}">
                         <p:outputLabel value="#{e.genero.nombre}"/>
@@ -77,6 +79,7 @@
                    
                     
                     <p:column headerText="Nombre" 
+                              filterMatchMode="contains"
                               sortBy="#{e.nombre}" 
                               filterBy="#{e.nombre}">
                         <p:outputLabel value="#{e.nombre}"/>
@@ -84,6 +87,7 @@
                     
                     
                     <p:column headerText="Nombre Ingles" 
+                              filterMatchMode="contains"
                               sortBy="#{e.nombreingles}" 
                               filterBy="#{e.nombreingles}">
                         <p:outputLabel value="#{e.nombreingles}"/>
@@ -91,25 +95,68 @@
                     
                     
                     <p:column headerText="Nombre Vulgar" 
+                              filterMatchMode="contains"
                               sortBy="#{e.nombrevulgar}" 
                               filterBy="#{e.nombrevulgar}">
                         <p:outputLabel value="#{e.nombrevulgar}"/>
                     </p:column>                     
 
                     
-                    <p:column headerText="Nativa" 
-                              sortBy="#{e.nativa}" 
-                              filterBy="#{e.nativa}">
-                        <p:outputLabel value="#{e.nativa}"/>
+                    <p:column 
+                        headerText="Nativa" 
+                        sortBy="#{e.nativa}" 
+                        filterBy="#{e.nativa}"
+                        filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('famTable').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="Todos" 
+                                              itemValue="" />
+                                <f:selectItem itemLabel="Si" 
+                                              itemValue="true" />
+                                <f:selectItem itemLabel="No" 
+                                              itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <h:outputText value="#{e.nativa ? 'Si': 'No'}" />
                     </p:column>                     
 
-
-                    <p:column headerText="CITES" 
-                              sortBy="#{e.cites}" 
-                              filterBy="#{e.cites}">
-                        <p:outputLabel value="#{e.cites}"/>
+                    <p:column 
+                        headerText="CITES" 
+                        sortBy="#{e.cites}" 
+                        filterBy="#{e.cites}"
+                        filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('famTable').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="Todos" 
+                                              itemValue="" />
+                                <f:selectItem itemLabel="Si" 
+                                              itemValue="true" />
+                                <f:selectItem itemLabel="No" 
+                                              itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet> 
+                        <h:outputText value="#{e.cites ? 'Si': 'No'}" />
                     </p:column>                     
                     
+                    <p:column filterBy="#{e.admin.habilitado}" 
+                              headerText="Estado" 
+                              footerText=""                               
+                              filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('espTable').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="Todos" 
+                                              itemValue="" />
+                                <f:selectItem itemLabel="Activos" 
+                                              itemValue="true" />
+                                <f:selectItem itemLabel="Inactivos" 
+                                              itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <h:outputText value="#{e.admin.habilitado ? 'Habilitado': 'Deshabilitado'}" />
+                    </p:column>
                     
                     <p:column headerText="Acciones" 
                               style="width:135px">
@@ -129,8 +176,8 @@
                              
                         <p:commandButton icon="ui-icon-trash" 
                                          action="#{mbEspecie.prepareDestroy}" 
-                                         title="Borrar">
-                            <f:setPropertyActionListener value="#{e}" 
+                                         title="Deshabilitar">
+                            <f:setPropertyActionListener value="#{e}"
                                                          target="#{mbEspecie.current}" /> 
                                 <p:confirm header="Confirmar" 
                                            message="¿Desea deshabilitar el registro de Género?" 
