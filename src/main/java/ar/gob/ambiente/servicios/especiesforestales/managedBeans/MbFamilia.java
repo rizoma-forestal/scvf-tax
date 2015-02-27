@@ -39,7 +39,6 @@ public class MbFamilia implements Serializable{
     
     @EJB
     private FamiliaFacade familiaFacade;
-    //private PaginationHelper pagination;
     private int selectedItemIndex;
     private String selectParam;    
     private List<String> listaNombres;    
@@ -119,7 +118,6 @@ public class MbFamilia implements Serializable{
      */
     public String prepareCreate() {
         current = new Familia();
-        //selectedItemIndex = -1;
         return "new";
     }
 
@@ -144,26 +142,32 @@ public class MbFamilia implements Serializable{
         //buscarFamilia();
         return "list";
     }
-
+    
     /**
-     * Método que verifica que el Tipo de Capacitación que se quiere eliminar no esté siento utilizado por otra entidad
-     * @return 
-     */
-    public String prepareDestroy(){
-        //current = (Familia) getItems().getRowData();
-        boolean libre = getFacade().tieneDependencias(current.getId());
-
-        if (libre){
-            // Elimina
-            //selectedItemIndex = getItems().getRowIndex();
-            destroy();
+     * @return mensaje que notifica la actualizacion de estado
+     */    
+    public String habilitar() {
+        current.getAdmin().setHabilitado(true);
+        update();        
+        recreateModel();
+        return "view";
+    }  
+     /**
+     * @return mensaje que notifica la actualizacion de estado
+     */    
+    public String deshabilitar() {
+        //Si esta libre de dependencias deshabilita
+        if (getFacade().tieneDependencias(current.getId())){
+            current.getAdmin().setHabilitado(false);
+            update();        
             recreateModel();
-        }else{
-            //No Elimina 
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaNonDeletable"));
+        }
+        else{
+            //No Deshabilita 
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaNonDeletable"));            
         }
         return "view";
-    }
+    }    
     
     /**
      * Método para validar que no exista ya una entidad con este nombre al momento de crearla
@@ -232,13 +236,6 @@ public class MbFamilia implements Serializable{
      * @return mensaje que notifica la actualización
      */
     public String update() {
-        Date date = new Date(System.currentTimeMillis());
-        AdminEntidad admEnt = new AdminEntidad();
-        admEnt.setFechaModif(date);
-        //admEnt.setHabilitado(true);
-        admEnt.setUsModif(2);
-        current.setAdmin(admEnt);
-        
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaUpdated"));
@@ -249,40 +246,6 @@ public class MbFamilia implements Serializable{
         }
     }
 
-    /**
-     * @return mensaje que notifica el borrado
-     */    
-    public String destroy() {
-        
-        //current = (Familia) getItems().getRowData();
-        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        //selectedItemIndex = getItems().getRowIndex();
-        current.getAdmin().setHabilitado(false);
-        //performDestroy();
-        update();    
-        //recreatePagination();
-        recreateModel();
-        return "view";
-    }
-
-    /**
-     * @return mensaje que notifica la inserción
-     */
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "view";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "list";
-        }
-    }    
-    
-  
-    
     /*************************
     ** Métodos de selección **
     **************************/

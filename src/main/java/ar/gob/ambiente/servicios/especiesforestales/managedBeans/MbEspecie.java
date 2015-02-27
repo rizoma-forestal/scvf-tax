@@ -34,10 +34,9 @@ import javax.faces.validator.ValidatorException;
  * @author carmendariz
  */
 public class MbEspecie implements Serializable{
-
-    
-private Especie current;
-private DataModel items = null;
+   
+    private Especie current;
+    private DataModel items = null;
 
     @EJB
     private GeneroFacade generoFacade;
@@ -56,9 +55,9 @@ private DataModel items = null;
     }
    
     @PostConstruct
-   public void init(){
+    public void init(){
         listaGenero = generoFacade.findAll();
-   }
+    }
    
 /********************************
  ** Métodos para la navegación **
@@ -152,18 +151,26 @@ private DataModel items = null;
         return "list";
     }
     
-     
     /**
-     * Método que permite el borrado
-     * @return 
-     */
-    public String prepareDestroy(){
-        //Se deshabilita directamente porque no tiene dependencias
-            destroy();
+     * @return mensaje que notifica la actualizacion de estado
+     */    
+    public String habilitar() {
+        current.getAdmin().setHabilitado(true);
+        update();        
+        recreateModel();
+        return "view";
+    }  
+     /**
+     * @return mensaje que notifica la actualizacion de estado
+     */    
+    public String deshabilitar() {
+             //Genero no tiene dependencias
+            current.getAdmin().setHabilitado(false);
+            update();        
             recreateModel();
-        return "view"; 
+            return "view";
     }
-    
+     
     /**
      * Método para validar que no exista ya una entidad con este nombre al momento de crearla
      * @param arg0: vista jsf que llama al validador
@@ -239,41 +246,7 @@ private DataModel items = null;
             return null;
         }
     }
-    
- /**
-     * @return mensaje que notifica el borrado
-     */    
-       public String destroy() {
-        //current = (Especie) getItems().getRowData();
-        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        //selectedItemIndex = getItems().getRowIndex();
-        current.getAdmin().setHabilitado(false);
-        //performDestroy();
-        update();
-        //recreatePagination();
-        recreateModel();
-        return "view";
-    }
-
-
-    /**
-     * @return mensaje que notifica la inserción
-     */
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "view";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "list";
-        }
-    }     
-    
-  
-    
+      
     /*************************
     ** Métodos de selección **
     **************************/
@@ -374,6 +347,10 @@ private DataModel items = null;
         }
         return nombres;
     }
+
+    //private void update() {
+     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    //}
         
     
     /********************************************************************

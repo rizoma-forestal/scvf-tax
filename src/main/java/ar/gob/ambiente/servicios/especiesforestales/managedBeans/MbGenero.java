@@ -37,17 +37,16 @@ import javax.faces.validator.ValidatorException;
  * @author carmendariz
  */
 public class MbGenero implements Serializable{
-
     
-private Genero current;
-private DataModel items = null;
+    
+    private Genero current;
+    private DataModel items = null;
 
     @EJB
     private FamiliaFacade familiaFacade;
     
     @EJB
     private GeneroFacade generoFacade;
-    //private PaginationHelper pagination;
     private int selectedItemIndex;
     private String selectParam;    
     private List<String> listaNombres;  
@@ -58,14 +57,15 @@ private DataModel items = null;
      */
     public MbGenero() {
     }
-   @PostConstruct
+   
+    @PostConstruct
    public void init(){
         listaFamilia = familiaFacade.findAll();
    }
    
-/********************************
- ** Métodos para la navegación **
-********************************/
+    /********************************
+    ** Métodos para la navegación **
+    ********************************/
     /**
      * @return La entidad gestionada
      */
@@ -158,6 +158,32 @@ private DataModel items = null;
         buscarGenero();
         return "list";
     }
+    
+        /**
+     * @return mensaje que notifica la actualizacion de estado
+     */    
+    public String habilitar() {
+        current.getAdminentidad().setHabilitado(true);
+        update();        
+        recreateModel();
+        return "view";
+    } 
+    /**
+     * @return mensaje que notifica la actualizacion de estado
+     */    
+    public String deshabilitar() {
+        //Si esta libre de dependencias deshabilita
+        if (getFacade().tieneDependencias(current.getId())){
+            current.getAdminentidad().setHabilitado(false);
+            update();        
+            recreateModel();
+        }
+        else{
+            //No Deshabilita 
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EspecificidadDeRegionNonDeletable"));            
+        }
+        return "view";
+    } 
 
     public Genero getCurrent() {
         return current;
@@ -179,7 +205,7 @@ private DataModel items = null;
             // Elimina
             selectedItemIndex = getItems().getRowIndex();
             //performDestroy();
-            destroy();
+            //destroy();
             recreateModel();
         }else{
             //No Elimina 
@@ -264,21 +290,6 @@ private DataModel items = null;
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("GeneroUpdatedErrorOccured"));
             return null;
         }
-    }
-
-    /**
-     * @return mensaje que notifica el borrado
-     */    
-    public String destroy() {
-        //current = (Genero) getItems().getRowData();
-        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        //selectedItemIndex = getItems().getRowIndex();
-        current.getAdminentidad().setHabilitado(false);
-        //performDestroy();
-        update();
-        //recreatePagination();
-        recreateModel();
-        return "view";
     }
 
     /**

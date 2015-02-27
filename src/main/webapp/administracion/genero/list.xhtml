@@ -79,7 +79,7 @@
                               footerText=""                               
                               filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('genTable').filter()">
+                            <p:selectOneButton onchange="PF('genTable').filter()" style="font-size: 80%;">
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
                                               itemValue="" />
@@ -108,17 +108,29 @@
                             <f:setPropertyActionListener value="#{e}" 
                                                          target="#{mbGenero.current}" /> 
                         </p:commandButton>
-                                                     
-                        <p:commandButton icon="ui-icon-trash" 
-                                         action="#{mbGenero.prepareDestroy}" 
-                                         title="Deshabilitar">
-                            <f:setPropertyActionListener value="#{e}" 
-                                                         target="#{mbGenero.current}" />
-                                <p:confirm header="Confirmar" 
-                                           message="¿Desea deshabilitar el registro de Género?" 
-                                           icon="ui-icon-alert" />
-                        </p:commandButton>     
                         
+                        
+                        <p:commandButton icon="ui-icon-close" 
+                                         action="#{mbGenero.deshabilitar}"
+                                         rendered="#{e.adminentidad.habilitado == 'true'}"
+                                         title="Deshabilitar" >
+                                         <f:setPropertyActionListener value="#{e}" target="#{mbGenero.current}" />
+                                         <p:confirm header="Confirmar" 
+                                                    message="¿Desea deshabilitar el registro de Genero?" 
+                                                    icon="ui-icon-alert" />
+                        </p:commandButton>
+                        
+                        <p:commandButton icon="ui-icon-check" 
+                                         action="#{mbGenero.habilitar}" 
+                                         rendered="#{e.adminentidad.habilitado == 'false'}" 
+                                         title="Habilitar">
+                                <f:setPropertyActionListener value="#{e}" 
+                                                             target="#{mbGenero.current}" />
+                                <p:confirm header="Confirmar" 
+                                           message="¿Desea habilitar el registro de Genero?" 
+                                           icon="ui-icon-alert" />
+                        </p:commandButton>
+
                         <p:confirmDialog global="true" 
                                          showEffect="fade" 
                                          hideEffect="fade">

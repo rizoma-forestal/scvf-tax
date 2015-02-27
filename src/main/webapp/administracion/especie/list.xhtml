@@ -104,11 +104,10 @@
                     
                     <p:column 
                         headerText="Nativa" 
-                        sortBy="#{e.nativa}" 
                         filterBy="#{e.nativa}"
                         filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('famTable').filter()">
+                            <p:selectOneButton onchange="PF('espTable').filter()" style="font-size: 80%;">
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
                                               itemValue="" />
@@ -122,12 +121,13 @@
                     </p:column>                     
 
                     <p:column 
-                        headerText="CITES" 
-                        sortBy="#{e.cites}" 
+                        headerText="CITES"   
                         filterBy="#{e.cites}"
                         filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('famTable').filter()">
+                            
+                            <p:selectOneButton onchange="PF('espTable').filter()" style="font-size: 80%;">
+                                
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
                                               itemValue="" />
@@ -135,6 +135,8 @@
                                               itemValue="true" />
                                 <f:selectItem itemLabel="No" 
                                               itemValue="false" />
+                            
+                            
                             </p:selectOneButton>
                         </f:facet> 
                         <h:outputText value="#{e.cites ? 'Si': 'No'}" />
@@ -145,7 +147,7 @@
                               footerText=""                               
                               filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('espTable').filter()">
+                            <p:selectOneButton onchange="PF('espTable').filter()" style="font-size: 80%;">
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
                                               itemValue="" />
@@ -174,14 +176,25 @@
                                                          target="#{mbEspecie.current}" />  
                         </p:commandButton>
                              
-                        <p:commandButton icon="ui-icon-trash" 
-                                         action="#{mbEspecie.prepareDestroy}" 
-                                         title="Deshabilitar">
-                            <f:setPropertyActionListener value="#{e}"
-                                                         target="#{mbEspecie.current}" /> 
+                        <p:commandButton icon="ui-icon-close" 
+                                         action="#{mbEspecie.deshabilitar}"
+                                         rendered="#{e.admin.habilitado == 'true'}"
+                                         title="Deshabilitar" >
+                                         <f:setPropertyActionListener value="#{e}" target="#{mbEspecie.current}" />
+                                         <p:confirm header="Confirmar" 
+                                                    message="¿Desea deshabilitar la Especie?" 
+                                                    icon="ui-icon-alert" />
+                        </p:commandButton>                
+  
+                        <p:commandButton icon="ui-icon-check" 
+                                         action="#{mbEspecie.habilitar}" 
+                                         rendered="#{e.admin.habilitado == 'false'}" 
+                                         title="Habilitar">
+                                <f:setPropertyActionListener value="#{e}" 
+                                                             target="#{mbEspecie.current}" />
                                 <p:confirm header="Confirmar" 
-                                           message="¿Desea deshabilitar el registro de Género?" 
-                                           icon="ui-icon-alert" />                            
+                                           message="¿Desea habilitar la Especie?" 
+                                           icon="ui-icon-alert" />
                         </p:commandButton>
                         
                         <p:confirmDialog global="true" 
