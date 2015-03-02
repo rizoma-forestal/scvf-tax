@@ -156,7 +156,7 @@ public class MbEspecie implements Serializable{
      */    
     public String habilitar() {
         current.getAdmin().setHabilitado(true);
-        update();        
+        updateHabilitar();        
         recreateModel();
         return "view";
     }  
@@ -166,7 +166,7 @@ public class MbEspecie implements Serializable{
     public String deshabilitar() {
              //Genero no tiene dependencias
             current.getAdmin().setHabilitado(false);
-            update();        
+            updateDeshabilitar();        
             recreateModel();
             return "view";
     }
@@ -246,7 +246,29 @@ public class MbEspecie implements Serializable{
             return null;
         }
     }
-      
+    
+    public String updateHabilitar(){
+       try {
+            getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieHabilitada"));
+            return "view";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieUpdatedErrorOccured"));
+            return null;
+        } 
+    }
+
+    public String updateDeshabilitar(){
+       try {
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieDeshabilitada"));
+            return "view";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieUpdatedErrorOccured"));
+            return null;
+        } 
+    }
+ 
     /*************************
     ** Métodos de selección **
     **************************/
