@@ -23,8 +23,58 @@
                         <h:outputLabel value="#{bundle.CreateGeneroLabel_nombre}"/>
                         <h:outputText value="#{mbGenero.selected.nombre}" 
                                       title="#{bundle.CreateGeneroTitle_nombre}"/>
-                    </h:panelGrid>                    
-                </p:panel>
+                        
+                        <h:outputLabel value="#{bundle.UsuarioAlta}"/>
+                        <h:outputText value="#{mbGenero.selected.adminentidad.usAlta}" 
+                                      title="#{bundle.UsuarioAlta}"/>                        
+
+                        <h:outputLabel value="#{bundle.FechaAlta}"/>
+                        <h:outputText value="#{mbGenero.selected.adminentidad.fechaAlta}" 
+                                      title="#{bundle.FechaAlta}"/>                         
+
+                        <h:outputLabel value="#{bundle.UsuarioModifica}"/>
+                        <h:outputText value="#{mbGenero.selected.adminentidad.usModif}" 
+                                      title="#{bundle.UsuarioModifica}"/>                        
+
+                        <h:outputLabel value="#{bundle.FechaModifica}"/>
+                        <h:outputText value="#{mbGenero.selected.adminentidad.fechaModif}" 
+                                      title="#{bundle.FechaModifica}"/>                          
+
+                        <h:outputLabel value="#{bundle.UsuarioBaja}"/>
+                        <h:outputText value="#{mbGenero.selected.adminentidad.usBaja}" 
+                                      title="#{bundle.UsuarioBaja}"/>                        
+
+                        <h:outputLabel value="#{bundle.FechaBaja}"/>
+                        <h:outputText value="#{mbGenero.selected.adminentidad.fechaBaja}"
+                                      title="#{bundle.FechaBaja}"/>  
+                        
+                        <h:outputLabel value="#{bundle.EspeciesAsociadas}" />
+                        <p:commandButton value="Ver" 
+                                         type="button" 
+                                         onclick="PF('Especies').show();" 
+                                         actionListener="#{mbGenero.selected.especies}" />      
+                    </h:panelGrid>   
+
+                        <p:dialog style="font-size: 80%"
+                                  header="Listado de especies asociadas"
+                                  widgetVar="Especies"
+                                  showEffect="explode"
+                                  hideEffect="bounce"
+                                  height="100"
+                                  width="30%">
+                            <p:dataTable value="#{mbGenero.selected.especies}" 
+                                         var="e" 
+                                         id="generoList" >
+                                <p:column headerText="Especie" 
+                                          filterMatchMode="contains"
+                                          filterBy="#{e.nombre}"
+                                          sortBy="#{e.nombre}">
+                                    <p:outputLabel value="#{e.nombre}"/> 
+                                </p:column>                        
+                            </p:dataTable>
+                        </p:dialog>   
+
+                    </p:panel>
                 
                 <p:toolbar>
                     <f:facet name="left">

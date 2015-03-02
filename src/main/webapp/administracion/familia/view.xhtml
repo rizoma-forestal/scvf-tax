@@ -47,22 +47,33 @@
 
                         <h:outputLabel value="#{bundle.FechaBaja}"/>
                         <h:outputText value="#{mbFamilia.selected.admin.fechaBaja}"
-                                      title="#{bundle.FechaBaja}"/>                 
-                    </h:panelGrid>    
+                                      title="#{bundle.FechaBaja}"/>  
+                        
+                        <h:outputLabel value="#{bundle.GenerosAsociados}" />
+                        <p:commandButton value="Ver" 
+                                         type="button" 
+                                         onclick="PF('Generos').show();" 
+                                         actionListener="#{mbFamilia.selected.generos}" />      
+                    </h:panelGrid>   
+                        <p:dialog style="font-size: 80%" 
+                                  header="Listado de géneros asociados" 
+                                  widgetVar="Generos" 
+                                  showEffect="explode" 
+                                  hideEffect="bounce" 
+                                  height="100" 
+                                  width="30%">
+                            <p:dataTable value="#{mbFamilia.selected.generos}" 
+                                         var="g" 
+                                         id="familiaList" >
+                                <p:column headerText="Género" 
+                                          filterMatchMode="contains"
+                                          filterBy="#{g.nombre}"
+                                          sortBy="#{g.nombre}">
+                                    <p:outputLabel value="#{g.nombre}"/> 
+                                </p:column>                        
+                            </p:dataTable>
+                        </p:dialog>
                 </p:panel>
-
-                
-                <p:dataTable value="#{mbFamilia.selected.generos}" 
-                             var="g" 
-                             id="familiaList" >
-                    <f:facet name="header">
-                        Listado de Generos asociados a la familia
-                    </f:facet>
-                    <p:column headerText="Nombre" 
-                              sortBy="#{g.nombre}">
-                        <p:outputLabel value="#{g.nombre}"/>
-                    </p:column>                        
-                </p:dataTable>
                   
                 <p:toolbar>
                     <f:facet name="left">
@@ -77,5 +88,6 @@
         </ui:define>
     </ui:composition>
 </html>
+
 
 

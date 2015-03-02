@@ -29,7 +29,7 @@
                             <f:selectItem itemLabel="Seleccione la Familia" 
                                           itemValue="" 
                                           noSelectionOption="true" />
-                            <f:selectItems value="#{mbGenero.listaFamilia}" 
+                            <f:selectItems value="#{mbGenero.listFamilia}" 
                                            var="familia" 
                                            itemLabel="#{familia.nombre}" 
                                            itemValue="#{familia}"/>
@@ -64,7 +64,7 @@
                         </p:commandButton>
                                                 
                         <p:commandButton icon="ui-icon-arrowreturnthick-1-w" 
-                                         action="#{mbGenero.prepareList}" 
+                                         action="#{mbGenero.prepareList()}" 
                                          value="Volver" 
                                          immediate="true"/>
                     </f:facet>

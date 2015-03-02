@@ -15,12 +15,13 @@ import javax.persistence.Query;
 
 /**
  *
- * @author rincostante
+ * @author carmendariz
  */
 @Stateless
 public class GeneroFacade extends AbstractFacade<Genero> {
     @PersistenceContext(unitName = "ar.gob.ambiente.servicios_especiesForestales_war_1.0-SNAPSHOTPU")
     private EntityManager em;
+    private String stringParam;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -40,23 +41,27 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     public List<Genero> getXString(String aBuscar){
         em = getEntityManager();
         List<Genero> result;
-        String queryString = "SELECT gen.nombre FROM Genero gen "
+        
+        String queryString = "SELECT gen FROM Genero gen "
                 + "WHERE gen.nombre LIKE :stringParam ";
+        
         Query q = em.createQuery(queryString)
-                .setParameter("stringParam", "%" + aBuscar + "%");        
+                .setParameter("stringParam", "%" + stringParam + "%"); 
+        
         result = q.getResultList();
         return result;
     }
 
     /**
      * Metodo que verifica si ya existe la entidad.
-     * @param nombre: es la cadena que buscara para ver si ya existe en la BDD
+     * @param aBuscar: es la cadena que buscara para ver si ya existe en la BDD
      * @return: devuelve True o False
      */
     public boolean existe(String aBuscar){
         em = getEntityManager();
-        String queryString = "SELECT gen FROM Genero gen "
+        String queryString = "SELECT gen.nombre FROM Genero gen "
                 + "WHERE gen.nombre = :stringParam";
+        
         Query q = em.createQuery(queryString)
                 .setParameter("stringParam", aBuscar);
         return q.getResultList().isEmpty();

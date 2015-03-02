@@ -15,7 +15,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author rincostante
+ * @author carmendariz
  */
 @Stateless
 public class FamiliaFacade extends AbstractFacade<Familia> {
@@ -60,6 +60,7 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
         em = getEntityManager();       
         String queryString = "SELECT fam.nombre FROM Familia fam "
                 + "WHERE fam.nombre = :stringParam";
+        
         Query q = em.createQuery(queryString)
                 .setParameter("stringParam", aBuscar);
         return q.getResultList().isEmpty();
@@ -72,12 +73,15 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
      * @return: True o False
      */
     public boolean tieneDependencias(Long id){
-        em = getEntityManager();        
+        em = getEntityManager();       
+        
         String queryString = "SELECT gen FROM Genero gen " 
                 + "WHERE gen.familia.id = :idParam "
-                + "AND gen.adminentidad.habilitado = true";        
+                + "AND gen.adminentidad.habilitado = true";      
+        
         Query q = em.createQuery(queryString)
                 .setParameter("idParam", id);
+        
         return q.getResultList().isEmpty();
     }
      /**

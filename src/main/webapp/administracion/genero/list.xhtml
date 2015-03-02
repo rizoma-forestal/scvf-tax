@@ -29,7 +29,8 @@
                         
                         <p:commandButton icon="ui-icon-refresh" 
                                          value="Refrescar Listado" 
-                                         action="#{mbGenero.prepareList}"/>
+                                         action="#{mbGenero.prepareList}"
+                                         update="generoList"/>
                         
                         <p:commandButton icon="ui-icon-home" 
                                          value="Inicio" 
@@ -42,7 +43,7 @@
 
                 <p:dataTable value="#{mbGenero.items}" 
                              var="e" 
-                             id="GeneroList" 
+                             id="generoList" 
                              rows="5"
                              paginator="true"
                              widgetVar="genTable"
@@ -58,7 +59,7 @@
                                          icon="ui-icon-calculator" 
                                          style="margin-left: 10px" />
                         
-                        <p:columnToggler datasource="GeneroList" 
+                        <p:columnToggler datasource="generoList" 
                                          trigger="toggler" />
                     </f:facet>
                     
@@ -69,6 +70,7 @@
                     </p:column>
                     
                     <p:column headerText="Nombre" 
+                              filterMatchMode="contains"
                               sortBy="#{e.nombre}" 
                               filterBy="#{e.nombre}">
                         <p:outputLabel value="#{e.nombre}"/>
@@ -79,7 +81,8 @@
                               footerText=""                               
                               filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('genTable').filter()" style="font-size: 80%;">
+                            <p:selectOneButton onchange="PF('genTable').filter()" 
+                                               style="font-size: 80%;">
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
                                               itemValue="" />
@@ -95,6 +98,8 @@
                      
                     <p:column headerText="Acciones" 
                               style="width:135px">
+                        <p:growl id="messages" 
+                                 showDetail="true" />    
                         <p:commandButton icon="ui-icon-zoomin" 
                                          action="#{mbGenero.prepareView}" 
                                          title="Ver Detalle">
@@ -114,11 +119,13 @@
                                          action="#{mbGenero.deshabilitar}"
                                          rendered="#{e.adminentidad.habilitado == 'true'}"
                                          title="Deshabilitar" >
-                                         <f:setPropertyActionListener value="#{e}" target="#{mbGenero.current}" />
+                                    <f:setPropertyActionListener value="#{e}" 
+                                                                 target="#{mbGenero.current}" />
                                          <p:confirm header="Confirmar" 
-                                                    message="¿Desea deshabilitar el registro de Genero?" 
+                                                    message="¿Desea deshabilitar el Género?" 
                                                     icon="ui-icon-alert" />
                         </p:commandButton>
+                        
                         
                         <p:commandButton icon="ui-icon-check" 
                                          action="#{mbGenero.habilitar}" 
@@ -127,7 +134,7 @@
                                 <f:setPropertyActionListener value="#{e}" 
                                                              target="#{mbGenero.current}" />
                                 <p:confirm header="Confirmar" 
-                                           message="¿Desea habilitar el registro de Genero?" 
+                                           message="¿Desea habilitar el Género?" 
                                            icon="ui-icon-alert" />
                         </p:commandButton>
 
@@ -135,15 +142,15 @@
                                          showEffect="fade" 
                                          hideEffect="fade">
                             
-                            <p:commandButton value="Si" 
-                                             type="button" 
-                                             styleClass="ui-confirmdialog-yes" 
-                                             icon="ui-icon-check" />
+                                        <p:commandButton value="Si" 
+                                                         type="button"
+                                                         styleClass="ui-confirmdialog-yes" 
+                                                         icon="ui-icon-check" />
                             
-                            <p:commandButton value="No" 
-                                             type="button" 
-                                             styleClass="ui-confirmdialog-no" 
-                                             icon="ui-icon-close" />
+                                        <p:commandButton value="No"
+                                                         type="button" 
+                                                         styleClass="ui-confirmdialog-no"
+                                                         icon="ui-icon-close" />
                         </p:confirmDialog>  
                         
                     </p:column>                

@@ -6,6 +6,7 @@
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.AdminEntidad;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Familia;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Genero;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
@@ -51,6 +52,7 @@ public class MbGenero implements Serializable{
     private String selectParam;    
     private List<String> listaNombres;  
     private List<Familia> listaFamilia;
+    private List<Especie> listaEspecie;
 
     /**
      * Creates a new instance of MbGenero
@@ -62,6 +64,23 @@ public class MbGenero implements Serializable{
    public void init(){
         listaFamilia = familiaFacade.findAll();
    }
+   
+    public Genero getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(Genero current) {
+        this.current = current;
+    }
+
+    public List<Especie> getListaEspecie() {
+        return listaEspecie;
+    }
+
+    public void setListaEspecie(List<Especie> listaEspecie) {
+        this.listaEspecie = listaEspecie;
+    }
+
    
     /********************************
     ** Métodos para la navegación **
@@ -91,8 +110,7 @@ public class MbGenero implements Serializable{
 
     public void setListFamilia(List<Familia> listaFamilia) {
         this.listaFamilia = listaFamilia;
-    }   
-
+    }
 /*******************************
 ** Métodos de inicialización **
 *******************************/
@@ -120,8 +138,6 @@ public class MbGenero implements Serializable{
      * @return acción para el detalle de la entidad
      */
     public String prepareView() {
-        //current = (Genero) getItems().getRowData();
-        selectedItemIndex = getItems().getRowIndex();
         return "view";
     }
 
@@ -130,7 +146,6 @@ public class MbGenero implements Serializable{
      */
     public String prepareCreate() {
         current = new Genero();
-        selectedItemIndex = -1;
         return "new";
     }
 
@@ -140,7 +155,7 @@ public class MbGenero implements Serializable{
     public String prepareEdit() {
         //cargo los list para los combos
         listaFamilia = familiaFacade.findAll();
-        selectedItemIndex = getItems().getRowIndex();
+        //selectedItemIndex = getItems().getRowIndex();
         return "edit";
     }    
     
@@ -154,8 +169,8 @@ public class MbGenero implements Serializable{
      * @return la ruta a la vista que muestra los resultados de la consulta en forma de listado
      */
     public String prepareSelect(){
-        items = null;
-        buscarGenero();
+        //items = null;
+       // buscarGenero();//
         return "list";
     }
     
@@ -185,36 +200,8 @@ public class MbGenero implements Serializable{
         return "view";
     } 
 
-    public Genero getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(Genero current) {
-        this.current = current;
-    }
     
-    /**
-     * Método que verifica que el Tipo de Capacitación que se quiere eliminar no esté siento utilizado por otra entidad
-     * @return 
-     */
-    public String prepareDestroy(){
-        //current = (Genero) getItems().getRowData();
-        boolean libre = getFacade().tieneDependencias(current.getId());
-
-        if (libre){
-            // Elimina
-            selectedItemIndex = getItems().getRowIndex();
-            //performDestroy();
-            //destroy();
-            recreateModel();
-        }else{
-            //No Elimina 
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroNonDeletable"));
-        }
-        return "view";
-    }
-    
-    /**
+     /**
      * Método para validar que no exista ya una entidad con este nombre al momento de crearla
      * @param arg0: vista jsf que llama al validador
      * @param arg1: objeto de la vista que hace el llamado
@@ -291,24 +278,7 @@ public class MbGenero implements Serializable{
             return null;
         }
     }
-
-    /**
-     * @return mensaje que notifica la inserción
-     */
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "view";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "list";
-        }
-    }    
-    
-  
+ 
     
     /*************************
     ** Métodos de selección **
@@ -389,16 +359,13 @@ public class MbGenero implements Serializable{
         this.selectParam = selectParam;
     }
     
-    private void buscarGenero(){
-        items = new ListDataModel(getFacade().getXString(selectParam)); 
-    }   
-    
+  
     /**
      * Método para llegar la lista para el autocompletado de la búsqueda de nombres
      * @param query
      * @return 
      */
-    public List<String> completeNombres(String query){
+  /*  public List<String> completeNombres(String query){
         listaNombres = getFacade().getNombres();
         List<String> nombres = new ArrayList();
         Iterator itLista = listaNombres.listIterator();
@@ -409,7 +376,7 @@ public class MbGenero implements Serializable{
             }
         }
         return nombres;
-    }
+    }*/
         
     
     /********************************************************************
@@ -460,13 +427,4 @@ public class MbGenero implements Serializable{
             }
         }
     }        
-
-    public List<Familia> getListaFamilia() {
-        return listaFamilia;
-    }
-
-    public void setListaFamilia(List<Familia> listaFamilia) {
-        this.listaFamilia = listaFamilia;
-    }
-
 }

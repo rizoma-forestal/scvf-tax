@@ -75,36 +75,45 @@
                               footerText=""                               
                               filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('famTable').filter()" style="font-size: 80%;">
+                            <p:selectOneButton onchange="PF('famTable').filter()" 
+                                               style="font-size: 80%;">
                                 <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="Todos" itemValue="" />
-                                <f:selectItem itemLabel="Activos" itemValue="true" />
-                                <f:selectItem itemLabel="Inactivos" itemValue="false" />
+                                <f:selectItem itemLabel="Todos" 
+                                              itemValue="" />
+                                <f:selectItem itemLabel="Activos" 
+                                              itemValue="true" />
+                                <f:selectItem itemLabel="Inactivos" 
+                                              itemValue="false" />
                             </p:selectOneButton>
                         </f:facet>
                         <h:outputText value="#{e.admin.habilitado ? 'Habilitado': 'Deshabilitado'}" />
                     </p:column>
                     
-                    <p:column headerText="Acciones" style="width:135px">
-                        <p:growl id="messages" showDetail="true" />                           
+
+                    <p:column headerText="Acciones" 
+                              style="width:135px">
+                        <p:growl id="messages" 
+                                 showDetail="true" />                           
                         <p:commandButton icon="ui-icon-zoomin" 
                                          action="#{mbFamilia.prepareView}" 
                                          title="Ver Detalle">
-                            <f:setPropertyActionListener value="#{e}" target="#{mbFamilia.current}" />  
+                            <f:setPropertyActionListener value="#{e}" 
+                                                         target="#{mbFamilia.current}" />  
                         </p:commandButton>
 
                         <p:commandButton icon="ui-icon-pencil" 
                                          action="#{mbFamilia.prepareEdit}" 
                                          title="Editar" >
-                            <f:setPropertyActionListener value="#{e}" target="#{mbFamilia.current}" /> 
+                            <f:setPropertyActionListener value="#{e}" 
+                                                         target="#{mbFamilia.current}" /> 
                         </p:commandButton>
                                                    
                         <p:commandButton icon="ui-icon-close" 
                                          action="#{mbFamilia.deshabilitar}"
                                          rendered="#{e.admin.habilitado == 'true'}"
                                          title="Deshabilitar" >
-                                <f:setPropertyActionListener value="#{e}" 
-                                                             target="#{mbFamilia.current}" />
+                                    <f:setPropertyActionListener value="#{e}" 
+                                                                 target="#{mbFamilia.current}" />
                                         <p:confirm header="Confirmar" 
                                                    message="¿Desea deshabilitar la Familia?" 
                                                    icon="ui-icon-alert" />
@@ -124,6 +133,7 @@
                         <p:confirmDialog global="true" 
                                          showEffect="fade" 
                                          hideEffect="fade">
+                            
                                          <p:commandButton value="Si" 
                                                           type="button" 
                                                           styleClass="ui-confirmdialog-yes" 
