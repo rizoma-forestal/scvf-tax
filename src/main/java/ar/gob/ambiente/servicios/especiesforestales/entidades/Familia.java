@@ -33,7 +33,7 @@ public class Familia implements Serializable {
     
     @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="adminentidad_id")
-    private AdminEntidad admin;
+    private AdminEntidad adminentidad;
     
     @OneToMany(mappedBy="familia")
     private List<Genero> generos;
@@ -59,13 +59,15 @@ public class Familia implements Serializable {
         this.nombre = nombre;
     }
 
-    public AdminEntidad getAdmin() {
-        return admin;
+    public AdminEntidad getAdminentidad() {
+        return adminentidad;
     }
 
-    public void setAdmin(AdminEntidad admin) {
-        this.admin = admin;
+    public void setAdminentidad(AdminEntidad adminentidad) {
+        this.adminentidad = adminentidad;
     }
+
+
     
     public Long getId() {
         return id;

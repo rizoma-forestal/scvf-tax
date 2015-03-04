@@ -26,27 +26,27 @@
                         
                                                 
                         <h:outputLabel value="#{bundle.UsuarioAlta}"/>
-                        <h:outputText value="#{mbFamilia.selected.admin.usAlta}" 
+                        <h:outputText value="#{mbFamilia.selected.adminentidad.usAlta}" 
                                       title="#{bundle.UsuarioAlta}"/>                        
 
                         <h:outputLabel value="#{bundle.FechaAlta}"/>
-                        <h:outputText value="#{mbFamilia.selected.admin.fechaAlta}" 
+                        <h:outputText value="#{mbFamilia.selected.adminentidad.fechaAlta}" 
                                       title="#{bundle.FechaAlta}"/>                         
 
                         <h:outputLabel value="#{bundle.UsuarioModifica}"/>
-                        <h:outputText value="#{mbFamilia.selected.admin.usModif}" 
+                        <h:outputText value="#{mbFamilia.selected.adminentidad.usModif}" 
                                       title="#{bundle.UsuarioModifica}"/>                        
 
                         <h:outputLabel value="#{bundle.FechaModifica}"/>
-                        <h:outputText value="#{mbFamilia.selected.admin.fechaModif}" 
+                        <h:outputText value="#{mbFamilia.selected.adminentidad.fechaModif}" 
                                       title="#{bundle.FechaModifica}"/>                          
 
                         <h:outputLabel value="#{bundle.UsuarioBaja}"/>
-                        <h:outputText value="#{mbFamilia.selected.admin.usBaja}" 
+                        <h:outputText value="#{mbFamilia.selected.adminentidad.usBaja}" 
                                       title="#{bundle.UsuarioBaja}"/>                        
 
                         <h:outputLabel value="#{bundle.FechaBaja}"/>
-                        <h:outputText value="#{mbFamilia.selected.admin.fechaBaja}"
+                        <h:outputText value="#{mbFamilia.selected.adminentidad.fechaBaja}"
                                       title="#{bundle.FechaBaja}"/>  
                         
                         <h:outputLabel value="#{bundle.GenerosAsociados}" />
@@ -64,11 +64,12 @@
                                   width="30%">
                             <p:dataTable value="#{mbFamilia.selected.generos}" 
                                          var="g" 
-                                         id="familiaList" >
+                                         id="familiaList">
                                 <p:column headerText="Género" 
                                           filterMatchMode="contains"
                                           filterBy="#{g.nombre}"
-                                          sortBy="#{g.nombre}">
+                                          sortBy="#{g.nombre}" 
+                                          rendered="#{g.adminentidad.habilitado == 'true'}" >
                                     <p:outputLabel value="#{g.nombre}"/> 
                                 </p:column>                        
                             </p:dataTable>

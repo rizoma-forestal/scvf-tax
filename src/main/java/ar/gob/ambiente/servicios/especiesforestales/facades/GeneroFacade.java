@@ -21,7 +21,7 @@ import javax.persistence.Query;
 public class GeneroFacade extends AbstractFacade<Genero> {
     @PersistenceContext(unitName = "ar.gob.ambiente.servicios_especiesForestales_war_1.0-SNAPSHOTPU")
     private EntityManager em;
-    private String stringParam;
+
 
     @Override
     protected EntityManager getEntityManager() {
@@ -38,12 +38,13 @@ public class GeneroFacade extends AbstractFacade<Genero> {
      * @param stringParam: cadena que buscará en todos los campos de tipo varchar de la tabla correspondiente
      * @return: El conjunto de resultados provenientes de la búsqueda. 
      */      
-    public List<Genero> getXString(String aBuscar){
+    public List<Genero> getXString(String stringParam){
         em = getEntityManager();
         List<Genero> result;
         
         String queryString = "SELECT gen FROM Genero gen "
-                + "WHERE gen.nombre LIKE :stringParam ";
+                + "WHERE gen.nombre LIKE :stringParam "
+                + "AND gen.adminentidad.habilitado =true";
         
         Query q = em.createQuery(queryString)
                 .setParameter("stringParam", "%" + stringParam + "%"); 
@@ -60,7 +61,8 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     public boolean existe(String aBuscar){
         em = getEntityManager();
         String queryString = "SELECT gen.nombre FROM Genero gen "
-                + "WHERE gen.nombre = :stringParam";
+                + "WHERE gen.nombre = :stringParam "
+                + "AND gen.adminentidad.habilitado = true";
         
         Query q = em.createQuery(queryString)
                 .setParameter("stringParam", aBuscar);
@@ -76,7 +78,7 @@ public class GeneroFacade extends AbstractFacade<Genero> {
         em = getEntityManager();        
         
         String queryString = "SELECT esp FROM Especie esp " 
-                + "WHERE esp.genero.id = :idParam";        
+                + "WHERE esp.genero.id = :idParam ";        
         
         Query q = em.createQuery(queryString)
                 .setParameter("idParam", id);
@@ -90,7 +92,8 @@ public class GeneroFacade extends AbstractFacade<Genero> {
      */
     public List<String> getNombres(){
         em = getEntityManager();
-        String queryString = "SELECT gen.nombre FROM Genero gen ";
+        String queryString = "SELECT gen.nombre FROM Genero gen "
+                + "AND gen.adminentidad.habilitado = true";
         Query q = em.createQuery(queryString);
         return q.getResultList();
     } 

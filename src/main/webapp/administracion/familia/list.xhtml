@@ -70,7 +70,7 @@
                         <p:outputLabel value="#{e.nombre}"/>
                     </p:column>
 
-                    <p:column filterBy="#{e.admin.habilitado}" 
+                    <p:column filterBy="#{e.adminentidad.habilitado}" 
                               headerText="Estado" 
                               footerText=""                               
                               filterMatchMode="equals">
@@ -86,7 +86,7 @@
                                               itemValue="false" />
                             </p:selectOneButton>
                         </f:facet>
-                        <h:outputText value="#{e.admin.habilitado ? 'Habilitado': 'Deshabilitado'}" />
+                        <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
                     </p:column>
                     
 
@@ -110,7 +110,7 @@
                                                    
                         <p:commandButton icon="ui-icon-close" 
                                          action="#{mbFamilia.deshabilitar}"
-                                         rendered="#{e.admin.habilitado == 'true'}"
+                                         rendered="#{e.adminentidad.habilitado == 'true'}"
                                          title="Deshabilitar" >
                                     <f:setPropertyActionListener value="#{e}" 
                                                                  target="#{mbFamilia.current}" />
@@ -121,7 +121,7 @@
   
                         <p:commandButton icon="ui-icon-check" 
                                          action="#{mbFamilia.habilitar}" 
-                                         rendered="#{e.admin.habilitado == 'false'}" 
+                                         rendered="#{e.adminentidad.habilitado == 'false'}" 
                                          title="Habilitar">
                                 <f:setPropertyActionListener value="#{e}" 
                                                              target="#{mbFamilia.current}" />

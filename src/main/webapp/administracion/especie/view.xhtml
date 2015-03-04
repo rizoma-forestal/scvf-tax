@@ -36,13 +36,11 @@
                             <h:outputText value="#{mbEspecie.selected.nombrevulgar}" 
                                           title="#{bundle.CreateEspecieLabel_nombrevulgar}"/>                            
                         
-                            <h:outputLabel value="#{bundle.CreateEspecieLabel_cites}: "/>
-                            <h:outputText value="#{mbEspecie.selected.cites}" 
-                                          title="#{bundle.CreateEspecieLabel_cites}"/>                            
-                        
                             <h:outputLabel value="#{bundle.CreateEspecieLabel_nativa}: "/>
-                            <h:outputText value="#{mbEspecie.selected.nativa}" 
-                                          title="#{bundle.CreateEspecieLabel_nativa}"/>                            
+                            <h:outputText value="#{mbEspecie.selected.nativa ? 'Si': 'No'}" />
+                            
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_cites}: "/> 
+                            <h:outputText value="#{mbEspecie.selected.cites ? 'Si': 'No'}" />                           
                               
                         </h:panelGrid> 
                  </p:panel>

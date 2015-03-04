@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
-<resources>
-    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="org.postgresql.ds.PGSimpleDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="post-gre-sql_especiesForestales_webservicesPool" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
-        <property name="serverName" value="192.168.1.42"/>
-        <property name="portNumber" value="5432"/>
-        <property name="databaseName" value="especiesForestales"/>
-        <property name="User" value="webservices"/>
-        <property name="Password" value="123456"/>
-        <property name="URL" value="jdbc:postgresql://192.168.1.42:5432/especiesForestales"/>
-        <property name="driverClass" value="org.postgresql.Driver"/>
-    </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="especiesForestalesRemotaNDI" object-type="user" pool-name="post-gre-sql_especiesForestales_webservicesPool"/>
-    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="org.postgresql.ds.PGSimpleDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="post-gre-sql_especiesForestales_postgresPool" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
-        <property name="serverName" value="localhost"/>
-        <property name="portNumber" value="5432"/>
-        <property name="databaseName" value="especiesForestales"/>
-        <property name="User" value="postgres"/>
-        <property name="Password" value="root"/>
-        <property name="URL" value="jdbc:postgresql://localhost:5432/especiesForestales"/>
-        <property name="driverClass" value="org.postgresql.Driver"/>
-    </jdbc-connection-pool>
-<!--    <jdbc-resource enabled="true" jndi-name="espForestalesLocalNDI" object-type="user" pool-name="post-gre-sql_especiesForestales_postgresPool"/>-->
-    <jdbc-resource enabled="true" jndi-name="especiesForestales" object-type="user" pool-name="post-gre-sql_especiesForestales_postgresPool"/>
-</resources>
+
+<!DOCTYPE resources SYSTEM "http://glassfish.org/dtds/glassfish-resources_1_5.dtd" PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN">
+-<resources>-<jdbc-connection-pool wrap-jdbc-objects="false" validate-atmost-once-period-in-seconds="0" steady-pool-size="8" statement-timeout-in-seconds="-1" res-type="javax.sql.DataSource" pool-resize-quantity="2" non-transactional-connections="false" name="post-gre-sql_geodados_postgresPool" max-wait-time-in-millis="60000" max-pool-size="32" max-connection-usage-count="0" match-connections="false" lazy-connection-enlistment="false" lazy-connection-association="false" is-isolation-level-guaranteed="true" is-connection-validation-required="false" idle-timeout-in-seconds="300" fail-all-connections="false" datasource-classname="org.postgresql.ds.PGSimpleDataSource" connection-validation-method="auto-commit" connection-leak-timeout-in-seconds="0" connection-leak-reclaim="false" connection-creation-retry-interval-in-seconds="10" connection-creation-retry-attempts="0" associate-with-thread="false" allow-non-component-callers="false"><property name="serverName" value="192.168.1.216."/><property name="portNumber" value="5432"/><property name="databaseName" value="geodados"/><property name="User" value="postgres"/><property name="Password" value=""/><property name="URL" value="jdbc:postgresql://192.168.1.216.:5432/geodados"/><property name="driverClass" value="org.postgresql.Driver"/></jdbc-connection-pool><jdbc-resource pool-name="post-gre-sql_geodados_postgresPool" object-type="user" jndi-name="JNDIGISProduccion" enabled="true"/></resources>

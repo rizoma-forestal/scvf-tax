@@ -147,7 +147,7 @@ public class MbFamilia implements Serializable{
      * @return mensaje que notifica la actualizacion de estado
      */    
     public String habilitar() {
-        current.getAdmin().setHabilitado(true);
+        current.getAdminentidad().setHabilitado(true);
         update();        
         recreateModel();
         return "view";
@@ -158,7 +158,7 @@ public class MbFamilia implements Serializable{
     public String deshabilitar() {
         //Si esta libre de dependencias deshabilita
         if (getFacade().tieneDependencias(current.getId())){
-            current.getAdmin().setHabilitado(false);
+            current.getAdminentidad().setHabilitado(false);
             update();        
             recreateModel();
         }
@@ -186,11 +186,7 @@ public class MbFamilia implements Serializable{
      * @param arg2: contenido del campo de texto a validar 
      * @throws ValidatorException 
      */
-    public void validarUpdate(FacesContext arg0, UIComponent arg1, Object arg2){
-        if(!current.getNombre().equals((String)arg2)){
-            validarExistente(arg2);
-        }
-    }
+    
     
     private void validarExistente(Object arg2) throws ValidatorException{
         if(!getFacade().existe((String)arg2)){
@@ -207,6 +203,7 @@ public class MbFamilia implements Serializable{
             selectParam = null;
         }
     }
+    
 
     /*************************
     ** Métodos de operación **
@@ -221,7 +218,7 @@ public class MbFamilia implements Serializable{
         admEnt.setFechaAlta(date);
         admEnt.setHabilitado(true);
         admEnt.setUsAlta(1);
-        current.setAdmin(admEnt);        
+        current.setAdminentidad(admEnt);        
         try {
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaCreated"));

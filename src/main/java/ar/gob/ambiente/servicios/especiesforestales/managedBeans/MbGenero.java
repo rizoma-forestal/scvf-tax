@@ -52,6 +52,7 @@ public class MbGenero implements Serializable{
     private String selectParam;    
     private List<String> listaNombres;  
     private List<Familia> listaFamilia;
+
     private List<Especie> listaEspecie;
 
     /**
@@ -62,7 +63,7 @@ public class MbGenero implements Serializable{
    
     @PostConstruct
    public void init(){
-        listaFamilia = familiaFacade.findAll();
+   /*     listaFamilia = familiaFacade.findAll();*/
    }
    
     public Genero getCurrent() {
@@ -72,6 +73,7 @@ public class MbGenero implements Serializable{
     public void setCurrent(Genero current) {
         this.current = current;
     }
+    
 
     public List<Especie> getListaEspecie() {
         return listaEspecie;
@@ -81,6 +83,13 @@ public class MbGenero implements Serializable{
         this.listaEspecie = listaEspecie;
     }
 
+    public List<Familia> getListaFamilia() {
+        return listaFamilia;
+    }
+
+    public void setListaFamilia(List<Familia> listaFamilia) {
+        this.listaFamilia = listaFamilia;
+    }
    
     /********************************
     ** Métodos para la navegación **
@@ -145,19 +154,19 @@ public class MbGenero implements Serializable{
      * @return acción para el formulario de nuevo
      */
     public String prepareCreate() {
+        listaFamilia = familiaFacade.getActivos();
         current = new Genero();
         return "new";
     }
-
+    
     /**
      * @return acción para la edición de la entidad
      */
     public String prepareEdit() {
-        //cargo los list para los combos
-        listaFamilia = familiaFacade.findAll();
-        //selectedItemIndex = getItems().getRowIndex();
+        listaFamilia = familiaFacade.getActivos();        
         return "edit";
-    }    
+    }
+ 
     
     public String prepareInicio(){
         recreateModel();
@@ -195,7 +204,7 @@ public class MbGenero implements Serializable{
         }
         else{
             //No Deshabilita 
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EspecificidadDeRegionNonDeletable"));            
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroNonDeletable"));            
         }
         return "view";
     } 
@@ -358,6 +367,7 @@ public class MbGenero implements Serializable{
     public void setSelectParam(String selectParam) {
         this.selectParam = selectParam;
     }
+    
     
   
     /**

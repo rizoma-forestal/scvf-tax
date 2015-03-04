@@ -26,7 +26,9 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
     protected EntityManager getEntityManager() {
         return em;
     }
-
+    /**
+     *
+     */
     public FamiliaFacade() {
         super(Familia.class);
     }
@@ -59,7 +61,7 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
     public boolean existe(String aBuscar){
         em = getEntityManager();       
         String queryString = "SELECT fam.nombre FROM Familia fam "
-                + "WHERE fam.nombre = :stringParam";
+                + "WHERE fam.nombre = :stringParam ";
         
         Query q = em.createQuery(queryString)
                 .setParameter("stringParam", aBuscar);
@@ -91,8 +93,24 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
 
     public List<String> getNombres(){
         em = getEntityManager();
-        String queryString = "SELECT fam.nombre FROM Familia fam";
+        String queryString = "SELECT fam.nombre FROM Familia fam "
+                + "WHERE fam.adminentidad.habilitado = true";
         Query q = em.createQuery(queryString);
         return q.getResultList();
     }
+    
+   /**
+     * Método que devuelve un LIST con las entidades HABILITADAS
+     * @return: True o False
+     */
+    public List<Familia> getActivos(){
+        em = getEntityManager();        
+        List<Familia> result;
+        String queryString = "SELECT fam FROM Familia fam " 
+                + "WHERE fam.adminentidad.habilitado = true";                   
+        Query q = em.createQuery(queryString);
+        result = q.getResultList();
+        return result;
+    }    
+
 }

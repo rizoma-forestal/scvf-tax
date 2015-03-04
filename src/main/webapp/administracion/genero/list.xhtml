@@ -59,11 +59,12 @@
                                          icon="ui-icon-calculator" 
                                          style="margin-left: 10px" />
                         
-                        <p:columnToggler datasource="generoList" 
+                        <p:columnToggler datasource="generoList"
                                          trigger="toggler" />
                     </f:facet>
                     
                     <p:column headerText="Familia" 
+                              filterMatchMode="contains"                              
                               sortBy="#{e.familia.nombre}" 
                               filterBy="#{e.familia.nombre}">
                         <p:outputLabel value="#{e.familia.nombre}"/>
@@ -113,8 +114,7 @@
                             <f:setPropertyActionListener value="#{e}" 
                                                          target="#{mbGenero.current}" /> 
                         </p:commandButton>
-                        
-                        
+                
                         <p:commandButton icon="ui-icon-close" 
                                          action="#{mbGenero.deshabilitar}"
                                          rendered="#{e.adminentidad.habilitado == 'true'}"
