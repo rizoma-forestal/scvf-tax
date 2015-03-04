@@ -45,7 +45,7 @@ public class Especie implements Serializable {
     
     @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="adminentidad_id")
-    private AdminEntidad admin;
+    private AdminEntidad adminentidad;
     
     
  /**
@@ -109,12 +109,12 @@ public class Especie implements Serializable {
         this.genero = genero;
     }
 
-    public AdminEntidad getAdmin() {
-        return admin;
+    public AdminEntidad getAdminentidad() {
+        return adminentidad;
     }
 
-    public void setAdmin(AdminEntidad admin) {
-        this.admin = admin;
+    public void setAdminentidad(AdminEntidad adminentidad) {
+        this.adminentidad = adminentidad;
     }
 
    

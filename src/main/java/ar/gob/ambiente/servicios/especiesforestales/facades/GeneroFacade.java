@@ -97,5 +97,17 @@ public class GeneroFacade extends AbstractFacade<Genero> {
         Query q = em.createQuery(queryString);
         return q.getResultList();
     } 
-    
+   /**
+     * Método que devuelve un LIST con las entidades HABILITADAS
+     * @return: True o False
+     */
+    public List<Genero> getActivos(){
+        em = getEntityManager();        
+        List<Genero> result;
+        String queryString = "SELECT gen FROM Genero gen " 
+                + "WHERE gen.adminentidad.habilitado = true";                   
+        Query q = em.createQuery(queryString);
+        result = q.getResultList();
+        return result;
+    }    
 }

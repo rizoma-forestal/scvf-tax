@@ -6,7 +6,6 @@
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.AdminEntidad;
-import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Familia;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Genero;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
@@ -53,7 +52,6 @@ public class MbGenero implements Serializable{
     private List<String> listaNombres;  
     private List<Familia> listaFamilia;
 
-    private List<Especie> listaEspecie;
 
     /**
      * Creates a new instance of MbGenero
@@ -75,14 +73,6 @@ public class MbGenero implements Serializable{
     }
     
 
-    public List<Especie> getListaEspecie() {
-        return listaEspecie;
-    }
-
-    public void setListaEspecie(List<Especie> listaEspecie) {
-        this.listaEspecie = listaEspecie;
-    }
-
     public List<Familia> getListaFamilia() {
         return listaFamilia;
     }
@@ -90,7 +80,7 @@ public class MbGenero implements Serializable{
     public void setListaFamilia(List<Familia> listaFamilia) {
         this.listaFamilia = listaFamilia;
     }
-   
+
     /********************************
     ** Métodos para la navegación **
     ********************************/
@@ -113,13 +103,7 @@ public class MbGenero implements Serializable{
         return items;
     }    
     
-    public List<Familia> getListFamilia() {
-        return listaFamilia;
-    }
 
-    public void setListFamilia(List<Familia> listaFamilia) {
-        this.listaFamilia = listaFamilia;
-    }
 /*******************************
 ** Métodos de inicialización **
 *******************************/

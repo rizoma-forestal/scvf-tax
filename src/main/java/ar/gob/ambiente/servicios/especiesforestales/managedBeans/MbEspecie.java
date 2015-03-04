@@ -56,9 +56,25 @@ public class MbEspecie implements Serializable{
    
     @PostConstruct
     public void init(){
-        listaGenero = generoFacade.findAll();
+      /*  listaGenero = generoFacade.findAll();*/
     }
-   
+    
+    public Especie getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(Especie current) {
+        this.current = current;
+    }
+
+
+    public List<Genero> getListaGenero() {
+        return listaGenero;
+    }
+
+    public void setListaGenero(List<Genero> listaGenero) {
+        this.listaGenero = listaGenero;
+    }    
 /********************************
  ** Métodos para la navegación **
 ********************************/
@@ -66,7 +82,7 @@ public class MbEspecie implements Serializable{
      * @return La entidad gestionada
      */
  
-        public Especie getSelected() {
+    public Especie getSelected() {
         if (current == null) {
             current = new Especie();
             selectedItemIndex = -1;
@@ -105,13 +121,6 @@ public class MbEspecie implements Serializable{
         return redirect;
     }
 
-    public Especie getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(Especie current) {
-        this.current = current;
-    }
 
     /**
      * @return acción para el detalle de la entidad
@@ -124,6 +133,7 @@ public class MbEspecie implements Serializable{
      * @return acción para el formulario de nuevo
      */
     public String prepareCreate() {
+        listaGenero = generoFacade.getActivos();
         current = new Especie();
         //selectedItemIndex = -1;
         return "new";
@@ -133,6 +143,7 @@ public class MbEspecie implements Serializable{
      * @return acción para la edición de la entidad
      */
     public String prepareEdit() {
+        listaGenero = generoFacade.getActivos();
         return "edit";
     }
     
@@ -155,8 +166,8 @@ public class MbEspecie implements Serializable{
      * @return mensaje que notifica la actualizacion de estado
      */    
     public String habilitar() {
-        current.getAdmin().setHabilitado(true);
-        updateHabilitar();        
+        current.getAdminentidad().setHabilitado(true);
+        update();        
         recreateModel();
         return "view";
     }  
@@ -165,8 +176,8 @@ public class MbEspecie implements Serializable{
      */    
     public String deshabilitar() {
              //Genero no tiene dependencias
-            current.getAdmin().setHabilitado(false);
-            updateDeshabilitar();        
+            current.getAdminentidad().setHabilitado(true);
+            update();        
             recreateModel();
             return "view";
     }
@@ -224,7 +235,7 @@ public class MbEspecie implements Serializable{
         admEnt.setFechaAlta(date);
         admEnt.setHabilitado(true);
         admEnt.setUsAlta(1);
-        current.setAdmin(admEnt);        
+        current.setAdminentidad(admEnt);        
         try {
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieCreated"));
@@ -245,28 +256,6 @@ public class MbEspecie implements Serializable{
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieUpdatedErrorOccured"));
             return null;
         }
-    }
-    
-    public String updateHabilitar(){
-       try {
-            getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieHabilitada"));
-            return "view";
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieUpdatedErrorOccured"));
-            return null;
-        } 
-    }
-
-    public String updateDeshabilitar(){
-       try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieDeshabilitada"));
-            return "view";
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieUpdatedErrorOccured"));
-            return null;
-        } 
     }
  
     /*************************
@@ -348,16 +337,14 @@ public class MbEspecie implements Serializable{
         this.selectParam = selectParam;
     }
     
-    private void buscarEspecie(){
-        items = new ListDataModel(getFacade().getXString(selectParam)); 
-    }   
+  
     
     /**
      * Método para llegar la lista para el autocompletado de la búsqueda de nombres
      * @param query
      * @return 
      */
-    public List<String> completeNombres(String query){
+   /* public List<String> completeNombres(String query){
         listaNombres = getFacade().getNombre();
         List<String> nombres = new ArrayList();
         Iterator itLista = listaNombres.listIterator();
@@ -368,7 +355,7 @@ public class MbEspecie implements Serializable{
             }
         }
         return nombres;
-    }
+    }*/
 
     //private void update() {
      //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -424,12 +411,5 @@ public class MbEspecie implements Serializable{
         }
     }        
 
-    public List<Genero> getListaGenero() {
-        return listaGenero;
-    }
-
-    public void setListaGenero(List<Genero> listaGenero) {
-        this.listaGenero = listaGenero;
-    }
 
 }

@@ -58,7 +58,7 @@
                         <p:dialog style="font-size: 80%"
                                   header="Listado de especies asociadas"
                                   widgetVar="Especies"
-                                  rendered="#{e.admin.habilitado == 'true'}"
+                                  rendered="#{e.adminentidad.habilitado == 'true'}"
                                   showEffect="explode"
                                   hideEffect="bounce"
                                   height="100"
@@ -69,7 +69,8 @@
                                 <p:column headerText="Especie" 
                                           filterMatchMode="contains"
                                           filterBy="#{e.nombre}"
-                                          sortBy="#{e.nombre}">
+                                          sortBy="#{e.nombre}"
+                                          rendered="#{e.adminentidad.habilitado == 'true'}" >
                                     <p:outputLabel value="#{e.nombre}"/> 
                                 </p:column>                        
                             </p:dataTable>
