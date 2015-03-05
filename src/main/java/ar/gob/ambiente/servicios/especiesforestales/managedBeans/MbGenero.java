@@ -262,6 +262,12 @@ public class MbGenero implements Serializable{
      * @return mensaje que notifica la actualización
      */
     public String update() {
+        Date date = new Date(System.currentTimeMillis());
+        AdminEntidad admEnt = current.getAdminentidad(); 
+        admEnt.setFechaModif(date);
+        admEnt.setHabilitado(true);
+        admEnt.setUsModif(2);
+        current.setAdminentidad(admEnt);                
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroUpdated"));

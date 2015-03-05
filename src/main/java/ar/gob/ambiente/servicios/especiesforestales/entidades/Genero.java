@@ -116,6 +116,10 @@ public class Genero implements Serializable {
         return "ar.gob.ambiente.servicios.especiesforestales.entidades.Genero[ id=" + id + " ]";
     }
 
+    public AdminEntidad getAdminentidad(AdminEntidad admEnt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
    
 }
