@@ -107,7 +107,7 @@
                         filterBy="#{e.nativa}"
                         filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('espTable').filter()" style="font-size: 80%;">
+                            <p:selectOneMenu onchange="PF('espTable').filter()" style="font-size: 80%;">
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
                                               itemValue="" />
@@ -115,7 +115,7 @@
                                               itemValue="true" />
                                 <f:selectItem itemLabel="No" 
                                               itemValue="false" />
-                            </p:selectOneButton>
+                            </p:selectOneMenu>
                         </f:facet>
                         <h:outputText value="#{e.nativa ? 'Si': 'No'}" />
                     </p:column>                     
@@ -126,7 +126,7 @@
                         filterMatchMode="equals">
                         <f:facet name="filter">
                             
-                            <p:selectOneButton onchange="PF('espTable').filter()" style="font-size: 80%;">
+                            <p:selectOneMenu onchange="PF('espTable').filter()" style="font-size: 80%;">
                                 
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
@@ -137,7 +137,7 @@
                                               itemValue="false" />
                             
                             
-                            </p:selectOneButton>
+                            </p:selectOneMenu>
                         </f:facet> 
                         <h:outputText value="#{e.cites ? 'Si': 'No'}" />
                     </p:column>                     
@@ -147,7 +147,7 @@
                               footerText=""                               
                               filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('espTable').filter()" style="font-size: 80%;">
+                            <p:selectOneMenu onchange="PF('espTable').filter()" style="font-size: 80%;">
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
                                               itemValue="" />
@@ -155,7 +155,7 @@
                                               itemValue="true" />
                                 <f:selectItem itemLabel="Inactivos" 
                                               itemValue="false" />
-                            </p:selectOneButton>
+                            </p:selectOneMenu>
                         </f:facet>
                         <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
                     </p:column>

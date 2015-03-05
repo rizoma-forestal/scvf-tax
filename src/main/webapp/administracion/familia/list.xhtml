@@ -75,7 +75,7 @@
                               footerText=""                               
                               filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('famTable').filter()" 
+                            <p:selectOneMenu onchange="PF('famTable').filter()" 
                                                style="font-size: 80%;">
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
@@ -84,7 +84,7 @@
                                               itemValue="true" />
                                 <f:selectItem itemLabel="Inactivos" 
                                               itemValue="false" />
-                            </p:selectOneButton>
+                            </p:selectOneMenu>
                         </f:facet>
                         <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
                     </p:column>
