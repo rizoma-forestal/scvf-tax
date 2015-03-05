@@ -119,9 +119,9 @@
                                          action="#{mbGenero.deshabilitar}"
                                          rendered="#{e.adminentidad.habilitado == 'true'}"
                                          title="Deshabilitar" >
-                                    <f:setPropertyActionListener value="#{e}" 
-                                                                 target="#{mbGenero.current}" />
-                                         <p:confirm header="Confirmar" 
+                                        <f:setPropertyActionListener value="#{e}" 
+                                                                     target="#{mbGenero.current}" />
+                                        <p:confirm header="Confirmar" 
                                                     message="¿Desea deshabilitar el Género?" 
                                                     icon="ui-icon-alert" />
                         </p:commandButton>

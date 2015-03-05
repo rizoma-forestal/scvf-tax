@@ -181,7 +181,8 @@
                                          action="#{mbEspecie.deshabilitar}"
                                          rendered="#{e.adminentidad.habilitado == 'true'}"
                                          title="Deshabilitar" >
-                                         <f:setPropertyActionListener value="#{e}" target="#{mbEspecie.current}" />
+                                        <f:setPropertyActionListener value="#{e}" 
+                                                                     target="#{mbEspecie.current}" />
                                          <p:confirm header="Confirmar" 
                                                     message="¿Desea deshabilitar la Especie?" 
                                                     icon="ui-icon-alert" />

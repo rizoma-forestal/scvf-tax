@@ -186,7 +186,12 @@ public class MbFamilia implements Serializable{
      * @param arg2: contenido del campo de texto a validar 
      * @throws ValidatorException 
      */
-    
+    public void validarUpdate(FacesContext arg0, UIComponent arg1, Object arg2){
+        if(!current.getNombre().equals((String)arg2)){
+            validarExistente(arg2);
+        }
+    }
+        
     
     private void validarExistente(Object arg2) throws ValidatorException{
         if(!getFacade().existe((String)arg2)){

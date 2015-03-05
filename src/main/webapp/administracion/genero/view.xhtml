@@ -20,6 +20,11 @@
                     <p:messages id="messages" />
                     
                     <h:panelGrid columns="2">
+  
+                        <h:outputLabel value="#{bundle.FamiliaTitle}: "/>
+                        <h:outputText value="#{mbGenero.selected.familia.nombre}" 
+                                          title="#{bundle.FamiliaTitle}"/> 
+                        
                         <h:outputLabel value="#{bundle.CreateGeneroLabel_nombre}"/>
                         <h:outputText value="#{mbGenero.selected.nombre}" 
                                       title="#{bundle.CreateGeneroTitle_nombre}"/>
