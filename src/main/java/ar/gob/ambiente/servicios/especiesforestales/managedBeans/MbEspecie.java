@@ -98,6 +98,14 @@ public class MbEspecie implements Serializable{
         return items;
     }    
 
+    public List<String> getListaNombres() {
+        return listaNombres;
+    }
+
+    public void setListaNombres(List<String> listaNombres) {
+        this.listaNombres = listaNombres;
+    }
+
 /*******************************
 ** Métodos de inicialización **
 *******************************/
@@ -135,7 +143,6 @@ public class MbEspecie implements Serializable{
     public String prepareCreate() {
         listaGenero = generoFacade.getActivos();
         current = new Especie();
-        //selectedItemIndex = -1;
         return "new";
     }
   
@@ -176,7 +183,7 @@ public class MbEspecie implements Serializable{
      */    
     public String deshabilitar() {
              //Genero no tiene dependencias
-            current.getAdminentidad().setHabilitado(true);
+            current.getAdminentidad().setHabilitado(false);
             update();        
             recreateModel();
             return "view";
