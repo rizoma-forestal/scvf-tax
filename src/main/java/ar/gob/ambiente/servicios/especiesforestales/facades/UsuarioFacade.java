@@ -10,6 +10,7 @@ import ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +30,31 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         super(Usuario.class);
     }
     
+    /**
+     * Método para validad que no exista un Usuario con ese nombre
+     * @param nomobre
+     * @return 
+     */
+    public boolean noExiste(String nomobre){
+        em = getEntityManager();
+        String queryString = "SELECT us FROM Usuario us "
+                + "WHERE us.nombre = :nomobre";
+        Query q = em.createQuery(queryString)
+                .setParameter("nomobre", nomobre);
+        return q.getResultList().isEmpty();
+    }        
+    
+    /**
+     * Método que valida si una contraseña ya está en uso
+     * @param clave: contraseña encriptada
+     * @return 
+     */
+    public boolean verificarContrasenia(String clave){
+        em = getEntityManager();
+        String queryString = "SELECT us FROM Usuario us "
+                + "WHERE us.calve = :clave";
+        Query q = em.createQuery(queryString)
+                .setParameter("clave", clave);
+        return q.getResultList().isEmpty();
+    }    
 }

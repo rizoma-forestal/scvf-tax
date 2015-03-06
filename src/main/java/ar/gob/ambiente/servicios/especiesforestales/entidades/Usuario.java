@@ -89,14 +89,6 @@ public class Usuario implements Serializable {
         this.primeraVez = primeraVez;
     }
 
-    public void setApYNom(String apYNom) {
-        this.apYNom = apYNom;
-    }
-
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
     /**
      *
      * @return

@@ -8,19 +8,19 @@ package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.AdminEntidad;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Familia;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Genero;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.FamiliaFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.GeneroFacade;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -51,6 +51,8 @@ public class MbGenero implements Serializable{
     private String selectParam;    
     private List<String> listaNombres;  
     private List<Familia> listaFamilia;
+    private MbLogin login;
+    private Usuario usLogeado;
 
 
     /**
@@ -60,9 +62,11 @@ public class MbGenero implements Serializable{
     }
    
     @PostConstruct
-   public void init(){
-   /*     listaFamilia = familiaFacade.findAll();*/
-   }
+    public void init(){
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+        login = (MbLogin)ctx.getSessionMap().get("mbLogin");
+        usLogeado = login.getUsLogeado();
+    }
    
     public Genero getCurrent() {
         return current;
@@ -246,7 +250,7 @@ public class MbGenero implements Serializable{
         AdminEntidad admEnt = new AdminEntidad();
         admEnt.setFechaAlta(date);
         admEnt.setHabilitado(true);
-        admEnt.setUsAlta(1);
+        admEnt.setUsAlta(usLogeado);
         current.setAdminentidad(admEnt);        
         try {
             getFacade().create(current);

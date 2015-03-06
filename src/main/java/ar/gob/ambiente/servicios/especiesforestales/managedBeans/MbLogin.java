@@ -134,8 +134,13 @@ public class MbLogin implements Serializable{
             // valido las credenciales recibidas
             if(validarInt()){
                 logeado = true;
+                
+                //harcodeo los datos del usuario, por ahora Ceci
+                usLogeado = new Usuario();
+                usLogeado.setNombre("carmendariz");
+                usLogeado.setId(Long.valueOf(1));
 
-                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", nombre);
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", usLogeado.getNombre());
             }else{
                 logeado = false;
                 msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error de inicio de sesión", "Usuario y/o contraseña invalidos");

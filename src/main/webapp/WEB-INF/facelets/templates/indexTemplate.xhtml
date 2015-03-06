@@ -31,8 +31,17 @@
                                         url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizEspecie}/list.xhtml"/>                              
                                                                         
                         </p:submenu> 
+                        
+                        <p:submenu label="Seguridad">
+                            <p:menuitem value="Usuarios" 
+                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizUsuario}/list.xhtml"/>
+                            <p:menuitem value="Roles" 
+                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizRol}/list.xhtml"/>                             
+                                                                        
+                        </p:submenu> 
+                        
                         <p:menuitem value="Cerrar Sessión" action="#{mbLogin.logout}" oncomplete="logout(xhr, status, args)"/>
-                        <p:menuitem value="Usuario: #{mbLogin.nombre}" /> 
+                        <p:menuitem value="Usuario: #{mbLogin.usLogeado.nombre}" /> 
                     </p:menubar>
                 </h:form>
                 
@@ -46,8 +55,7 @@
 
             <div id="footer" 
                  style="position: relative; left: 18%">
-                <p>Secretaría de Ambiente y Desarrollo Sustentable - San Martín 451 • C1004AAI  C. de Buenos Aires • Argentina • Tel (54) (11) 4348 8200 • Fax (54) (11) 4348 8300
-</p>
+                <p>#{bundle.PieEspeciesForestales}</p>
  
             </div>
             

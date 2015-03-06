@@ -7,12 +7,19 @@
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -24,23 +31,71 @@ public class AdminEntidad implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int usAlta;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="usalta_id", nullable=false)
+    @NotNull(message = "Debe haber un usuario dealta")
+    private Usuario usAlta;
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaAlta;
-    private int usModif;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="usmodif_id", nullable=true)
+    private Usuario usModif;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaModif;
-    private int usBaja;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="usbaja_id", nullable=true)
+    private Usuario usBaja;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaBaja;
     private boolean habilitado;
 
-    public int getUsAlta() {
+    /**
+     * Campo que muestra la fecha de alta como string
+     */
+    @Transient
+    String strFechaAlta;
+    
+    /**
+     * Campo que muestra la fecha de baja como string
+     */
+    @Transient
+    String strFechaBaja;
+    
+    public String getStrFechaBaja() {
+        SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
+        strFechaBaja = formateador.format(fechaBaja);   
+        return strFechaBaja;
+    }
+
+    public void setStrFechaBaja(String strFechaBaja) {
+        this.strFechaBaja = strFechaBaja;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public String getStrFechaAlta() {
+        SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
+        strFechaAlta = formateador.format(fechaAlta);   
+        return strFechaAlta;
+    }
+
+    public void setStrFechaAlta(String strFechaAlta) {
+        this.strFechaAlta = strFechaAlta;
+    }    
+    
+    public Usuario getUsAlta() {
         return usAlta;
     }
 
-    public void setUsAlta(int usAlta) {
+    public void setUsAlta(Usuario usAlta) {
         this.usAlta = usAlta;
     }
 
@@ -52,11 +107,11 @@ public class AdminEntidad implements Serializable {
         this.fechaAlta = fechaAlta;
     }
 
-    public int getUsModif() {
+    public Usuario getUsModif() {
         return usModif;
     }
 
-    public void setUsModif(int usModif) {
+    public void setUsModif(Usuario usModif) {
         this.usModif = usModif;
     }
 
@@ -68,11 +123,11 @@ public class AdminEntidad implements Serializable {
         this.fechaModif = fechaModif;
     }
 
-    public int getUsBaja() {
+    public Usuario getUsBaja() {
         return usBaja;
     }
 
-    public void setUsBaja(int usBaja) {
+    public void setUsBaja(Usuario usBaja) {
         this.usBaja = usBaja;
     }
 

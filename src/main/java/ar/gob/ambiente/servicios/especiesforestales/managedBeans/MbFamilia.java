@@ -8,6 +8,7 @@ package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.AdminEntidad;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Familia;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.FamiliaFacade;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -42,6 +44,8 @@ public class MbFamilia implements Serializable{
     private String selectParam;    
     private List<String> listaNombres;    
     private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
+    private MbLogin login;
+    private Usuario usLogeado;
 
     /**
      * Creates a new instance of MbFamilia
@@ -52,6 +56,9 @@ public class MbFamilia implements Serializable{
     @PostConstruct
     public void init(){
         update = 0;
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+        login = (MbLogin)ctx.getSessionMap().get("mbLogin");
+        usLogeado = login.getUsLogeado();
     }
     
     public Familia getCurrent() {
@@ -215,7 +222,7 @@ public class MbFamilia implements Serializable{
         AdminEntidad admEnt = new AdminEntidad();
         admEnt.setFechaAlta(date);
         admEnt.setHabilitado(true);
-        admEnt.setUsAlta(1);
+        admEnt.setUsAlta(usLogeado);
         current.setAdminentidad(admEnt);        
         try {
             getFacade().create(current);
@@ -237,19 +244,19 @@ public class MbFamilia implements Serializable{
         // actualizamos según el valor de update
         if(update == 1){
             current.getAdminentidad().setFechaBaja(date);
-            current.getAdminentidad().setUsBaja(3);
+            current.getAdminentidad().setUsBaja(usLogeado);
             current.getAdminentidad().setHabilitado(false);
         }
         if(update == 2){
             current.getAdminentidad().setFechaModif(date);
-            current.getAdminentidad().setUsModif(2);
+            current.getAdminentidad().setUsModif(usLogeado);
             current.getAdminentidad().setHabilitado(true);
             current.getAdminentidad().setFechaBaja(null);
-            current.getAdminentidad().setUsBaja(0);
+            current.getAdminentidad().setUsBaja(usLogeado);
         }
         if(update == 0){
             current.getAdminentidad().setFechaModif(date);
-            current.getAdminentidad().setUsModif(2);
+            current.getAdminentidad().setUsModif(usLogeado);
         }
 
         // acualizo
