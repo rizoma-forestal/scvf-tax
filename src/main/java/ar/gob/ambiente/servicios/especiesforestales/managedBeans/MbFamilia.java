@@ -11,11 +11,10 @@ import ar.gob.ambiente.servicios.especiesforestales.entidades.Familia;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.FamiliaFacade;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -42,12 +41,17 @@ public class MbFamilia implements Serializable{
     private int selectedItemIndex;
     private String selectParam;    
     private List<String> listaNombres;    
+    private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
 
     /**
      * Creates a new instance of MbFamilia
      */
-    public MbFamilia() {
-        
+    public MbFamilia() {   
+    }
+    
+    @PostConstruct
+    public void init(){
+        update = 0;
     }
     
     public Familia getCurrent() {
@@ -144,38 +148,18 @@ public class MbFamilia implements Serializable{
     }
     
     /**
-     * @return mensaje que notifica la actualizacion de estado
      */    
-    public String habilitar() {
-        current.getAdminentidad().setHabilitado(true);
+    public void habilitar() {
+        update = 2;
         update();        
         recreateModel();
-        return "view";
     }  
      /**
-     * @return mensaje que notifica la actualizacion de estado
      */    
-    public String deshabilitar() {
-        //Si esta libre de dependencias deshabilita
-        Date date = new Date(System.currentTimeMillis());
-        AdminEntidad admEnt = current.getAdminentidad();
-        admEnt.getFechaAlta();
-        admEnt.getUsAlta();
-        admEnt.getFechaModif();
-        admEnt.getUsModif();
-        current.setAdminentidad(admEnt);  
-        admEnt.setFechaBaja(date);
-        admEnt.setUsBaja(3);
-        if (getFacade().tieneDependencias(current.getId())){
-            current.getAdminentidad().setHabilitado(false);
-            update();        
-            recreateModel();
-        }
-        else{
-            //No Deshabilita 
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaNonDeletable"));            
-        }
-        return "view";
+    public void deshabilitar() {
+        update = 1;
+        update();        
+        recreateModel();
     }    
     
     /**
@@ -248,12 +232,27 @@ public class MbFamilia implements Serializable{
      */
     public String update() {
         Date date = new Date(System.currentTimeMillis());
-        AdminEntidad admEnt = current.getAdminentidad();
-        admEnt.getFechaAlta();
-        admEnt.getUsAlta();
-        current.setAdminentidad(admEnt);  
-        admEnt.setFechaModif(date);
-        admEnt.setUsModif(2);
+        //Date dateBaja = new Date();
+        
+        // actualizamos según el valor de update
+        if(update == 1){
+            current.getAdminentidad().setFechaBaja(date);
+            current.getAdminentidad().setUsBaja(3);
+            current.getAdminentidad().setHabilitado(false);
+        }
+        if(update == 2){
+            current.getAdminentidad().setFechaModif(date);
+            current.getAdminentidad().setUsModif(2);
+            current.getAdminentidad().setHabilitado(true);
+            current.getAdminentidad().setFechaBaja(null);
+            current.getAdminentidad().setUsBaja(0);
+        }
+        if(update == 0){
+            current.getAdminentidad().setFechaModif(date);
+            current.getAdminentidad().setUsModif(2);
+        }
+
+        // acualizo
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaUpdated"));
