@@ -157,6 +157,15 @@ public class MbFamilia implements Serializable{
      */    
     public String deshabilitar() {
         //Si esta libre de dependencias deshabilita
+        Date date = new Date(System.currentTimeMillis());
+        AdminEntidad admEnt = current.getAdminentidad();
+        admEnt.getFechaAlta();
+        admEnt.getUsAlta();
+        admEnt.getFechaModif();
+        admEnt.getUsModif();
+        current.setAdminentidad(admEnt);  
+        admEnt.setFechaBaja(date);
+        admEnt.setUsBaja(3);
         if (getFacade().tieneDependencias(current.getId())){
             current.getAdminentidad().setHabilitado(false);
             update();        
@@ -238,6 +247,13 @@ public class MbFamilia implements Serializable{
      * @return mensaje que notifica la actualización
      */
     public String update() {
+        Date date = new Date(System.currentTimeMillis());
+        AdminEntidad admEnt = current.getAdminentidad();
+        admEnt.getFechaAlta();
+        admEnt.getUsAlta();
+        current.setAdminentidad(admEnt);  
+        admEnt.setFechaModif(date);
+        admEnt.setUsModif(2);
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaUpdated"));
