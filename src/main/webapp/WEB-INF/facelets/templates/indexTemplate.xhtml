@@ -29,8 +29,10 @@
                                         url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizGenero}/list.xhtml"/> 
                             <p:menuitem value="Especie" 
                                         url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizEspecie}/list.xhtml"/>                              
-                                                                            
-                        </p:submenu>                         
+                                                                        
+                        </p:submenu> 
+                        <p:menuitem value="Cerrar Sessión" action="#{mbLogin.logout}" oncomplete="logout(xhr, status, args)"/>
+                        <p:menuitem value="Usuario: #{mbLogin.nombre}" /> 
                     </p:menubar>
                 </h:form>
                 
@@ -51,4 +53,13 @@
             
         </div>
     </h:body>  
+    <script type="text/javascript">
+        //<![CDATA[
+        function logout(xhr, status, args){
+            setTimeout(function(){
+                window.location = '/especiesForestales/faces/login.xhtml';
+            }, 500);
+        }
+        //]]>
+    </script>   
 </html>
