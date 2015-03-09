@@ -16,6 +16,7 @@ import ar.gob.ambiente.servicios.especiesforestales.facades.EspecieFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,6 +32,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author carmendariz
@@ -51,6 +53,7 @@ public class MbEspecie implements Serializable{
     private List<Genero> listaGenero;
     private MbLogin login;
     private Usuario usLogeado;   
+    private boolean iniciado;
     /**
      * Creates a new instance of MbEspecie
      */
@@ -62,11 +65,31 @@ public class MbEspecie implements Serializable{
      */
     @PostConstruct
     public void init(){
+        iniciado = false;
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
         login = (MbLogin)ctx.getSessionMap().get("mbLogin");
         usLogeado = login.getUsLogeado();
     }
-    
+    /**
+     * Método que borra de la memoria los MB innecesarios al cargar el listado 
+     */
+    public void iniciar(){
+        if(!iniciado){
+            String s;
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+            .getExternalContext().getSession(true);
+            Enumeration enume = session.getAttributeNames();
+            while(enume.hasMoreElements()){
+                s = (String)enume.nextElement();
+                if(s.substring(0, 2).equals("mb")){
+                    if(!s.equals("mbUsuario") && !s.equals("mbLogin")){
+                        session.removeAttribute(s);
+                    }
+                }
+            }
+        }
+    }      
+
     public Especie getCurrent() {
         return current;
     }
@@ -113,7 +136,20 @@ public class MbEspecie implements Serializable{
     public void setListaNombres(List<String> listaNombres) {
         this.listaNombres = listaNombres;
     }
-
+ /**
+     * Método para revocar la sesión del MB
+     * @return 
+     */
+    public String cleanUp(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(true);
+        session.removeAttribute("mbEspecie");
+   
+        return "inicio";
+    }      
+    
+    
+    
 /*******************************
 ** Métodos de inicialización **
 *******************************/

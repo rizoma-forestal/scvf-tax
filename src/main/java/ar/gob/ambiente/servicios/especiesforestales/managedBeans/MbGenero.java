@@ -14,6 +14,7 @@ import ar.gob.ambiente.servicios.especiesforestales.facades.FamiliaFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.GeneroFacade;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -28,6 +29,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
+import javax.servlet.http.HttpSession;
 
 
 
@@ -53,6 +55,7 @@ public class MbGenero implements Serializable{
     private List<Familia> listaFamilia;
     private MbLogin login;
     private Usuario usLogeado;
+    private boolean iniciado;
 
 
     /**
@@ -63,11 +66,30 @@ public class MbGenero implements Serializable{
    
     @PostConstruct
     public void init(){
+        iniciado = false;
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
         login = (MbLogin)ctx.getSessionMap().get("mbLogin");
         usLogeado = login.getUsLogeado();
     }
-   
+    /**
+     * Método que borra de la memoria los MB innecesarios al cargar el listado 
+     */
+    public void iniciar(){
+        if(!iniciado){
+            String s;
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+            .getExternalContext().getSession(true);
+            Enumeration enume = session.getAttributeNames();
+            while(enume.hasMoreElements()){
+                s = (String)enume.nextElement();
+                if(s.substring(0, 2).equals("mb")){
+                    if(!s.equals("mbUsuario") && !s.equals("mbLogin")){
+                        session.removeAttribute(s);
+                    }
+                }
+            }
+        }
+    }      
     public Genero getCurrent() {
         return current;
     }
@@ -344,6 +366,17 @@ public class MbGenero implements Serializable{
         }
     }
     
+    /**
+     * Método para revocar la sesión del MB
+     * @return 
+     */
+    public String cleanUp(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(true);
+        session.removeAttribute("mbGenero");
+   
+        return "inicio";
+    }      
     
     /*
      * Métodos de búsqueda
