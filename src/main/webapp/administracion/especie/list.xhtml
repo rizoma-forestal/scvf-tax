@@ -15,7 +15,9 @@
         </ui:define>
         <ui:define name="content">
     <br/> 
-            
+           <f:metadata>  
+                <f:event listener="#{mbEspecie.iniciar}" type="preRenderView"></f:event>  
+           </f:metadata>    
             <h:form>
                 <p:panel id="EspecieForm" 
                          header="#{bundle.EspecieListTitle}" 

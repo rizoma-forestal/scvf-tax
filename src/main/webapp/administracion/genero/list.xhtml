@@ -16,7 +16,9 @@
         <ui:define name="content">
             
             <br/> 
-            
+            <f:metadata>  
+                <f:event listener="#{mbGenero.iniciar}" type="preRenderView"></f:event>  
+            </f:metadata> 
             <h:form>
                 <p:panel id="GeneroForm" 
                          header="#{bundle.GeneroListTitle}" 

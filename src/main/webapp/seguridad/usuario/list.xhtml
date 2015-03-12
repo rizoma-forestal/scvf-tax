@@ -79,12 +79,12 @@
                         <p:commandButton icon="ui-icon-pencil" action="#{mbUsuario.prepareEdit}">
                             <f:setPropertyActionListener value="#{e}" target="#{mbUsuario.current}" />
                         </p:commandButton>
-                        <p:commandButton icon="ui-icon-trash" action="#{mbUsuario.prepareDesHabilitar}" update="messages" 
+                        <p:commandButton icon="ui-icon-close" action="#{mbUsuario.prepareDesHabilitar}" update="messages" 
                                          rendered="#{e.admin.habilitado == true}">
                             <f:setPropertyActionListener value="#{e}" target="#{mbUsuario.current}" />
                             <p:confirm header="Confirmar" message="¿Desea deshabiltar el registro de este Usuario?" />
                         </p:commandButton>
-                        <p:commandButton icon="ui-icon-trash" action="#{mbUsuario.prepareHabilitar}" update="messages" 
+                        <p:commandButton icon="ui-icon-check" action="#{mbUsuario.prepareHabilitar}" update="messages" 
                                          rendered="#{e.admin.habilitado == false}">
                             <f:setPropertyActionListener value="#{e}" target="#{mbUsuario.current}" />
                             <p:confirm header="Confirmar" message="¿Desea habiltar el registro de este Usuario?" />

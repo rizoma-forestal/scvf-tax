@@ -102,7 +102,7 @@ public class MbFamilia implements Serializable{
     public Familia getSelected() {
         if (current == null) {
             current = new Familia();
-            selectedItemIndex = -1;
+            //selectedItemIndex = -1;
         }
         return current;
     }   

@@ -116,7 +116,7 @@ public class MbEspecie implements Serializable{
     public Especie getSelected() {
         if (current == null) {
             current = new Especie();
-            selectedItemIndex = -1;
+            //selectedItemIndex = -1;
         }
         return current;
     } 
