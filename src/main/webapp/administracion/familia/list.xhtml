@@ -111,8 +111,7 @@
                         <p:commandButton icon="ui-icon-close" 
                                          action="#{mbFamilia.deshabilitar}"
                                          rendered="#{e.adminentidad.habilitado == 'true'}"
-                                         title="Deshabilitar" 
-                                         update="familiaList" >
+                                         title="Deshabilitar" >
                                     <f:setPropertyActionListener value="#{e}" 
                                                                  target="#{mbFamilia.current}" />
                                         <p:confirm header="Confirmar" 
@@ -123,8 +122,7 @@
                         <p:commandButton icon="ui-icon-check" 
                                          action="#{mbFamilia.habilitar}" 
                                          rendered="#{e.adminentidad.habilitado == 'false'}" 
-                                         title="Habilitar" 
-                                         update="familiaList" >
+                                         title="Habilitar">
                                 <f:setPropertyActionListener value="#{e}" 
                                                              target="#{mbFamilia.current}" />
                                         <p:confirm header="Confirmar" 
