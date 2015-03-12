@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
@@ -22,9 +22,9 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
- *
- * @author rincostante
- */
+*
+* @author rincostante
+*/
 @Entity
 public class AdminEntidad implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -74,16 +74,19 @@ public class AdminEntidad implements Serializable {
     String strFechaBaja;
     
     public String getStrFechaBaja() {
-        SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
-        strFechaBaja = formateador.format(fechaBaja);   
-        return strFechaBaja;
+        if(fechaBaja != null){
+            SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
+            strFechaBaja = formateador.format(fechaBaja);
+            return strFechaBaja;
+        }
+        return "";
     }
 
     public void setStrFechaBaja(String strFechaBaja) {
         this.strFechaBaja = strFechaBaja;
     }
 
-    /**
+   /**
      * 
      * @return 
      */
@@ -98,9 +101,12 @@ public class AdminEntidad implements Serializable {
     }    
     
     public String getStrFechaModif(){
-        SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
-        strFechaModif = formateador.format(fechaModif);
-        return strFechaModif;
+        if(fechaModif != null){
+            SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
+            strFechaModif = formateador.format(fechaModif);
+            return strFechaModif;
+        }
+        return "";
     }
     
     public void setStrFechaModif(String strFechaModif){
@@ -162,9 +168,6 @@ public class AdminEntidad implements Serializable {
     public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
-    
-
-    
     
     public Long getId() {
         return id;

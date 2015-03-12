@@ -195,9 +195,9 @@ public class MbFamilia implements Serializable{
      */    
     public void habilitar() {
         update = 2;
-        update();        
+        update();    
         recreateModel();
-    }  
+     }  
      /**
      */    
     public void deshabilitar() {
@@ -246,7 +246,7 @@ public class MbFamilia implements Serializable{
         }
     }
     
-
+  
     /*************************
     ** Métodos de operación **
     **************************/
