@@ -49,23 +49,23 @@
                         <h:outputText value="#{mbRol.selected.adminentidad.strFechaBaja}"
                                       title="#{bundle.FechaBaja}"/>  
                         
-                        <h:outputLabel value="#{bundle.GenerosAsociados}" />
+                        <h:outputLabel value="#{bundle.UsuariosAsociados}" />
                         <p:commandButton value="Ver" 
                                          type="button" 
-                                         onclick="PF('Generos').show();" 
-                                         actionListener="#{mbRol.selected.generos}" />      
+                                         onclick="PF('Usuarios').show();" 
+                                         actionListener="#{mbRol.selected.usuarios}" />      
                     </h:panelGrid>   
                         <p:dialog style="font-size: 80%" 
-                                  header="Listado de géneros asociados" 
-                                  widgetVar="Generos" 
+                                  header="Listado de usuarios asociados" 
+                                  widgetVar="Usuarios" 
                                   showEffect="explode" 
                                   hideEffect="bounce" 
                                   height="100" 
                                   width="30%">
-                            <p:dataTable value="#{mbRol.selected.generos}" 
+                            <p:dataTable value="#{mbRol.selected.usuarios}" 
                                          var="g" 
                                          id="rolList">
-                                <p:column headerText="Género" 
+                                <p:column headerText="Usuarios" 
                                           filterMatchMode="contains"
                                           filterBy="#{g.nombre}"
                                           sortBy="#{g.nombre}" 

@@ -29,7 +29,6 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
-
 /**
  *
  * @author rodriguezn
@@ -148,7 +147,7 @@ public class MbRol implements Serializable{
         if(selectParam != null){
             redirect = "list";
         }else{
-            redirect = "administracion/rol/list";
+            redirect = "seguridad/rol/list";
         }
         recreateModel();
         return redirect;

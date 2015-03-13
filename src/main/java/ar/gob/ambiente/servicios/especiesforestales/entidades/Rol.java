@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,7 @@ import javax.persistence.OneToOne;
  *
  * @author carmendariz
  */
+@Entity
 public class Rol implements Serializable {
      private static final long serialVersionUID = 1L;
     @Id
@@ -45,7 +47,7 @@ public class Rol implements Serializable {
         return usuarios;
     }
 
-    public void setGeneros(List<Genero> generos) {
+    public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 
