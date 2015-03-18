@@ -51,6 +51,7 @@ public class MbEspecie implements Serializable{
     private String selectParam;    
     private List<String> listaNombres;  
     private List<Genero> listaGenero;
+    private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
     private MbLogin login;
     private Usuario usLogeado;   
     private boolean iniciado;
@@ -215,22 +216,20 @@ public class MbEspecie implements Serializable{
     
     /**
      * @return mensaje que notifica la actualizacion de estado
-     */    
-    public String habilitar() {
-        current.getAdminentidad().setHabilitado(true);
+     */      
+    public void habilitar() {
+        update = 2;
         update();        
         recreateModel();
-        return "view";
     }  
+    
      /**
      * @return mensaje que notifica la actualizacion de estado
      */    
-    public String deshabilitar() {
-             //Genero no tiene dependencias
-            current.getAdminentidad().setHabilitado(false);
-            update();        
-            recreateModel();
-            return "view";
+    public void deshabilitar() {
+          update = 1;
+          update();        
+          recreateModel();     
     }
      
     /**
@@ -299,6 +298,27 @@ public class MbEspecie implements Serializable{
     
 
     public String update() {
+        Date date = new Date(System.currentTimeMillis());
+        //Date dateBaja = new Date();
+        
+        // actualizamos según el valor de update
+        if(update == 1){
+            current.getAdminentidad().setFechaBaja(date);
+            current.getAdminentidad().setUsBaja(usLogeado);
+            current.getAdminentidad().setHabilitado(false);
+        }
+        if(update == 2){
+            current.getAdminentidad().setFechaModif(date);
+            current.getAdminentidad().setUsModif(usLogeado);
+            current.getAdminentidad().setHabilitado(true);
+            current.getAdminentidad().setFechaBaja(null);
+            current.getAdminentidad().setUsBaja(usLogeado);
+        }
+        if(update == 0){
+            current.getAdminentidad().setFechaModif(date);
+            current.getAdminentidad().setUsModif(usLogeado);
+        }
+        // acualizo
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));

@@ -120,7 +120,8 @@
                         <p:commandButton icon="ui-icon-close" 
                                          action="#{mbGenero.deshabilitar}"
                                          rendered="#{e.adminentidad.habilitado == 'true'}"
-                                         title="Deshabilitar" >
+                                         title="Deshabilitar" 
+                                         update="generoList">
                                         <f:setPropertyActionListener value="#{e}" 
                                                                      target="#{mbGenero.current}" />
                                         <p:confirm header="Confirmar" 
@@ -132,7 +133,8 @@
                         <p:commandButton icon="ui-icon-check" 
                                          action="#{mbGenero.habilitar}" 
                                          rendered="#{e.adminentidad.habilitado == 'false'}" 
-                                         title="Habilitar">
+                                         title="Habilitar
+                                         update="generoList"">
                                 <f:setPropertyActionListener value="#{e}" 
                                                              target="#{mbGenero.current}" />
                                 <p:confirm header="Confirmar" 

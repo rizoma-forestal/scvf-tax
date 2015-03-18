@@ -201,11 +201,17 @@ public class MbFamilia implements Serializable{
      /**
      */    
     public void deshabilitar() {
-        update = 1;
-        update();        
-        recreateModel();
-    }    
-    
+       if (getFacade().tieneDependencias(current.getId())){
+          update = 1;
+          update();        
+          recreateModel();
+       } 
+        else{
+            //No Deshabilita 
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroNonDeletable"));            
+        }
+    } 
+   
     /**
      * Método para validar que no exista ya una entidad con este nombre al momento de crearla
      * @param arg0: vista jsf que llama al validador

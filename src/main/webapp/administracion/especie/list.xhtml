@@ -20,7 +20,7 @@
            </f:metadata>    
             <h:form>
                 <p:panel id="EspecieForm" 
-                         header="#{bundle.EspecieListTitle}" 
+                         header="#{bundle.especieListTitle}" 
                          style="margin-bottom:10px;">
                     
                     <h:panelGrid columns="6">
@@ -31,7 +31,7 @@
                         <p:commandButton icon="ui-icon-refresh" 
                                          value="Refrescar Listado" 
                                          action="#{mbEspecie.prepareList}" 
-                                         update="EspecieList"/>
+                                         update="especieList"/>
                         
                         <p:commandButton icon="ui-icon-home" 
                                          value="Inicio" 
@@ -44,7 +44,7 @@
 
                 <p:dataTable value="#{mbEspecie.items}" 
                              var="e" 
-                             id="EspecieList" 
+                             id="especieList" 
                              rows="5"
                              paginator="true"
                              widgetVar="espTable"
@@ -53,7 +53,7 @@
                     
                     
                     <f:facet name="header">
-                        #{bundle.EspecieListTitle}
+                        #{bundle.especieListTitle}
                         
                         <p:commandButton id="toggler" 
                                          type="button" 
@@ -61,7 +61,7 @@
                                          icon="ui-icon-calculator" 
                                          style="margin-left: 10px" />
                         
-                        <p:columnToggler datasource="EspecieList" 
+                        <p:columnToggler datasource="especieList" 
                                          trigger="toggler" />
                     </f:facet>
                     
@@ -182,7 +182,8 @@
                         <p:commandButton icon="ui-icon-close" 
                                          action="#{mbEspecie.deshabilitar}"
                                          rendered="#{e.adminentidad.habilitado == 'true'}"
-                                         title="Deshabilitar" >
+                                         title="Deshabilitar" 
+                                         update="especieList">
                                         <f:setPropertyActionListener value="#{e}" 
                                                                      target="#{mbEspecie.current}" />
                                          <p:confirm header="Confirmar" 
@@ -193,7 +194,8 @@
                         <p:commandButton icon="ui-icon-check" 
                                          action="#{mbEspecie.habilitar}" 
                                          rendered="#{e.adminentidad.habilitado == 'false'}" 
-                                         title="Habilitar">
+                                         title="Habilitar"
+                                         update="especieList">
                                 <f:setPropertyActionListener value="#{e}" 
                                                              target="#{mbEspecie.current}" />
                                 <p:confirm header="Confirmar" 
