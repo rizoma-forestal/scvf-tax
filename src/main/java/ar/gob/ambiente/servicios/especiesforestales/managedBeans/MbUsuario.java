@@ -7,9 +7,11 @@
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.AdminEntidad;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Rol;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.CriptPass;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
+import ar.gob.ambiente.servicios.especiesforestales.facades.RolFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.UsuarioFacade;
 import java.io.Serializable;
 import java.util.Date;
@@ -42,14 +44,19 @@ public class MbUsuario implements Serializable{
     private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
     
     @EJB
+    private RolFacade rolFacade;
+    @EJB
     private UsuarioFacade usuarioFacade;       
+    private List<Rol> listaRol;
+    private int selectedItemIndex;
+    private String selectParam;   
 
+    
     /**
      * Creates a new instance of MbUsuario
      */
     public MbUsuario() {
     }
-      
     
     /**
      *
@@ -93,7 +100,15 @@ public class MbUsuario implements Serializable{
     public void setCurrent(Usuario current) {
         this.current = current;
     }
+    
+    public List<Rol> getListaRol() {
+        return listaRol;
+    }
 
+    public void setListaRol(List<Rol> listaRol) {
+        this.listaRol = listaRol;
+    }
+    
     public List<Usuario> getListado() {
         if(listado == null){
             listado = getFacade().findAll();
@@ -124,18 +139,30 @@ public class MbUsuario implements Serializable{
     public Usuario getSelected() {
         if (current == null) {
             current = new Usuario();
+            selectedItemIndex = -1;
         }
         return current;
     }  
     
-    /**
+    /*
      * Método para inicializar el listado de los Usuarios habilitados
      * @return acción para el listado de entidades
      */
     public String prepareList() {
         iniciado = true;
+        //recreateModel();
         return "list";
     }    
+    public String iniciarList(){
+        String redirect = "";
+        if(selectParam != null){
+            redirect = "list";
+        }else{
+            redirect = "administracion/usuario/list";
+        }
+        recreateModel();
+        return redirect;
+    }
     
     /**
      * @return acción para el detalle de la entidad
@@ -148,6 +175,7 @@ public class MbUsuario implements Serializable{
      * @return acción para el formulario de nuevo
      */
     public String prepareCreate() {
+        listaRol = rolFacade.getActivos();
         current = new Usuario();
         return "new";
     }    
@@ -156,6 +184,7 @@ public class MbUsuario implements Serializable{
      * @return acción para la edición de la entidad
      */
     public String prepareEdit() {
+        listaRol = rolFacade.getActivos();
         return "edit";
     }    
     
@@ -164,8 +193,43 @@ public class MbUsuario implements Serializable{
      * @return
      */
     public String prepareInicio(){
+        recreateModel();
         return "/faces/index";
     }
+    
+        /**
+     * Método para preparar la búsqueda
+     * @return la ruta a la vista que muestra los resultados de la consulta en forma de listado
+     */
+    public String prepareSelect(){
+        //items = null;
+       // buscarGenero();//
+        return "list";
+    }
+    
+         /**
+     * @return mensaje que notifica la actualizacion de estado
+     */    
+    public String habilitar() {
+        current.getAdmin().setHabilitado(true);
+        update();        
+        recreateModel();
+        return "view";
+    } 
+    
+       public String deshabilitar() {
+        //Si esta libre de dependencias deshabilita
+        if (getFacade().tieneDependencias(current.getId())){
+            current.getAdmin().setHabilitado(false);
+            update();        
+            recreateModel();
+        }
+        else{
+            //No Deshabilita 
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioNonDeletable"));            
+        }
+        return "view";
+    } 
     
     /**
      * 
@@ -348,6 +412,7 @@ public class MbUsuario implements Serializable{
             throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateTipoCapNombreExistente")));
         }
     }
+    
     
     
     /********************************************************************

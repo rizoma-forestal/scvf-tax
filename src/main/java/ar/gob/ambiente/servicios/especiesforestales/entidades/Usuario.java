@@ -220,5 +220,9 @@ public class Usuario implements Serializable {
     public String toString() {
         return "ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario[ id=" + id + " ]";
     }
+
+    public Object getAdminentidad() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
