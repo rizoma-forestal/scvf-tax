@@ -17,13 +17,21 @@
                     
                     <h:panelGrid columns="2">
                         <h:outputLabel value="#{bundle.UsuarioLabelNombre}"/>
-                        <h:outputText value="#{mbUsuario.selected.nombre}" title="#{bundle.UsuarioLabelNombre}"/>     
+                        <h:outputText value="#{mbUsuario.selected.nombre}" 
+                                      title="#{bundle.UsuarioLabelNombre}"/>     
+                        
+                        <h:outputLabel value="#{bundle.UsuarioLabelRol}"/>
+                        <h:outputText value="#{mbUsuario.selected.rol.nombre}" 
+                                      title="#{bundle.CreateRolTitle_nombre}"/>
+                        
                         
                         <h:outputLabel value="#{bundle.UsuarioLabelFechaAlta}"/>
-                        <h:outputText value="#{mbUsuario.selected.admin.strFechaAlta}" title="#{bundle.UsuarioLabelFechaAlta}"/>   
+                        <h:outputText value="#{mbUsuario.selected.admin.strFechaAlta}" 
+                                      title="#{bundle.UsuarioLabelFechaAlta}"/>   
                         
                         <h:outputLabel value="#{bundle.UsuarioLabelUsAlta}"/>
-                        <h:outputText value="#{mbUsuario.selected.admin.usAlta.nombre}" title="#{bundle.UsuarioLabelUsAlta}"/> 
+                        <h:outputText value="#{mbUsuario.selected.admin.usAlta.nombre}" 
+                                      title="#{bundle.UsuarioLabelUsAlta}"/> 
                         
                     </h:panelGrid>                    
                 </p:panel>

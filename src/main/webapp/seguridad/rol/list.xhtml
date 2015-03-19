@@ -7,53 +7,50 @@
       xmlns:p="http://primefaces.org/ui">
       
     <h:head>
-        <title>#{bundle.GeneroTitle}</title>
+        <title>#{bundle.RolTitle}</title>
     </h:head>
     <ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.GeneroTitle}" />
+            <h:outputText value="#{bundle.RolTitle}" />
         </ui:define>
         <ui:define name="content">
             
-            <br/> 
-            <f:metadata>  
-                <f:event listener="#{mbGenero.iniciar}" type="preRenderView"></f:event>  
-            </f:metadata> 
+            <br/>
+            
             <h:form>
-                <p:panel id="GeneroForm" 
-                         header="#{bundle.GeneroListTitle}" 
+                <p:panel id="rolForm" 
+                         header="#{bundle.RolListTitle}" 
                          style="margin-bottom:10px;">
-                    
+
                     <h:panelGrid columns="6">
                         <p:commandButton icon="ui-icon-newwin" 
                                          value="Agregar Nuevo" 
-                                         action="#{mbGenero.prepareCreate}"/>
+                                         action="#{mbRol.prepareCreate}"/>
                         
                         <p:commandButton icon="ui-icon-refresh" 
                                          value="Refrescar Listado" 
-                                         action="#{mbGenero.prepareList}"
-                                         update="generoList"/>
+                                         action="#{mbRol.prepareList}" 
+                                         update="rolList"/>
                         
                         <p:commandButton icon="ui-icon-home" 
                                          value="Inicio" 
-                                         action="#{mbGenero.prepareInicio()}"/>
+                                         action="#{mbRol.prepareInicio()}"/>
                     </h:panelGrid>
-                    
+
                 </p:panel>
 
-                <br/>           
-
-                <p:dataTable value="#{mbGenero.items}" 
+                <br/>
+                <p:dataTable value="#{mbRol.items}" 
                              var="e" 
-                             id="generoList" 
+                             id="rolList" 
                              rows="5"
                              paginator="true"
-                             widgetVar="genTable"
+                             widgetVar="rolTable"                             
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15">
-                    
+
                     <f:facet name="header">
-                        #{bundle.GeneroListTitle}
+                       #{bundle.RolListTitle}  
                         
                         <p:commandButton id="toggler" 
                                          type="button" 
@@ -61,30 +58,23 @@
                                          icon="ui-icon-calculator" 
                                          style="margin-left: 10px" />
                         
-                        <p:columnToggler datasource="generoList"
+                        <p:columnToggler datasource="rolList" 
                                          trigger="toggler" />
                     </f:facet>
-                    
-                    <p:column headerText="Familia" 
-                              filterMatchMode="contains"                              
-                              sortBy="#{e.familia.nombre}" 
-                              filterBy="#{e.familia.nombre}">
-                        <p:outputLabel value="#{e.familia.nombre}"/>
-                    </p:column>
-                    
+ 
                     <p:column headerText="Nombre" 
                               filterMatchMode="contains"
-                              sortBy="#{e.nombre}" 
+                              sortBy="#{e.nombre}"  
                               filterBy="#{e.nombre}">
                         <p:outputLabel value="#{e.nombre}"/>
                     </p:column>
-                    
+
                     <p:column filterBy="#{e.adminentidad.habilitado}" 
                               headerText="Estado" 
                               footerText=""                               
                               filterMatchMode="equals">
                         <f:facet name="filter">
-                            <p:selectOneMenu onchange="PF('genTable').filter()" 
+                            <p:selectOneMenu onchange="PF('rolTable').filter()" 
                                                style="font-size: 80%;">
                                 <f:converter converterId="javax.faces.Boolean" />
                                 <f:selectItem itemLabel="Todos" 
@@ -98,71 +88,67 @@
                         <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
                     </p:column>
                     
-                     
+
                     <p:column headerText="Acciones" 
                               style="width:135px">
                         <p:growl id="messages" 
-                                 showDetail="true" />    
+                                 showDetail="true" />                           
                         <p:commandButton icon="ui-icon-zoomin" 
-                                         action="#{mbGenero.prepareView}" 
+                                         action="#{mbRol.prepareView}" 
                                          title="Ver Detalle">
                             <f:setPropertyActionListener value="#{e}" 
-                                                         target="#{mbGenero.current}" />  
+                                                         target="#{mbRol.current}" />  
                         </p:commandButton>
 
                         <p:commandButton icon="ui-icon-pencil" 
-                                         action="#{mbGenero.prepareEdit}" 
+                                         action="#{mbRol.prepareEdit}" 
                                          title="Editar" >
                             <f:setPropertyActionListener value="#{e}" 
-                                                         target="#{mbGenero.current}" /> 
+                                                         target="#{mbRol.current}" /> 
                         </p:commandButton>
-                
+                                                   
                         <p:commandButton icon="ui-icon-close" 
-                                         action="#{mbGenero.deshabilitar}"
+                                         action="#{mbRol.deshabilitar}"
                                          rendered="#{e.adminentidad.habilitado == 'true'}"
-                                         title="Deshabilitar" 
-                                         update="generoList">
-                                        <f:setPropertyActionListener value="#{e}" 
-                                                                     target="#{mbGenero.current}" />
+                                         title="Deshabilitar"
+                                         update="rolList">
+                                    <f:setPropertyActionListener value="#{e}" 
+                                                                 target="#{mbRol.current}" />
                                         <p:confirm header="Confirmar" 
-                                                    message="¿Desea deshabilitar el Género?" 
-                                                    icon="ui-icon-alert" />
-                        </p:commandButton>
-                        
-                        
+                                                   message="¿Desea deshabilitar el Rol?" 
+                                                   icon="ui-icon-alert" />
+                        </p:commandButton>                
+  
                         <p:commandButton icon="ui-icon-check" 
-                                         action="#{mbGenero.habilitar}" 
+                                         action="#{mbRol.habilitar}" 
                                          rendered="#{e.adminentidad.habilitado == 'false'}" 
                                          title="Habilitar"
-                                         update="generoList">
+                                         update="rolList">
                                 <f:setPropertyActionListener value="#{e}" 
-                                                             target="#{mbGenero.current}" />
-                                <p:confirm header="Confirmar" 
-                                           message="¿Desea habilitar el Género?" 
-                                           icon="ui-icon-alert" />
-                        </p:commandButton>
-
+                                                             target="#{mbRol.current}" />
+                                        <p:confirm header="Confirmar" 
+                                                   message="¿Desea habilitar el Rol?" 
+                                                   icon="ui-icon-alert" />
+                        </p:commandButton> 
+                        
                         <p:confirmDialog global="true" 
                                          showEffect="fade" 
                                          hideEffect="fade">
                             
-                                        <p:commandButton value="Si" 
-                                                         type="button"
-                                                         styleClass="ui-confirmdialog-yes" 
-                                                         icon="ui-icon-check" />
+                                         <p:commandButton value="Si" 
+                                                          type="button" 
+                                                          styleClass="ui-confirmdialog-yes" 
+                                                          icon="ui-icon-check" />
                             
-                                        <p:commandButton value="No"
-                                                         type="button" 
-                                                         styleClass="ui-confirmdialog-no"
-                                                         icon="ui-icon-close" />
-                        </p:confirmDialog>  
-                        
+                                         <p:commandButton value="No" 
+                                                          type="button" 
+                                                          styleClass="ui-confirmdialog-no" 
+                                                          icon="ui-icon-close" />
+                        </p:confirmDialog>      
                     </p:column>                
-           
                 </p:dataTable>
-
             </h:form>
         </ui:define>
     </ui:composition>
+               
 </html>
-

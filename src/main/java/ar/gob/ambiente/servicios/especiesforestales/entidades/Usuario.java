@@ -15,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -35,6 +37,10 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @ManyToOne /*(fetch=FetchType.LAZY)*/
+    @JoinColumn(name="rol_id")
+    private Rol rol;
     
     /**
      * Campo de texto que indica el nombre del usuario
@@ -103,6 +109,30 @@ public class Usuario implements Serializable {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public String getApYNom() {
+        return apYNom;
+    }
+
+    public void setApYNom(String apYNom) {
+        this.apYNom = apYNom;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
 
     /**
@@ -189,6 +219,10 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario[ id=" + id + " ]";
+    }
+
+    public Object getAdminentidad() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

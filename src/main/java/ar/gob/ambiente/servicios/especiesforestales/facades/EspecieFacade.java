@@ -43,7 +43,8 @@ public class EspecieFacade extends AbstractFacade<Especie> {
         List<Especie> result;
         
         String queryString = "SELECT esp.* FROM Especie esp "
-                + "WHERE esp.nombre LIKE :stringParam";
+                + "WHERE esp.nombre LIKE :stringParam "
+                + "AND esp.adminentidad.habilitado =true";
         
         Query q = em.createQuery(queryString)
                 .setParameter("stringParam", "%" + stringParam + "%");        

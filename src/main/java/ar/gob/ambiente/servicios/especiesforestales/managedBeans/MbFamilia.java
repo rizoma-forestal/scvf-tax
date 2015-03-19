@@ -13,6 +13,7 @@ import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.FamiliaFacade;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -27,6 +28,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -46,6 +48,7 @@ public class MbFamilia implements Serializable{
     private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
     private MbLogin login;
     private Usuario usLogeado;
+    private boolean iniciado;
 
     /**
      * Creates a new instance of MbFamilia
@@ -55,12 +58,33 @@ public class MbFamilia implements Serializable{
     
     @PostConstruct
     public void init(){
+        iniciado = false;
         update = 0;
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
         login = (MbLogin)ctx.getSessionMap().get("mbLogin");
         usLogeado = login.getUsLogeado();
     }
     
+    /**
+     * Método que borra de la memoria los MB innecesarios al cargar el listado 
+     */
+    public void iniciar(){
+        if(!iniciado){
+            String s;
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+            .getExternalContext().getSession(true);
+            Enumeration enume = session.getAttributeNames();
+            while(enume.hasMoreElements()){
+                s = (String)enume.nextElement();
+                if(s.substring(0, 2).equals("mb")){
+                    if(!s.equals("mbUsuario") && !s.equals("mbLogin")){
+                        session.removeAttribute(s);
+                    }
+                }
+            }
+        }
+    }      
+
     public Familia getCurrent() {
         return current;
     }
@@ -78,7 +102,7 @@ public class MbFamilia implements Serializable{
     public Familia getSelected() {
         if (current == null) {
             current = new Familia();
-            selectedItemIndex = -1;
+            //selectedItemIndex = -1;
         }
         return current;
     }   
@@ -94,7 +118,20 @@ public class MbFamilia implements Serializable{
         return items;
     }
 
-  
+   /**
+     * Método para revocar la sesión del MB
+     * @return 
+     */
+    public String cleanUp(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(true);
+        session.removeAttribute("mbFamilia");
+   
+        return "inicio";
+    }      
+    
+    
+    
     /*******************************
      ** Métodos de inicialización **
      *******************************/
@@ -164,11 +201,17 @@ public class MbFamilia implements Serializable{
      /**
      */    
     public void deshabilitar() {
-        update = 1;
-        update();        
-        recreateModel();
-    }    
-    
+       if (getFacade().tieneDependencias(current.getId())){
+          update = 1;
+          update();        
+          recreateModel();
+       } 
+        else{
+            //No Deshabilita 
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroNonDeletable"));            
+        }
+    } 
+   
     /**
      * Método para validar que no exista ya una entidad con este nombre al momento de crearla
      * @param arg0: vista jsf que llama al validador

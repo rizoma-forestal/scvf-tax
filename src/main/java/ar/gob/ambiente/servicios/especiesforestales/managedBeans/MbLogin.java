@@ -11,6 +11,7 @@ import ar.gob.ambiente.servicios.especiesforestales.entidades.util.CriptPass;
 import ar.gob.ambiente.servicios.especiesforestales.facades.UsuarioFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -39,6 +40,7 @@ public class MbLogin implements Serializable{
     @EJB
     private UsuarioFacade usuarioFacade;
     private List<String> listMbActivos;
+    private boolean iniciado;
     
     /**
      * Creates a new instance of MbLogin
@@ -51,9 +53,28 @@ public class MbLogin implements Serializable{
      */
     @PostConstruct
     public void init(){
+        iniciado = false;
         listMbActivos = new ArrayList();
     }
-
+/**
+     * Método que borra de la memoria los MB innecesarios al cargar el listado 
+     */
+    public void iniciar(){
+        if(!iniciado){
+            String s;
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+            .getExternalContext().getSession(true);
+            Enumeration enume = session.getAttributeNames();
+            while(enume.hasMoreElements()){
+                s = (String)enume.nextElement();
+                if(s.substring(0, 2).equals("mb")){
+                    if(!s.equals("mbUsuario") && !s.equals("mbLogin")){
+                        session.removeAttribute(s);
+                    }
+                }
+            }
+        }
+    }      
     public List<String> getListMbActivos() {
         return listMbActivos;
     }
@@ -155,6 +176,20 @@ public class MbLogin implements Serializable{
             context.addCallbackParam("view", ResourceBundle.getBundle("/Bundle").getString("RutaAplicacion"));
         }
     }
+    
+     /**
+     * Método para revocar la sesión del MB
+     * @return 
+     */
+    public String cleanUp(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(true);
+        session.removeAttribute("mbLogin");
+   
+        return "inicio";
+    }      
+    
+    
     
     public void logout(){
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);

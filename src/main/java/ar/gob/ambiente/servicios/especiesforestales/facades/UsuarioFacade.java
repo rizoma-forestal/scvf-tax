@@ -7,6 +7,7 @@
 package ar.gob.ambiente.servicios.especiesforestales.facades;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -57,4 +58,34 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
                 .setParameter("clave", clave);
         return q.getResultList().isEmpty();
     }    
+
+    public boolean tieneDependencias(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+     /**
+     * Metodo para el autocompletado de la búsqueda por nombre
+     * @return 
+     */  
+
+    public List<String> getNombres(){
+        em = getEntityManager();
+        String queryString = "SELECT us.nombre FROM Usuario us "
+                + "WHERE us.adminentidad.habilitado = true";
+        Query q = em.createQuery(queryString);
+        return q.getResultList();
+    }
+    
+   /**
+     * Método que devuelve un LIST con las entidades HABILITADAS
+     * @return: True o False
+     */
+    public List<Usuario> getActivos(){
+        em = getEntityManager();        
+        List<Usuario> result;
+        String queryString = "SELECT us FROM Usuario us " 
+                + "WHERE us.adminentidad.habilitado = true";                   
+        Query q = em.createQuery(queryString);
+        result = q.getResultList();
+        return result;
+    }  
 }

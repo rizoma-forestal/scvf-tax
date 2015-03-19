@@ -65,12 +65,21 @@ public class AdminEntidad implements Serializable {
      * Campo que muestra la fecha de baja como string
      */
     @Transient
+    String strFechaModif;
+    
+    /**
+     * Campo que muestra la fecha de baja como string
+     */
+    @Transient
     String strFechaBaja;
     
     public String getStrFechaBaja() {
-        SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
-        strFechaBaja = formateador.format(fechaBaja);   
-        return strFechaBaja;
+        if(fechaBaja != null){
+            SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
+            strFechaBaja = formateador.format(fechaBaja);
+            return strFechaBaja;
+        }
+        return "";
     }
 
     public void setStrFechaBaja(String strFechaBaja) {
@@ -91,6 +100,19 @@ public class AdminEntidad implements Serializable {
         this.strFechaAlta = strFechaAlta;
     }    
     
+    public String getStrFechaModif(){
+        if(fechaModif != null){
+            SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
+            strFechaModif = formateador.format(fechaModif);
+            return strFechaModif;
+        }
+        return "";
+    }
+    
+    public void setStrFechaModif(String strFechaModif){
+        this.strFechaModif = strFechaModif;
+    }
+            
     public Usuario getUsAlta() {
         return usAlta;
     }
@@ -146,9 +168,6 @@ public class AdminEntidad implements Serializable {
     public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
-    
-
-    
     
     public Long getId() {
         return id;

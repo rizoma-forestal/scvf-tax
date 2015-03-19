@@ -7,69 +7,68 @@
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.FamiliaTitle}" />
+            <h:outputText value="#{bundle.RolTitle}" />
         </ui:define>
         <ui:define name="content">
             
             <br/>
 
-            <h:form id="frmFamiliaView">
+            <h:form id="frmRolView">
                 <p:panel id="pnView" 
-                         header="#{bundle.FamiliaViewTitle}" 
+                         header="#{bundle.RolViewTitle}" 
                          style="margin-bottom:10px;">
                     <p:messages id="messages" />
                     
                     <h:panelGrid columns="2">
-                        <h:outputLabel value="#{bundle.CreateFamiliaLabel_nombre}"/>
-                        <h:outputText value="#{mbFamilia.selected.nombre}" 
-                                      title="#{bundle.CreateFamiliaTitle_nombre}"/>
+                        <h:outputLabel value="#{bundle.CreateRolLabel_nombre}"/>
+                        <h:outputText value="#{mbRol.selected.nombre}" 
+                                      title="#{bundle.CreateRolTitle_nombre}"/>
                         
                                                 
                         <h:outputLabel value="#{bundle.UsuarioAlta}"/>
-                        <h:outputText value="#{mbFamilia.selected.adminentidad.usAlta}" 
+                        <h:outputText value="#{mbRol.selected.adminentidad.usAlta}" 
                                       title="#{bundle.UsuarioAlta}"/>                        
 
                         <h:outputLabel value="#{bundle.FechaAlta}"/>
-                        <h:outputText value="#{mbFamilia.selected.adminentidad.strFechaAlta}" 
+                        <h:outputText value="#{mbRol.selected.adminentidad.strFechaAlta}" 
                                       title="#{bundle.FechaAlta}"/>                         
 
                         <h:outputLabel value="#{bundle.UsuarioModifica}"/>
-                        <h:outputText value="#{mbFamilia.selected.adminentidad.usModif}" 
+                        <h:outputText value="#{mbRol.selected.adminentidad.usModif}" 
                                       title="#{bundle.UsuarioModifica}"/>                        
 
                         <h:outputLabel value="#{bundle.FechaModifica}"/>
-                        <h:outputText value="#{mbFamilia.selected.adminentidad.strFechaModif}" 
+                        <h:outputText value="#{mbRol.selected.adminentidad.strFechaModif}" 
                                       title="#{bundle.FechaModifica}"/>                          
 
                         <h:outputLabel value="#{bundle.UsuarioBaja}"/>
-                        <h:outputText value="#{mbFamilia.selected.adminentidad.usBaja}" 
+                        <h:outputText value="#{mbRol.selected.adminentidad.usBaja}" 
                                       title="#{bundle.UsuarioBaja}"/>                        
 
                         <h:outputLabel value="#{bundle.FechaBaja}"/>
-                        <h:outputText value="#{mbFamilia.selected.adminentidad.strFechaBaja}"
+                        <h:outputText value="#{mbRol.selected.adminentidad.strFechaBaja}"
                                       title="#{bundle.FechaBaja}"/>  
                         
-                        <h:outputLabel value="#{bundle.GenerosAsociados}" />
+                        <h:outputLabel value="#{bundle.UsuariosAsociados}" />
                         <p:commandButton value="Ver" 
                                          type="button" 
-                                         onclick="PF('Generos').show();" 
-                                         actionListener="#{mbFamilia.selected.generos}" />      
+                                         onclick="PF('Usuarios').show();" 
+                                         actionListener="#{mbRol.selected.usuarios}" />      
                     </h:panelGrid>   
                         <p:dialog style="font-size: 80%" 
-                                  header="Listado de géneros asociados" 
-                                  widgetVar="Generos" 
+                                  header="Listado de usuarios asociados" 
+                                  widgetVar="Usuarios" 
                                   showEffect="explode" 
                                   hideEffect="bounce" 
                                   height="100" 
                                   width="30%">
-                            <p:dataTable value="#{mbFamilia.selected.generos}" 
+                            <p:dataTable value="#{mbRol.selected.usuarios}" 
                                          var="g" 
-                                         id="familiaList">
-                                <p:column headerText="Género" 
+                                         id="rolList">
+                                <p:column headerText="Usuarios" 
                                           filterMatchMode="contains"
                                           filterBy="#{g.nombre}"
-                                          sortBy="#{g.nombre}" 
-                                          rendered="#{g.adminentidad.habilitado == 'true'}" >
+                                          sortBy="#{g.nombre}" >
                                     <p:outputLabel value="#{g.nombre}"/> 
                                 </p:column>                        
                             </p:dataTable>
@@ -79,7 +78,7 @@
                 <p:toolbar>
                     <f:facet name="left">
                         <p:commandButton icon="ui-icon-refresh" 
-                                         action="#{mbFamilia.prepareList}" 
+                                         action="#{mbRol.prepareList}" 
                                          value="Volver" 
                                          ajax="false"/>
                     </f:facet>

@@ -43,4 +43,9 @@
         <managed-bean-class>ar.gob.ambiente.servicios.especiesforestales.managedBeans.MbUsuario</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>mbRol</managed-bean-name>
+        <managed-bean-class>ar.gob.ambiente.servicios.especiesforestales.managedBeans.MbRol</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
 </faces-config>

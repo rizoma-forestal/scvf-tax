@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.AdminEntidad;
-import ar.gob.ambiente.servicios.especiesforestales.entidades.Familia;
-import ar.gob.ambiente.servicios.especiesforestales.entidades.Genero;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Rol;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
-import ar.gob.ambiente.servicios.especiesforestales.facades.FamiliaFacade;
-import ar.gob.ambiente.servicios.especiesforestales.facades.GeneroFacade;
+import ar.gob.ambiente.servicios.especiesforestales.facades.RolFacade;
+import ar.gob.ambiente.servicios.especiesforestales.facades.UsuarioFacade;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Enumeration;
@@ -30,48 +30,44 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
-
-
-
-
 /**
  *
- * @author carmendariz
+ * @author rodriguezn
  */
-public class MbGenero implements Serializable{
+public class MbRol implements Serializable{
     
-    
-    private Genero current;
+    private Rol current;
     private DataModel items = null;
-
-    @EJB
-    private FamiliaFacade familiaFacade;
     
     @EJB
-    private GeneroFacade generoFacade;
+    private RolFacade rolFacade;
+    @EJB
+    private UsuarioFacade usuarioFacade;
     private int selectedItemIndex;
-    private String selectParam;    
-    private List<String> listaNombres;  
-    private List<Familia> listaFamilia;
+    private String selectParam;
+    private List<String> listaNombres;
     private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
     private MbLogin login;
     private Usuario usLogeado;
     private boolean iniciado;
-
-
+    private List<Usuario> listaUsuario;
+    
+    
     /**
-     * Creates a new instance of MbGenero
+     * Creates a new instance of MbRol
      */
-    public MbGenero() {
+    public MbRol(){
     }
-   
+    
     @PostConstruct
     public void init(){
         iniciado = false;
+        update = 0;
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
         login = (MbLogin)ctx.getSessionMap().get("mbLogin");
         usLogeado = login.getUsLogeado();
     }
+    
     /**
      * Método que borra de la memoria los MB innecesarios al cargar el listado 
      */
@@ -91,64 +87,71 @@ public class MbGenero implements Serializable{
             }
         }
     }      
-    public Genero getCurrent() {
+    
+        public Rol getCurrent() {
         return current;
     }
 
-    public void setCurrent(Genero current) {
+    public void setCurrent(Rol current) {
         this.current = current;
     }
     
-
-    public List<Familia> getListaFamilia() {
-        return listaFamilia;
-    }
-
-    public void setListaFamilia(List<Familia> listaFamilia) {
-        this.listaFamilia = listaFamilia;
-    }
-
     /********************************
-    ** Métodos para la navegación **
-    ********************************/
+     ** Métodos para la navegación **
+     ********************************/
     /**
      * @return La entidad gestionada
      */
-    public Genero getSelected() {
+    public Rol getSelected() {
         if (current == null) {
-            current = new Genero();
-            selectedItemIndex = -1;
+            current = new Rol();
+            //selectedItemIndex = -1;
         }
         return current;
-    } 
-
+    }   
+    
+    /**
+     * @return el listado de entidades a mostrar en el list
+     */
     public DataModel getItems() {
         if (items == null) {
             //items = getPagination().createPageDataModel();
             items = new ListDataModel(getFacade().findAll());
         }
         return items;
-    }    
+    }
     
-
-/*******************************
-** Métodos de inicialización **
-*******************************/
     /**
-     * @return acción para el listado de entidades a mostrar en el list
+     * Método para revocar la sesión del MB
+     * @return 
+     */
+    public String cleanUp(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(true);
+        session.removeAttribute("mbRol");
+   
+        return "inicio";
+    }      
+    
+    
+    
+    /*******************************
+     ** Métodos de inicialización **
+     *******************************/
+    /**
+     * @return acción para el listado de entidades
      */
     public String prepareList() {
         recreateModel();
         return "list";
     }
     
-    
     public String iniciarList(){
         String redirect = "";
         if(selectParam != null){
             redirect = "list";
         }else{
-            redirect = "administracion/genero/list";
+            redirect = "seguridad/rol/list";
         }
         recreateModel();
         return redirect;
@@ -165,19 +168,17 @@ public class MbGenero implements Serializable{
      * @return acción para el formulario de nuevo
      */
     public String prepareCreate() {
-        listaFamilia = familiaFacade.getActivos();
-        current = new Genero();
+        listaUsuario = usuarioFacade.findAll();
+        current = new Rol();
         return "new";
     }
-    
+
     /**
      * @return acción para la edición de la entidad
      */
     public String prepareEdit() {
-        listaFamilia = familiaFacade.getActivos();        
         return "edit";
     }
- 
     
     public String prepareInicio(){
         recreateModel();
@@ -190,14 +191,13 @@ public class MbGenero implements Serializable{
      */
     public String prepareSelect(){
         //items = null;
-       // buscarGenero();//
+        //buscarRol();
         return "list";
     }
     
-        /**
-     * @return mensaje que notifica la actualizacion de estado
+    /**
      */    
-   public void habilitar() {
+    public void habilitar() {
         update = 2;
         update();        
         recreateModel();
@@ -205,19 +205,12 @@ public class MbGenero implements Serializable{
      /**
      */    
     public void deshabilitar() {
-       if (getFacade().tieneDependencias(current.getId())){
-          update = 1;
-          update();        
-          recreateModel();
-       } 
-        else{
-            //No Deshabilita 
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroNonDeletable"));            
-        }
-    } 
-   
+        update = 1;
+        update();        
+        recreateModel();
+    }    
     
-     /**
+    /**
      * Método para validar que no exista ya una entidad con este nombre al momento de crearla
      * @param arg0: vista jsf que llama al validador
      * @param arg1: objeto de la vista que hace el llamado
@@ -239,10 +232,11 @@ public class MbGenero implements Serializable{
             validarExistente(arg2);
         }
     }
+        
     
     private void validarExistente(Object arg2) throws ValidatorException{
         if(!getFacade().existe((String)arg2)){
-            throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateGeneroExistente")));
+            throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateRolExistente")));
         }
     }
     
@@ -255,6 +249,7 @@ public class MbGenero implements Serializable{
             selectParam = null;
         }
     }
+    
 
     /*************************
     ** Métodos de operación **
@@ -262,8 +257,7 @@ public class MbGenero implements Serializable{
     /**
      * @return 
      */
-
-        public String create() {
+    public String create() {
         // Creación de la entidad de administración y asignación
         Date date = new Date(System.currentTimeMillis());
         AdminEntidad admEnt = new AdminEntidad();
@@ -273,10 +267,10 @@ public class MbGenero implements Serializable{
         current.setAdminentidad(admEnt);        
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolCreated"));
             return "view";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("GeneroCreatedErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("RolCreatedErrorOccured"));
             return null;
         }
     }
@@ -285,7 +279,7 @@ public class MbGenero implements Serializable{
      * @return mensaje que notifica la actualización
      */
     public String update() {
-          Date date = new Date(System.currentTimeMillis());
+        Date date = new Date(System.currentTimeMillis());
         //Date dateBaja = new Date();
         
         // actualizamos según el valor de update
@@ -305,18 +299,18 @@ public class MbGenero implements Serializable{
             current.getAdminentidad().setFechaModif(date);
             current.getAdminentidad().setUsModif(usLogeado);
         }
+
         // acualizo
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolUpdated"));
             return "view";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("GeneroUpdatedErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("RolUpdatedErrorOccured"));
             return null;
         }
     }
- 
-    
+
     /*************************
     ** Métodos de selección **
     **************************/
@@ -324,22 +318,22 @@ public class MbGenero implements Serializable{
      * @return la totalidad de las entidades persistidas formateadas
      */
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(generoFacade.findAll(), false);
+        return JsfUtil.getSelectItems(rolFacade.findAll(), false);
     }
 
     /**
      * @return de a una las entidades persistidas formateadas
      */
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(generoFacade.findAll(), true);
+        return JsfUtil.getSelectItems(rolFacade.findAll(), true);
     }
 
     /**
      * @param id equivalente al id de la entidad persistida
      * @return la entidad correspondiente
      */
-    public Genero getGenero(java.lang.Long id) {
-        return generoFacade.find(id);
+    public Rol getRol(java.lang.Long id) {
+        return rolFacade.find(id);
     }    
     
     /*********************
@@ -348,8 +342,8 @@ public class MbGenero implements Serializable{
     /**
      * @return el Facade
      */
-    private GeneroFacade getFacade() {
-        return generoFacade;
+    private RolFacade getFacade() {
+        return rolFacade;
     }
     
     /**
@@ -358,9 +352,9 @@ public class MbGenero implements Serializable{
     private void performDestroy() {
         try {
             //getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolDeleted"));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("GeneroDeletedErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("RolDeletedErrorOccured"));
         }
     }
 
@@ -384,17 +378,6 @@ public class MbGenero implements Serializable{
         }
     }
     
-    /**
-     * Método para revocar la sesión del MB
-     * @return 
-     */
-    public String cleanUp(){
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(true);
-        session.removeAttribute("mbGenero");
-   
-        return "inicio";
-    }      
     
     /*
      * Métodos de búsqueda
@@ -407,14 +390,16 @@ public class MbGenero implements Serializable{
         this.selectParam = selectParam;
     }
     
+   /* private void buscarRol(){
+        items = new ListDataModel(getFacade().getXString(selectParam)); 
+    }   */
     
-  
     /**
      * Método para llegar la lista para el autocompletado de la búsqueda de nombres
      * @param query
      * @return 
-     */
-  /*  public List<String> completeNombres(String query){
+     *//*
+    public List<String> completeNombres(String query){
         listaNombres = getFacade().getNombres();
         List<String> nombres = new ArrayList();
         Iterator itLista = listaNombres.listIterator();
@@ -425,23 +410,23 @@ public class MbGenero implements Serializable{
             }
         }
         return nombres;
-    }*/
-        
+    }
+        */
     
     /********************************************************************
     ** Converter. Se debe actualizar la entidad y el facade respectivo **
     *********************************************************************/
-    @FacesConverter(forClass = Genero.class)
-    public static class GeneroControllerConverter implements Converter {
+@FacesConverter(forClass = Rol.class)
+public static class RolControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            MbGenero controller = (MbGenero) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "mbGenero");
-            return controller.getGenero(getKey(value));
+            MbRol controller = (MbRol) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "mbRol");
+            return controller.getRol(getKey(value));
         }
 
         
@@ -468,11 +453,11 @@ public class MbGenero implements Serializable{
             if (object == null) {
                 return null;
             }
-            if (object instanceof Genero) {
-                Genero o = (Genero) object;
+            if (object instanceof Rol) {
+                Rol o = (Rol) object;
                 return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Genero.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Rol.class.getName());
             }
         }
     }        
