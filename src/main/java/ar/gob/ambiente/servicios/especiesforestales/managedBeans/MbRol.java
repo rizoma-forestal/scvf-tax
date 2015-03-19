@@ -11,6 +11,7 @@ import ar.gob.ambiente.servicios.especiesforestales.entidades.Rol;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.RolFacade;
+import ar.gob.ambiente.servicios.especiesforestales.facades.UsuarioFacade;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Enumeration;
@@ -40,6 +41,8 @@ public class MbRol implements Serializable{
     
     @EJB
     private RolFacade rolFacade;
+    @EJB
+    private UsuarioFacade usuarioFacade;
     private int selectedItemIndex;
     private String selectParam;
     private List<String> listaNombres;
@@ -47,6 +50,7 @@ public class MbRol implements Serializable{
     private MbLogin login;
     private Usuario usLogeado;
     private boolean iniciado;
+    private List<Usuario> listaUsuario;
     
     
     /**
@@ -164,6 +168,7 @@ public class MbRol implements Serializable{
      * @return acción para el formulario de nuevo
      */
     public String prepareCreate() {
+        listaUsuario = usuarioFacade.findAll();
         current = new Rol();
         return "new";
     }
