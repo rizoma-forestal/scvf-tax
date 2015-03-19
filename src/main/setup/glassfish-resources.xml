@@ -16,8 +16,8 @@
         <property name="serverName" value="192.168.1.42"/>
         <property name="portNumber" value="5432"/>
         <property name="databaseName" value="especiesForestales"/>
-        <property name="User" value="webservices"/>
-        <property name="Password" value=""/>
+        <property name="User" value="postgres"/>
+        <property name="Password" value="webservices+2014"/>
         <property name="URL" value="jdbc:postgresql://192.168.1.42:5432/especiesForestales"/>
         <property name="driverClass" value="org.postgresql.Driver"/>
     </jdbc-connection-pool>
