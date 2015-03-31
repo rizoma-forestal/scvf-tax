@@ -14,22 +14,41 @@
         </ui:define>
         <ui:define name="content">
             <br/> 
-        <p:growl id="mensajes" showDetail="true" life="2000" />
+        <p:growl id="mensajes" 
+                 showDetail="true" 
+                 life="2000" />
         <h:form>
-            <p:panel header="Inicio de sesión" style="width:400px; position: relative; left: 35%;" id="frmLogin">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="username" value="Usuario:" style="text-align: left" />
-                    <p:inputText value="#{mbLogin.nombre}" id="username" required="true" label="username" />
-                    <h:outputLabel for="password" value="Clave:" style="text-align: left" />
-                    <p:password value="#{mbLogin.clave}" id="password" required="true" label="password" />
+            <p:panel header="Inicio de sesión" 
+                     style="width:400px; position: relative; left: 35%;" 
+                     id="frmLogin">
+                <h:panelGrid columns="2" 
+                             cellpadding="5">
+                    <h:outputLabel for="username" 
+                                   value="Usuario:" 
+                                   style="text-align: left" />
+                    <p:inputText value="#{mbLogin.nombre}" 
+                                 id="username" 
+                                 required="true" 
+                                 label="username" />
+                    <h:outputLabel for="password" 
+                                   value="Clave:" 
+                                   style="text-align: left" />
+                    <p:password value="#{mbLogin.clave}" 
+                                id="password" 
+                                required="true" 
+                                label="password" />
                     <f:facet name="footer">
-                        <p:commandButton id="loginButton" icon="ui-icon-play" 
+                        <p:commandButton id="loginButton" 
+                                         icon="ui-icon-play" 
                                          value="Ingresar" 
                                          actionListener="#{mbLogin.login}" 
                                          update=":mensajes" 
                                          oncomplete="manejarLogin(xhr, status, args)" />
-                        <p:commandButton icon="ui-icon-cancel" value="Limpiar" style="margin: 5px">
-                            <p:ajax update="frmLogin" resetValues="true" />
+                        <p:commandButton icon="ui-icon-cancel" 
+                                         value="Limpiar" 
+                                         style="margin: 5px">
+                            <p:ajax update="frmLogin" 
+                                    resetValues="true" />
                         </p:commandButton>
                     </f:facet>
                 </h:panelGrid>
