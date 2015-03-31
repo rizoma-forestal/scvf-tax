@@ -11,8 +11,10 @@
         </ui:define>
         <ui:define name="content">
             <br/>
-            <h:form id="frmUsuarioView" style="text-align: left">
-                <p:panel id="pnView" header="#{bundle.UsuarioViewTitle}" style="margin-bottom:10px;">
+            <h:form id="frmUsuarioView" 
+                    style="text-align: left">
+                <p:panel id="pnView" 
+                         header="#{bundle.UsuarioViewTitle}" style="margin-bottom:10px;">
                     <p:messages id="messages" />
                     
                     <h:panelGrid columns="2">
@@ -37,7 +39,10 @@
                 </p:panel>
                 <p:toolbar>
                     <f:facet name="right">
-                        <p:commandButton icon="ui-icon-refresh" action="#{mbUsuario.prepareList}" value="Volver" ajax="false"/>
+                        <p:commandButton icon="ui-icon-refresh" 
+                                         action="#{mbUsuario.prepareList}" 
+                                         value="Volver" 
+                                         ajax="false"/>
                     </f:facet>
                 </p:toolbar>
 

@@ -12,7 +12,9 @@
         <ui:define name="content">
         <br/>
             <h:form style="text-align: left">
-                <p:panel id="pnEdit" header="#{bundle.UsuarioEditTitle}" style="margin-bottom:10px;">
+                <p:panel id="pnEdit" 
+                         header="#{bundle.UsuarioEditTitle}" 
+                         style="margin-bottom:10px;">
                     <p:messages id="messages" />
                     <p:outputLabel value="#{bundle.UsuarioLabelRol}"/> 
                     <p:selectOneMenu id="rolList" 
@@ -43,8 +45,11 @@
                                          value="Guardar" 
                                          style="margin-right:10px;" 
                                          update="pnEdit"/>
-                        <p:commandButton icon="ui-icon-cancel" value="Limpiar" style="float: right">
-                            <p:ajax update="pnEdit" resetValues="true" />
+                        <p:commandButton icon="ui-icon-cancel" 
+                                         value="Limpiar" 
+                                         style="float: right">
+                            <p:ajax update="pnEdit" 
+                                    resetValues="true" />
                         </p:commandButton>                        
                     </f:facet>
                     <f:facet name="right">

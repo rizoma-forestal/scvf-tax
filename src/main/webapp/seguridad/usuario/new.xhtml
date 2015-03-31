@@ -45,9 +45,15 @@
                 
                 <p:toolbar>
                     <f:facet name="left">
-                        <p:commandButton icon="ui-icon-check" value="Guardar" action="#{mbUsuario.create}" update="pnNew"/>
-                        <p:commandButton icon="ui-icon-cancel" value="Limpiar" style="float: right">
-                            <p:ajax update="pnNew" resetValues="true" />
+                        <p:commandButton icon="ui-icon-check" 
+                                         value="Guardar" 
+                                         action="#{mbUsuario.create}" 
+                                         update="pnNew"/>
+                        <p:commandButton icon="ui-icon-cancel" 
+                                         value="Limpiar" 
+                                         style="float: right">
+                            <p:ajax update="pnNew" 
+                                    resetValues="true" />
                         </p:commandButton>
                     </f:facet>
                     <f:facet name="right">
