@@ -20,27 +20,40 @@ import javax.validation.constraints.Size;
  * @author rincostante
  */
 @Entity
-public class Categoria implements Serializable {
+public class Origen implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @Column (nullable=false, length=50, unique=true)
     @NotNull(message = "El campo nombre no puede quedar nulo")
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
-    private String nombre;
+    private String nombre;   
     
     /*
-    Agregar en Especie
+    ********** Agregar en Especie **************
     @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo categoria no puede quedar vacío")
-    @JoinColumn(name="categoria_id", nullable=false)
-    private Categoria categoria;
+    @NotNull(message = "El campo Origen no puede quedar vacío")
+    @JoinColumn(name="origen_id", nullable=false)
+    private Origen origen;
     
-    @OneToMany(mappedBy="categoria")
-    private List<Especie> especies;        
-    */    
+    ************* Agregar aquí *****************
+    @OneToMany(mappedBy="origen")
+    private List<Especie> especies;           
+
+    public Origen(){
+        especies = new ArrayList<>();
+    }
+
+    public List<Especie> getEspecies() {
+        return especies;
+    }
+
+    public void setEspecies(List<Especie> especies) {
+        this.especies = especies;
+    }
+    */  
 
     public String getNombre() {
         return nombre;
@@ -49,7 +62,7 @@ public class Categoria implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
+  
     public Long getId() {
         return id;
     }
@@ -68,10 +81,10 @@ public class Categoria implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Categoria)) {
+        if (!(object instanceof Origen)) {
             return false;
         }
-        Categoria other = (Categoria) object;
+        Origen other = (Origen) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -80,7 +93,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "ar.gob.ambiente.servicios.especiesforestales.entidades.Categoria[ id=" + id + " ]";
+        return "ar.gob.ambiente.servicios.especiesforestales.entidades.Origen[ id=" + id + " ]";
     }
     
 }

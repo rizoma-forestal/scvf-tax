@@ -33,8 +33,29 @@ public class Rango implements Serializable {
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
     private String nombre;    
     
+    /*
+    ********** Agregar en Especie **************
+    @ManyToOne(fetch=FetchType.LAZY)
+    @NotNull(message = "El campo Rango no puede quedar vacío")
+    @JoinColumn(name="rango_id", nullable=false)
+    private Rango rango;        
+    
+    ************* Agregar aquí *****************
     @OneToMany(mappedBy="rango")
-    private List<SubEspecie> subespecies;       
+    private List<Especie> especies;     
+
+    public Rango(){
+        especies = new ArrayList<>();
+    }    
+    
+    public List<Especie> getEspecies() {
+        return especies;
+    }
+
+    public void setEspecies(List<Especie> especies) {
+        this.especies = especies;
+    }
+    */
 
     public String getNombre() {
         return nombre;

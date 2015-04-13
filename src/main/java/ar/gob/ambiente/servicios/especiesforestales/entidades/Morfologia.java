@@ -7,14 +7,11 @@
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,36 +20,32 @@ import javax.validation.constraints.Size;
  * @author rincostante
  */
 @Entity
-public class Publicacion implements Serializable {
+public class Morfologia implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column (nullable=false, length=100)
+    @Column (nullable=false, length=50, unique=true)
     @NotNull(message = "El campo nombre no puede quedar nulo")
-    @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 100)
-    private String nombre;           
-    
-    @Column (nullable=false)
-    @NotNull(message = "El campo año no puede quedar vacío")
-    private int anio;    
+    @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
+    private String nombre;   
     
     /*
     ********** Agregar en Especie **************
     @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo Publicación no puede quedar vacío")
-    @JoinColumn(name="publicacion_id", nullable=false)
-    private Publicacion publicacion;    
-
+    @NotNull(message = "El campo Morfología no puede quedar vacío")
+    @JoinColumn(name="morfologia_id", nullable=false)
+    private Morfologia morfologia;
+    
     ************* Agregar aquí *****************
-    @OneToMany(mappedBy="publicacion")
-    private List<Especie> especies;   
+    @OneToMany(mappedBy="morfologia")
+    private List<Especie> especies;           
 
-    public Publicacion(){
+    public Morfologia(){
         especies = new ArrayList<>();
     }
-    
+
     public List<Especie> getEspecies() {
         return especies;
     }
@@ -60,7 +53,7 @@ public class Publicacion implements Serializable {
     public void setEspecies(List<Especie> especies) {
         this.especies = especies;
     }
-    */
+    */      
 
     public String getNombre() {
         return nombre;
@@ -68,14 +61,6 @@ public class Publicacion implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public int getAnio() {
-        return anio;
-    }
-
-    public void setAnio(int anio) {
-        this.anio = anio;
     }
 
     public Long getId() {
@@ -96,10 +81,10 @@ public class Publicacion implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Publicacion)) {
+        if (!(object instanceof Morfologia)) {
             return false;
         }
-        Publicacion other = (Publicacion) object;
+        Morfologia other = (Morfologia) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -108,7 +93,7 @@ public class Publicacion implements Serializable {
 
     @Override
     public String toString() {
-        return "ar.gob.ambiente.servicios.especiesforestales.entidades.Publicacion[ id=" + id + " ]";
+        return "ar.gob.ambiente.servicios.especiesforestales.entidades.Morfologia[ id=" + id + " ]";
     }
     
 }
