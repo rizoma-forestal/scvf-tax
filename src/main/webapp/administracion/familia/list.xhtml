@@ -1,155 +1,106 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-      
-    <h:head>
-        <title>#{bundle.FamiliaTitle}</title>
-    </h:head>
-    <ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml">
-        <ui:define name="title">
-            <h:outputText value="#{bundle.FamiliaTitle}" />
-        </ui:define>
-        <ui:define name="content">
-            
-            <br/> 
-            
-            <h:form>
-                <p:panel id="familiaForm" 
-                         header="#{bundle.FamiliaListTitle}" 
-                         style="margin-bottom:10px;">
+<ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:h="http://xmlns.jcp.org/jsf/html">
+         
+    <ui:define name="content">
+        <h:form>
+            <p:panel id="familiaForm" header="#{bundle.FamiliaListTitle}" style="margin-bottom:10px;">
+                <h:panelGrid columns="6">
+                    <p:commandButton icon="ui-icon-newwin" value="Agregar Nuevo" action="#{mbFamilia.prepareCreate}"/>
+                    <p:commandButton icon="ui-icon-refresh" value="Refrescar Listado" action="#{mbFamilia.prepareList}" update="familiaList"/>
+                </h:panelGrid>
+            </p:panel>
 
-                    <h:panelGrid columns="6">
-                        <p:commandButton icon="ui-icon-newwin" 
-                                         value="Agregar Nuevo" 
-                                         action="#{mbFamilia.prepareCreate}"/>
-                        
-                        <p:commandButton icon="ui-icon-refresh" 
-                                         value="Refrescar Listado" 
-                                         action="#{mbFamilia.prepareList}" 
-                                         update="familiaList"/>
-                        
-                        <p:commandButton icon="ui-icon-home" 
-                                         value="Inicio" 
-                                         action="#{mbFamilia.cleanUp()}"/>
-                    </h:panelGrid>
+            <p:dataTable value="#{mbFamilia.items}" 
+                         filteredValue="#{mbFamilia.listaFilter}"
+                         var="e" 
+                         id="familiaList" 
+                         rows="5"
+                         paginator="true"
+                         widgetVar="famTable"                             
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
 
-                </p:panel>
+                <f:facet name="header"> 
+                    #{bundle.FamiliaListTitle}  
+                    <p:commandButton id="toggler" type="button" value="Columnas" icon="ui-icon-calculator" style="margin-left: 10px" />
+                    <p:columnToggler datasource="familiaList" trigger="toggler" />
+                </f:facet>
 
-                <br/>           
+                <p:column headerText="Nombre" filterMatchMode="contains" sortBy="#{e.nombre}" filterBy="#{e.nombre}">
+                    <p:outputLabel value="#{e.nombre}"/>
+                </p:column>
+                
+                <p:column headerText="Sub Familia" filterMatchMode="contains" sortBy="#{e.subFamilia}" filterBy="#{e.nombre.subFamilia}">
+                    <p:outputLabel value="#{e.subFamilia}"/>
+                </p:column>
 
-                <p:dataTable value="#{mbFamilia.items}" 
-                             var="e" 
-                             id="familiaList" 
-                             rows="5"
-                             paginator="true"
-                             widgetVar="famTable"                             
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15">
-
-                    <f:facet name="header">
-                       #{bundle.FamiliaListTitle}  
-                        
-                        <p:commandButton id="toggler" 
-                                         type="button" 
-                                         value="Columnas" 
-                                         icon="ui-icon-calculator" 
-                                         style="margin-left: 10px" />
-                        
-                        <p:columnToggler datasource="familiaList" 
-                                         trigger="toggler" />
+                <p:column filterBy="#{e.adminentidad.habilitado}" 
+                          headerText="Estado" 
+                          footerText=""                               
+                          filterMatchMode="equals">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('famTable').filter()" 
+                                           style="font-size: 80%;">
+                            <f:converter converterId="javax.faces.Boolean" />
+                            <f:selectItem itemLabel="Todos" 
+                                          itemValue="" />
+                            <f:selectItem itemLabel="Activos" 
+                                          itemValue="true" />
+                            <f:selectItem itemLabel="Inactivos" 
+                                          itemValue="false" />
+                        </p:selectOneMenu>
                     </f:facet>
- 
-                    <p:column headerText="Nombre" 
-                              filterMatchMode="contains"
-                              sortBy="#{e.nombre}"  
-                              filterBy="#{e.nombre}">
-                        <p:outputLabel value="#{e.nombre}"/>
-                    </p:column>
+                    <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
+                </p:column>
 
-                    <p:column filterBy="#{e.adminentidad.habilitado}" 
-                              headerText="Estado" 
-                              footerText=""                               
-                              filterMatchMode="equals">
-                        <f:facet name="filter">
-                            <p:selectOneMenu onchange="PF('famTable').filter()" 
-                                               style="font-size: 80%;">
-                                <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="Todos" 
-                                              itemValue="" />
-                                <f:selectItem itemLabel="Activos" 
-                                              itemValue="true" />
-                                <f:selectItem itemLabel="Inactivos" 
-                                              itemValue="false" />
-                            </p:selectOneMenu>
-                        </f:facet>
-                        <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
-                    </p:column>
-                    
 
-                    <p:column headerText="Acciones" 
-                              style="width:135px">
-                        <p:growl id="messages" 
-                                 showDetail="true" />                           
-                        <p:commandButton icon="ui-icon-zoomin" 
-                                         action="#{mbFamilia.prepareView}" 
-                                         title="Ver Detalle">
-                            <f:setPropertyActionListener value="#{e}" 
-                                                         target="#{mbFamilia.current}" />  
-                        </p:commandButton>
+                <p:column headerText="Acciones" style="width:135px">
+                    <p:growl id="messages" showDetail="true" />                           
+                    <p:commandButton icon="ui-icon-zoomin" action="#{mbFamilia.prepareView}" title="Ver Detalle">
+                        <f:setPropertyActionListener value="#{e}" target="#{mbFamilia.current}" />  
+                    </p:commandButton>
 
-                        <p:commandButton icon="ui-icon-pencil" 
-                                         action="#{mbFamilia.prepareEdit}" 
-                                         title="Editar" >
-                            <f:setPropertyActionListener value="#{e}" 
-                                                         target="#{mbFamilia.current}" /> 
-                        </p:commandButton>
-                                                   
-                        <p:commandButton icon="ui-icon-close" 
-                                         action="#{mbFamilia.deshabilitar}"
-                                         rendered="#{e.adminentidad.habilitado == 'true'}"
-                                         title="Deshabilitar"
-                                         update="familiaList">
-                                    <f:setPropertyActionListener value="#{e}" 
-                                                                 target="#{mbFamilia.current}" />
-                                        <p:confirm header="Confirmar" 
-                                                   message="¿Desea deshabilitar la Familia?" 
-                                                   icon="ui-icon-alert" />
-                        </p:commandButton>                
-  
-                        <p:commandButton icon="ui-icon-check" 
-                                         action="#{mbFamilia.habilitar}" 
-                                         rendered="#{e.adminentidad.habilitado == 'false'}" 
-                                         title="Habilitar"
-                                         update="familiaList">
+                    <p:commandButton icon="ui-icon-pencil" action="#{mbFamilia.prepareEdit}" title="Editar" >
+                        <f:setPropertyActionListener value="#{e}" target="#{mbFamilia.current}" /> 
+                    </p:commandButton>
+
+                    <p:commandButton icon="ui-icon-close" 
+                                     action="#{mbFamilia.deshabilitar}"
+                                     rendered="#{e.adminentidad.habilitado == 'true'}"
+                                     title="Deshabilitar"
+                                     update="familiaList">
                                 <f:setPropertyActionListener value="#{e}" 
                                                              target="#{mbFamilia.current}" />
-                                        <p:confirm header="Confirmar" 
-                                                   message="¿Desea habilitar la Familia?" 
-                                                   icon="ui-icon-alert" />
-                        </p:commandButton> 
-                        
-                        <p:confirmDialog global="true" 
-                                         showEffect="fade" 
-                                         hideEffect="fade">
-                            
-                                         <p:commandButton value="Si" 
-                                                          type="button" 
-                                                          styleClass="ui-confirmdialog-yes" 
-                                                          icon="ui-icon-check" />
-                            
-                                         <p:commandButton value="No" 
-                                                          type="button" 
-                                                          styleClass="ui-confirmdialog-no" 
-                                                          icon="ui-icon-close" />
-                        </p:confirmDialog>      
-                    </p:column>                
-                </p:dataTable>
-            </h:form>
-        </ui:define>
-    </ui:composition>
-</html>
+                                    <p:confirm header="Confirmar" 
+                                               message="¿Desea deshabilitar la Familia?" 
+                                               icon="ui-icon-alert" />
+                    </p:commandButton>                
+
+                    <p:commandButton icon="ui-icon-check" 
+                                     action="#{mbFamilia.habilitar}" 
+                                     rendered="#{e.adminentidad.habilitado == 'false'}" 
+                                     title="Habilitar"
+                                     update="familiaList">
+                            <f:setPropertyActionListener value="#{e}" 
+                                                         target="#{mbFamilia.current}" />
+                                    <p:confirm header="Confirmar" 
+                                               message="¿Desea habilitar la Familia?" 
+                                               icon="ui-icon-alert" />
+                    </p:commandButton> 
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>      
+                </p:column>                
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
 

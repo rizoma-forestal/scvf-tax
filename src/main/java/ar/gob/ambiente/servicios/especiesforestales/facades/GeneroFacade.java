@@ -6,6 +6,7 @@
 
 package ar.gob.ambiente.servicios.especiesforestales.facades;
 
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Familia;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Genero;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -110,4 +111,17 @@ public class GeneroFacade extends AbstractFacade<Genero> {
         result = q.getResultList();
         return result;
     }    
+    
+    /**
+     * Método que devuelve todos los géneros de una familia
+     * @param familia
+     * @return 
+     */
+    public List<Genero> getGenerosXFamilia(Familia familia){
+        em = getEntityManager();        
+        String queryString = "SELECT gen FROM Genero gen "
+                + "WHERE gen.familia = :familia";
+        Query q = em.createQuery(queryString);
+        return q.getResultList();
+    }
 }

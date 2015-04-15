@@ -37,15 +37,7 @@ public class Publicacion implements Serializable {
     @Column (nullable=false)
     @NotNull(message = "El campo año no puede quedar vacío")
     private int anio;    
-    
-    /*
-    ********** Agregar en Especie **************
-    @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo Publicación no puede quedar vacío")
-    @JoinColumn(name="publicacion_id", nullable=false)
-    private Publicacion publicacion;    
 
-    ************* Agregar aquí *****************
     @OneToMany(mappedBy="publicacion")
     private List<Especie> especies;   
 
@@ -60,7 +52,6 @@ public class Publicacion implements Serializable {
     public void setEspecies(List<Especie> especies) {
         this.especies = especies;
     }
-    */
 
     public String getNombre() {
         return nombre;

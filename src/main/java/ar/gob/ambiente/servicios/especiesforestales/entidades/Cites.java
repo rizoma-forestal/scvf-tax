@@ -7,11 +7,14 @@
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,7 +26,7 @@ import javax.validation.constraints.Size;
 public class Cites implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column (nullable=false, length=50, unique=true)
@@ -31,14 +34,6 @@ public class Cites implements Serializable {
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
     private String nombre;   
     
-    /*
-    ********** Agregar en Especie **************
-    @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo Cites no puede quedar vacío")
-    @JoinColumn(name="cites_id", nullable=false)
-    private Cites cites;
-    
-    ************* Agregar aquí *****************
     @OneToMany(mappedBy="cites")
     private List<Especie> especies;           
 
@@ -52,8 +47,7 @@ public class Cites implements Serializable {
 
     public void setEspecies(List<Especie> especies) {
         this.especies = especies;
-    }
-    */          
+    }       
     
     public String getNombre() {
         return nombre;

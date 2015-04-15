@@ -60,7 +60,7 @@ public class MbLogin implements Serializable{
      * Método que borra de la memoria los MB innecesarios al cargar el listado 
      */
     public void iniciar(){
-        if(!iniciado){
+        if(iniciado){
             String s;
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
             .getExternalContext().getSession(true);
@@ -73,6 +73,9 @@ public class MbLogin implements Serializable{
                     }
                 }
             }
+        }else{
+            usLogeado = usuarioFacade.getUsuario(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+            iniciado = true;
         }
     }      
     public List<String> getListMbActivos() {
@@ -194,7 +197,7 @@ public class MbLogin implements Serializable{
     public void logout(){
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         session.invalidate();
-        logeado = false;
+        iniciado = false;
     }  
     
     private boolean validarInt(){

@@ -1,47 +1,68 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml">
-        <ui:define name="title">
-            <h:outputText value="#{bundle.EspecieTitle}" />
-        </ui:define>
+<ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:h="http://xmlns.jcp.org/jsf/html">
         <ui:define name="content">
-            
-            <br/>
-            
-            <h:form id="frmEspecieView">
-                <p:panel id="pnView" 
-                         header="#{bundle.EspecieViewTitle}" 
-                         style="margin-bottom:10px;">
+            <h:form>
+                <p:panel id="pnView" header="#{bundle.EspecieViewTitle}" style="margin-bottom:10px;">
                     <p:messages id="messages" />
                     
                         <h:panelGrid columns="2">
-                            <h:outputLabel value="#{bundle.GeneroTitle}: "/>
+                            
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_familia} "/>
+                            <h:outputText value="#{mbEspecie.selected.genero.familia.nombre}" 
+                                          title="#{bundle.CreateEspecieTitle_genero}"/> 
+                            
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_genero} "/>
                             <h:outputText value="#{mbEspecie.selected.genero.nombre}" 
-                                          title="#{bundle.GeneroTitle}"/>                            
+                                          title="#{bundle.CreateEspecieTitle_genero}"/>                            
 
-                            <h:outputLabel value="#{bundle.EspecieTitle}: "/>
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_nombre} "/>
                             <h:outputText value="#{mbEspecie.selected.nombre}" 
-                                          title="#{bundle.EspecieTitle}"/>
+                                          title="#{bundle.CreateEspecieTitle_nombre}"/>
 
-                            <h:outputLabel value="#{bundle.CreateEspecieLabel_nombreingles}: "/>
-                            <h:outputText value="#{mbEspecie.selected.nombreingles}" 
-                                          title="#{bundle.CreateEspecieLabel_nombreingles}"/>                            
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_subEspecie} "/>
+                            <h:outputText value="#{mbEspecie.selected.subEspecie}" 
+                                          title="#{bundle.CreateEspecieTitle_subEspecie}"/>                            
                         
-                            <h:outputLabel value="#{bundle.CreateEspecieLabel_nombrevulgar}: "/>
-                            <h:outputText value="#{mbEspecie.selected.nombrevulgar}" 
-                                          title="#{bundle.CreateEspecieLabel_nombrevulgar}"/>                            
-                        
-                            <h:outputLabel value="#{bundle.CreateEspecieLabel_nativa}: "/>
-                            <h:outputText value="#{mbEspecie.selected.nativa ? 'Si': 'No'}" />
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_sinonimos} "/>
+                            <h:outputText value="#{mbEspecie.selected.sinonimo}" 
+                                          title="#{bundle.CreateEspecieTitle_sinonimos}"/>   
                             
-                            <h:outputLabel value="#{bundle.CreateEspecieLabel_cites}: "/> 
-                            <h:outputText value="#{mbEspecie.selected.cites ? 'Si': 'No'}" />    
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_origen} "/>
+                            <h:outputText value="#{mbEspecie.selected.origen.nombre}" 
+                                          title="#{bundle.CreateEspecieTitle_origen}"/> 
                             
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_morfologia} "/>
+                            <h:outputText value="#{mbEspecie.selected.morfologia.nombre}" 
+                                          title="#{bundle.CreateEspecieTitle_morfologia}"/> 
+                            
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_cites} "/>
+                            <h:outputText value="#{mbEspecie.selected.cites.nombre}" 
+                                          title="#{bundle.CreateEspecieTitle_cites}"/> 
+                            
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_rango} "/>
+                            <h:outputText value="#{mbEspecie.selected.rango.nombre}" 
+                                          title="#{bundle.CreateEspecieTitle_rango}"/> 
+                            
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_publicacion} "/>
+                            <h:outputText value="#{mbEspecie.selected.publicacion.nombre}" 
+                                          title="#{bundle.CreateEspecieTitle_publicacion}"/> 
+                            
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_autorEspecie} "/>
+                            <h:outputText value="#{mbEspecie.selected.autorEspecie.nombre}" 
+                                          title="#{bundle.CreateEspecieTitle_autorEspecie}"/> 
+                            
+                            <h:outputLabel value="#{bundle.CreateEspecieLabel_autores} "/>
+                            <h:outputText value="#{mbEspecie.selected.autores.nombre}" 
+                                          title="#{bundle.CreateEspecieTitle_autores}"/> 
+                            
+                            <!-- Campos administrativos -->
+
                             <h:outputLabel value="#{bundle.UsuarioAlta}"/>
                             <h:outputText value="#{mbEspecie.selected.adminentidad.usAlta}"
                                           title="#{bundle.UsuarioAlta}"/>                        
@@ -58,28 +79,23 @@
                             <h:outputText value="#{mbEspecie.selected.adminentidad.strFechaModif}"
                                           title="#{bundle.FechaModifica}"/>                          
 
-                            <h:outputLabel value="#{bundle.UsuarioBaja}"/>
+                            <h:outputLabel value="#{bundle.UsuarioBaja}" rendered="#{not mbEspecie.selected.adminentidad.habilitado}"/>
                             <h:outputText value="#{mbEspecie.selected.adminentidad.usBaja}"
-                                          title="#{bundle.UsuarioBaja}"/>                        
+                                          title="#{bundle.UsuarioBaja}" rendered="#{not mbEspecie.selected.adminentidad.habilitado}"/>                        
 
-                            <h:outputLabel value="#{bundle.FechaBaja}"/>
+                            <h:outputLabel value="#{bundle.FechaBaja}" rendered="#{not mbEspecie.selected.adminentidad.habilitado}"/>
                             <h:outputText value="#{mbEspecie.selected.adminentidad.strFechaBaja}"
-                                          title="#{bundle.FechaBaja}"/>  
+                                          title="#{bundle.FechaBaja}" rendered="#{not mbEspecie.selected.adminentidad.habilitado}"/>  
                               
                         </h:panelGrid> 
                     </p:panel>
                 
                 <p:toolbar>
                     <f:facet name="left">
-                        <p:commandButton icon="ui-icon-refresh" 
-                                         action="#{mbEspecie.prepareList}" 
-                                         value="Volver" 
-                                         ajax="false"/>
+                        <p:commandButton icon="ui-icon-refresh" action="#{mbEspecie.prepareList}" value="Volver" ajax="false"/>
                     </f:facet>
                 </p:toolbar>
-                
             </h:form>
         </ui:define>
-    </ui:composition>
-s</html>
+</ui:composition>
 

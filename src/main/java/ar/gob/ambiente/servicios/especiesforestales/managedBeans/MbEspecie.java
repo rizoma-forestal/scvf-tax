@@ -7,17 +7,29 @@
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.AdminEntidad;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Autor;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Cites;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Genero;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Familia;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Morfologia;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Origen;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Publicacion;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Rango;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
+import ar.gob.ambiente.servicios.especiesforestales.facades.AutorFacade;
+import ar.gob.ambiente.servicios.especiesforestales.facades.CitesFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.GeneroFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.EspecieFacade;
+import ar.gob.ambiente.servicios.especiesforestales.facades.FamiliaFacade;
+import ar.gob.ambiente.servicios.especiesforestales.facades.MorfologiaFacade;
+import ar.gob.ambiente.servicios.especiesforestales.facades.OrigenFacade;
+import ar.gob.ambiente.servicios.especiesforestales.facades.PublicacionFacade;
+import ar.gob.ambiente.servicios.especiesforestales.facades.RangoFacade;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -28,6 +40,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
@@ -41,16 +54,41 @@ public class MbEspecie implements Serializable{
    
     private Especie current;
     private DataModel items = null;
+    private List<Especie> listaFilter;
 
     @EJB
     private GeneroFacade generoFacade;
-    
+    @EJB
+    private FamiliaFacade familiaFacade;
     @EJB
     private EspecieFacade especieFacade;
-    private int selectedItemIndex;
-    private String selectParam;    
-    private List<String> listaNombres;  
+    @EJB
+    private OrigenFacade origenFacade;
+    @EJB
+    private MorfologiaFacade morfologiaFacade;
+    @EJB
+    private CitesFacade citesFacade;
+    @EJB
+    private RangoFacade rangoFacade;
+    @EJB
+    private PublicacionFacade pubFacade;
+    @EJB
+    private AutorFacade autorFacade;
+    
+    private Familia selectedFamilia;
+    
+    //private int selectedItemIndex;
+    //private String selectParam;    
+    //private List<String> listaNombres;  
+    private List<Familia> listaFamilia;
     private List<Genero> listaGenero;
+    private List<Origen> listaOrigenes;
+    private List<Morfologia> listaMorfologias;
+    private List<Cites> listaCites;
+    private List<Rango> listaRangos;
+    private List<Publicacion> listaPublicaciones;
+    private List<Autor> listaAutores;
+    
     private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
     private MbLogin login;
     private Usuario usLogeado;   
@@ -91,6 +129,70 @@ public class MbEspecie implements Serializable{
         }
     }      
 
+    public List<Origen> getListaOrigenes() {
+        return listaOrigenes;
+    }
+
+    public void setListaOrigenes(List<Origen> listaOrigenes) {
+        this.listaOrigenes = listaOrigenes;
+    }
+
+    public List<Morfologia> getListaMorfologias() {
+        return listaMorfologias;
+    }
+
+    public void setListaMorfologias(List<Morfologia> listaMorfologias) {
+        this.listaMorfologias = listaMorfologias;
+    }
+
+    public List<Cites> getListaCites() {
+        return listaCites;
+    }
+
+    public void setListaCites(List<Cites> listaCites) {
+        this.listaCites = listaCites;
+    }
+
+    public List<Rango> getListaRangos() {
+        return listaRangos;
+    }
+
+    public void setListaRangos(List<Rango> listaRangos) {
+        this.listaRangos = listaRangos;
+    }
+
+    public List<Publicacion> getListaPublicaciones() {
+        return listaPublicaciones;
+    }
+
+    public void setListaPublicaciones(List<Publicacion> listaPublicaciones) {
+        this.listaPublicaciones = listaPublicaciones;
+    }
+
+    public List<Autor> getListaAutores() {
+        return listaAutores;
+    }
+
+    public void setListaAutores(List<Autor> listaAutores) {
+        this.listaAutores = listaAutores;
+    }
+
+    public List<Familia> getListaFamilia() {
+        return listaFamilia;
+    }
+
+    public void setListaFamilia(List<Familia> listaFamilia) {
+        this.listaFamilia = listaFamilia;
+    }
+
+    public List<Especie> getListaFilter() {
+        return listaFilter;
+    }
+
+    public void setListaFilter(List<Especie> listaFilter) {
+        this.listaFilter = listaFilter;
+    }
+
     public Especie getCurrent() {
         return current;
     }
@@ -107,9 +209,9 @@ public class MbEspecie implements Serializable{
     public void setListaGenero(List<Genero> listaGenero) {
         this.listaGenero = listaGenero;
     }    
-/********************************
- ** Métodos para la navegación **
-********************************/
+    /*******************************
+    ** Métodos para la navegación **
+    ********************************/
     /**
      * @return La entidad gestionada
      */
@@ -130,48 +232,16 @@ public class MbEspecie implements Serializable{
         return items;
     }    
 
-    public List<String> getListaNombres() {
-        return listaNombres;
-    }
-
-    public void setListaNombres(List<String> listaNombres) {
-        this.listaNombres = listaNombres;
-    }
- /**
-     * Método para revocar la sesión del MB
-     * @return 
-     */
-    public String cleanUp(){
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(true);
-        session.removeAttribute("mbEspecie");
-   
-        return "inicio";
-    }      
     
-    
-    
-/*******************************
-** Métodos de inicialización **
-*******************************/
+    /*******************************
+    ** Métodos de inicialización **
+    *******************************/
     /**
      * @return acción para el listado de entidades a mostrar en el list
      */
     public String prepareList() {
         recreateModel();
         return "list";
-    }
-    
-    
-    public String iniciarList(){
-        String redirect = "";
-        if(selectParam != null){
-            redirect = "list";
-        }else{
-            redirect = "administracion/especie/list";
-        }
-        recreateModel();
-        return redirect;
     }
 
 
@@ -186,7 +256,14 @@ public class MbEspecie implements Serializable{
      * @return acción para el formulario de nuevo
      */
     public String prepareCreate() {
-        listaGenero = generoFacade.getActivos();
+        listaFamilia = familiaFacade.getActivos();
+        listaOrigenes = origenFacade.findAll();
+        listaMorfologias = morfologiaFacade.findAll();
+        listaCites = citesFacade.findAll();
+        listaRangos = rangoFacade.findAll();
+        listaPublicaciones = pubFacade.findAll();
+        listaAutores = autorFacade.findAll();
+                
         current = new Especie();
         return "new";
     }
@@ -195,7 +272,14 @@ public class MbEspecie implements Serializable{
      * @return acción para la edición de la entidad
      */
     public String prepareEdit() {
-        listaGenero = generoFacade.getActivos();
+        listaFamilia = familiaFacade.getActivos();
+        listaOrigenes = origenFacade.findAll();
+        listaMorfologias = morfologiaFacade.findAll();
+        listaCites = citesFacade.findAll();
+        listaRangos = rangoFacade.findAll();
+        listaPublicaciones = pubFacade.findAll();
+        listaAutores = autorFacade.findAll();
+        
         return "edit";
     }
     
@@ -255,6 +339,16 @@ public class MbEspecie implements Serializable{
         }
     }
     
+    /**
+     * 
+     * @param event
+     */
+    public void familiaChangeListener(ValueChangeEvent event) {
+        selectedFamilia = (Familia)event.getNewValue();
+        
+        listaGenero = generoFacade.getGenerosXFamilia(selectedFamilia);
+    }        
+    
     private void validarExistente(Object arg2) throws ValidatorException{
         if(!getFacade().existe((String)arg2)){
             throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateEspecieExistente")));
@@ -267,9 +361,6 @@ public class MbEspecie implements Serializable{
      */
     private void recreateModel() {
         items = null;
-        if(selectParam != null){
-            selectParam = null;
-        }
     }
 
     /*************************
@@ -376,62 +467,6 @@ public class MbEspecie implements Serializable{
         }
     }
 
-    /**
-     * Actualiza el detalle de la entidad si la última se eliminó
-     */
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            /*
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-            */
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
-        }
-    }
-    
-    
-    /*
-     * Métodos de búsqueda
-     */
-    public String getSelectParam() {
-        return selectParam;
-    }
-
-    public void setSelectParam(String selectParam) {
-        this.selectParam = selectParam;
-    }
-    
-  
-    
-    /**
-     * Método para llegar la lista para el autocompletado de la búsqueda de nombres
-     * @param query
-     * @return 
-     */
-   /* public List<String> completeNombres(String query){
-        listaNombres = getFacade().getNombre();
-        List<String> nombres = new ArrayList();
-        Iterator itLista = listaNombres.listIterator();
-        while(itLista.hasNext()){
-            String nom = (String)itLista.next();
-            if(nom.contains(query)){
-                nombres.add(nom);
-            }
-        }
-        return nombres;
-    }*/
-
-    //private void update() {
-     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    //}
-        
     
     /********************************************************************
     ** Converter. Se debe actualizar la entidad y el facade respectivo **

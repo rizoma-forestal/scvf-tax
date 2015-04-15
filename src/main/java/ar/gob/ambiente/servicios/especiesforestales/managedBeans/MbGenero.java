@@ -43,15 +43,17 @@ public class MbGenero implements Serializable{
     
     private Genero current;
     private DataModel items = null;
+    private List<Genero> listaFilter;
 
     @EJB
     private FamiliaFacade familiaFacade;
     
     @EJB
     private GeneroFacade generoFacade;
-    private int selectedItemIndex;
-    private String selectParam;    
-    private List<String> listaNombres;  
+    
+    //private int selectedItemIndex;
+    //private String selectParam;    
+    //private List<String> listaNombres;  
     private List<Familia> listaFamilia;
     private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
     private MbLogin login;
@@ -90,7 +92,16 @@ public class MbGenero implements Serializable{
                 }
             }
         }
-    }      
+    }    
+
+    public List<Genero> getListaFilter() {
+        return listaFilter;
+    }
+
+    public void setListaFilter(List<Genero> listaFilter) {
+        this.listaFilter = listaFilter;
+    }
+    
     public Genero getCurrent() {
         return current;
     }
@@ -117,7 +128,6 @@ public class MbGenero implements Serializable{
     public Genero getSelected() {
         if (current == null) {
             current = new Genero();
-            selectedItemIndex = -1;
         }
         return current;
     } 
@@ -140,18 +150,6 @@ public class MbGenero implements Serializable{
     public String prepareList() {
         recreateModel();
         return "list";
-    }
-    
-    
-    public String iniciarList(){
-        String redirect = "";
-        if(selectParam != null){
-            redirect = "list";
-        }else{
-            redirect = "administracion/genero/list";
-        }
-        recreateModel();
-        return redirect;
     }
 
     /**
@@ -251,9 +249,6 @@ public class MbGenero implements Serializable{
      */
     private void recreateModel() {
         items = null;
-        if(selectParam != null){
-            selectParam = null;
-        }
     }
 
     /*************************
@@ -363,26 +358,6 @@ public class MbGenero implements Serializable{
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("GeneroDeletedErrorOccured"));
         }
     }
-
-    /**
-     * Actualiza el detalle de la entidad si la última se eliminó
-     */
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            /*
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-            */
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
-        }
-    }
     
     /**
      * Método para revocar la sesión del MB
@@ -395,38 +370,7 @@ public class MbGenero implements Serializable{
    
         return "inicio";
     }      
-    
-    /*
-     * Métodos de búsqueda
-     */
-    public String getSelectParam() {
-        return selectParam;
-    }
 
-    public void setSelectParam(String selectParam) {
-        this.selectParam = selectParam;
-    }
-    
-    
-  
-    /**
-     * Método para llegar la lista para el autocompletado de la búsqueda de nombres
-     * @param query
-     * @return 
-     */
-  /*  public List<String> completeNombres(String query){
-        listaNombres = getFacade().getNombres();
-        List<String> nombres = new ArrayList();
-        Iterator itLista = listaNombres.listIterator();
-        while(itLista.hasNext()){
-            String nom = (String)itLista.next();
-            if(nom.contains(query)){
-                nombres.add(nom);
-            }
-        }
-        return nombres;
-    }*/
-        
     
     /********************************************************************
     ** Converter. Se debe actualizar la entidad y el facade respectivo **

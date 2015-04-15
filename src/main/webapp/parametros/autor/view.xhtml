@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+    <ui:define name="content">
+        <h:form>
+            <p:panel id="pnView" header="#{bundle.AutorViewTitle}" style="margin-bottom:10px;">
+                <p:messages id="messages" />
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateAutorLabel_nombre}"/>
+                    <h:outputText value="#{mbAutor.selected.nombre}" title="#{bundle.CreateAutorTitle_nombre}"/>
+
+
+                    <h:outputLabel value="#{bundle.EspeciesAsociadasAutEsp}&nbsp;" />
+                    <p:commandButton value="Ver especies" type="button" onclick="PF('EspeciesAutEsp').show();" actionListener="#{mbAutor.selected.especiesXAutEsp}" />      
+                
+                    <h:outputLabel value="#{bundle.EspeciesAsociadasAutGral}&nbsp;" />
+                    <p:commandButton value="Ver especies" type="button" onclick="PF('EspeciesGral').show();" actionListener="#{mbAutor.selected.especiesXAutores}" /> 
+                </h:panelGrid>   
+                <p:dialog style="font-size: 80%" 
+                          header="Listado de Especies que tienen al Autor como autor de la Especie" 
+                          widgetVar="EspeciesAutEsp" 
+                          showEffect="fade" 
+                          hideEffect="fade" 
+                          height="100" 
+                          width="30%">
+                    <p:dataTable value="#{mbAutor.selected.especiesXAutEsp}" var="g" id="espAutEspList">
+                        <p:column headerText="Especie" 
+                                  filterMatchMode="contains"
+                                  filterBy="#{g.nombrecientifico}"
+                                  sortBy="#{g.nombrecientifico}" >
+                            <p:outputLabel value="#{g.nombrecientifico}"/> 
+                        </p:column>                        
+                    </p:dataTable>
+                </p:dialog>
+                
+                <p:dialog style="font-size: 80%" 
+                          header="Listado de Especies que tienen al Autor como autor general" 
+                          widgetVar="EspeciesGral" 
+                          showEffect="fade" 
+                          hideEffect="fade" 
+                          height="100" 
+                          width="30%">
+                    <p:dataTable value="#{mbAutor.selected.especiesXAutores}" var="g" id="EspeciesGral">
+                        <p:column headerText="Especie" 
+                                  filterMatchMode="contains"
+                                  filterBy="#{g.nombrecientifico}"
+                                  sortBy="#{g.nombrecientifico}" >
+                            <p:outputLabel value="#{g.nombrecientifico}"/> 
+                        </p:column>                        
+                    </p:dataTable>
+                </p:dialog>
+            </p:panel>
+
+            <p:toolbar>
+                <f:facet name="left">
+                    <p:commandButton icon="ui-icon-refresh" action="#{mbAutor.prepareList}" value="Volver" ajax="false"/>
+                </f:facet>
+            </p:toolbar>
+
+        </h:form>
+    </ui:define>   
+</ui:composition>
+    
+    
+

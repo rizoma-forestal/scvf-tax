@@ -7,6 +7,7 @@
 package ar.gob.ambiente.servicios.especiesforestales.facades;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Autor;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -50,16 +51,13 @@ public class AutorFacade extends AbstractFacade<Autor> {
      * @param id: ID de la entidad
      * @return: True o False
      */
-    public boolean tieneDependencias(Long id){
+    public boolean noTieneDependencias(Long id){
         em = getEntityManager();       
-        
-        String queryString = "SELECT sub FROM SubEspecie sub " 
-                + "WHERE sub.autor.id = :idParam "
-                + "OR sub.publicador.id = :idParam";      
-        
+        String queryString = "SELECT esp FROM Especie esp " 
+                + "WHERE esp.autorEspecie.id = :id "
+                + "OR esp.autores.id = :id";      
         Query q = em.createQuery(queryString)
-                .setParameter("idParam", id);
-        
+                .setParameter("id", id);
         return q.getResultList().isEmpty();
-    }     
+    }      
 }

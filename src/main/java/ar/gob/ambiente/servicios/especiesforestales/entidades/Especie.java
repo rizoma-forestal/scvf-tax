@@ -7,10 +7,8 @@
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
 import java.io.Serializable;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -32,27 +32,163 @@ public class Especie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private String nombrevulgar;
-    private String nombreingles;
-    private boolean nativa;
-    private boolean cites;
+    
+    @Column (nullable=false, length=50)
+    @NotNull(message = "El campo nombre no puede quedar vacío")
+    @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
+    private String nombre;   
     
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="genero_id")
     private Genero genero;
     
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="autorEsp_id", nullable=true)
+    private Autor autorEspecie;    
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @NotNull(message = "El campo autores no puede quedar vacío")
+    @JoinColumn(name="autor_id", nullable=false)
+    private Autor autores;      
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="cites_id", nullable=true)
+    private Cites cites;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @NotNull(message = "El campo Morfología no puede quedar vacío")
+    @JoinColumn(name="morfologia_id", nullable=false)
+    private Morfologia morfologia;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @NotNull(message = "El campo Origen no puede quedar vacío")
+    @JoinColumn(name="origen_id", nullable=false)
+    private Origen origen;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @NotNull(message = "El campo Publicación no puede quedar vacío")
+    @JoinColumn(name="publicacion_id", nullable=false)
+    private Publicacion publicacion; 
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @NotNull(message = "El campo Rango no puede quedar vacío")
+    @JoinColumn(name="rango_id", nullable=false)
+    private Rango rango;    
+    
+    @Column (nullable=true, length=50)
+    @Size(message = "El campo subEspecie no puede tener más de 50 caracteres", max = 50)
+    private String subEspecie;   
+    
+    @Column (nullable=true, length=100)
+    @Size(message = "El campo sinonimo no puede tener más de 100 caracteres", max = 100)
+    private String sinonimo;      
     
     @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="adminentidad_id")
     private AdminEntidad adminentidad;
     
     
- /**
+    /**
      * Campo que muestra el Género y nombre de especie para conformar el nombre científico 
      */
     @Transient
     String nombrecientifico;
+    
+    /**
+     * Campo que muestra el nombre completo de la especie.
+     * Conformado por: Familia Género Especie AutorEspecie Rango SubEspecie Autores
+     * Puede no haber: AutorEspecie, SubEspecie
+     * @return 
+     */
+    @Transient
+    String nombreCompleto;
+    
+    public String getNombreCompleto() {
+        nombreCompleto = getGenero().getFamilia().getNombre() + " " + getGenero().getNombre() + " " + getNombre();
+        if(this.autorEspecie != null){
+            nombreCompleto = nombreCompleto + getAutorEspecie().getNombre();
+        }
+        if(this.subEspecie != null){
+            nombreCompleto = nombreCompleto + getSubEspecie();
+        }
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }    
+
+    public Autor getAutorEspecie() {
+        return autorEspecie;
+    }
+
+    public void setAutorEspecie(Autor autorEspecie) {
+        this.autorEspecie = autorEspecie;
+    }
+
+    public Autor getAutores() {
+        return autores;
+    }
+
+    public void setAutores(Autor autores) {
+        this.autores = autores;
+    }
+
+    public Cites getCites() {
+        return cites;
+    }
+
+    public void setCites(Cites cites) {
+        this.cites = cites;
+    }
+
+    public Morfologia getMorfologia() {
+        return morfologia;
+    }
+
+    public void setMorfologia(Morfologia morfologia) {
+        this.morfologia = morfologia;
+    }
+
+    public Origen getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(Origen origen) {
+        this.origen = origen;
+    }
+
+    public Publicacion getPublicacion() {
+        return publicacion;
+    }
+
+    public void setPublicacion(Publicacion publicacion) {
+        this.publicacion = publicacion;
+    }
+
+    public Rango getRango() {
+        return rango;
+    }
+
+    public void setRango(Rango rango) {
+        this.rango = rango;
+    }
+
+    public String getSubEspecie() {
+        return subEspecie;
+    }
+
+    public void setSubEspecie(String subEspecie) {
+        this.subEspecie = subEspecie;
+    }
+
+    public String getSinonimo() {
+        return sinonimo;
+    }
+
+    public void setSinonimo(String sinonimo) {
+        this.sinonimo = sinonimo;
+    }
 
     public String getNombrecientifico() {
         return genero.getNombre()+ "." + getNombre();
@@ -70,37 +206,6 @@ public class Especie implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getNombrevulgar() {
-        return nombrevulgar;
-    }
-
-    public void setNombrevulgar(String nombrevulgar) {
-        this.nombrevulgar = nombrevulgar;
-    }
-
-    public String getNombreingles() {
-        return nombreingles;
-    }
-
-    public void setNombreingles(String nombreingles) {
-        this.nombreingles = nombreingles;
-    }
-
-    public boolean isNativa() {
-    return nativa;
-    }
-    
-    public void setNativa(boolean nativa) {
-    this.nativa = nativa;
-    }
-    
-    public boolean isCites() {
-    return cites;
-    }
-    
-    public void setCites(boolean cites) {
-    this.cites = cites;
-    }
     public Genero getGenero() {
         return genero;
     }
@@ -116,7 +221,6 @@ public class Especie implements Serializable {
     public void setAdminentidad(AdminEntidad adminentidad) {
         this.adminentidad = adminentidad;
     }
-
    
     public Long getId() {
         return id;

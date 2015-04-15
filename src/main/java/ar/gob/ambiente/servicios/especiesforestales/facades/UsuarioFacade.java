@@ -88,4 +88,19 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         result = q.getResultList();
         return result;
     }  
+    
+    /**
+     * Método que devulve los datos del usuario logeado
+     * @param nombre
+     * @return 
+     */
+    public Usuario getUsuario(String nombre){
+        em = getEntityManager();
+        Usuario us;
+        String queryString = "SELECT us FROM Usuario us "
+                + "WHERE us.nombre = :nombre";
+        Query q = em.createQuery(queryString)
+                .setParameter("nombre", nombre);
+        return (Usuario)q.getSingleResult();
+    }
 }

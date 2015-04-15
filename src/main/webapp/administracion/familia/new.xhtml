@@ -1,59 +1,49 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml">
-        <ui:define name="title">
-            <h:outputText value="#{bundle.FamiliaTitle}" />
-        </ui:define>
-        <ui:define name="content">
-            
-            <br/>
-            
-            <h:form id="frmNew">
-                
-                <p:panel id="pnNew" 
-                         header="#{bundle.FamiliaNewTitle}" 
-                         style="margin-bottom:10px;">
-                    
-                    <h:panelGrid columns="3">
-                        <p:outputLabel value="#{bundle.CreateFamiliaLabel_nombre}" 
-                                       for="nombre"/>
-                        <p:inputText id="nombre" 
-                                     validator="#{mbFamilia.validarInsert}" 
-                                     value="#{mbFamilia.selected.nombre}" 
-                                     requiredMessage="#{bundle.CreateFamiliaRequiredMessage_nombre}" 
-                                     required="true"/>
-                        <p:message for="nombre" />
-                    </h:panelGrid>
-                </p:panel>
-                
-                <p:toolbar>
-                    
-                    <f:facet name="left">
-                        <p:commandButton icon="ui-icon-check" 
-                                         value="Guardar" 
-                                         action="#{mbFamilia.create}" 
-                                         update="pnNew"/>
-                        
-                        <p:commandButton icon="ui-icon-cancel" 
-                                         value="Limpiar" 
-                                         style="float: next">
-                            <p:ajax update="pnNew" resetValues="true" />
-                        </p:commandButton>
-                                                
-                        <p:commandButton icon="ui-icon-arrowreturnthick-1-w" 
-                                         action="#{mbFamilia.prepareList}" 
-                                         value="Volver" 
-                                         immediate="true"/>
-                    </f:facet>
-                </p:toolbar>
-                
-            </h:form>
-        </ui:define>
-    </ui:composition>
-</html>
+<ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <h:form>
+
+            <p:panel id="pnNew"  header="#{bundle.FamiliaNewTitle}" style="margin-bottom:10px;">
+                <p:growl id="messages" />
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="#{bundle.CreateFamiliaLabel_nombre}" for="nombre"/>
+                    <p:inputText id="nombre" validator="#{mbFamilia.validarInsert}" value="#{mbFamilia.selected.nombre}" 
+                                 requiredMessage="#{bundle.CreateFamiliaRequiredMessage_nombre}" required="true"/>
+
+                    <p:outputLabel value="#{bundle.CreateFamiliaLabel_subFamilia}" for="subFamilia"/>
+                    <p:inputText id="subFamilia" value="#{mbFamilia.selected.nombre}" />
+                </h:panelGrid>
+            </p:panel>
+
+            <p:toolbar>
+
+                <f:facet name="left">
+                    <p:commandButton icon="ui-icon-check" 
+                                     value="Guardar" 
+                                     action="#{mbFamilia.create}" 
+                                     update="pnNew"/>
+
+                    <p:commandButton icon="ui-icon-cancel" 
+                                     value="Limpiar" 
+                                     style="float: next">
+                        <p:ajax update="pnNew" resetValues="true" />
+                    </p:commandButton>
+
+                    <p:commandButton icon="ui-icon-arrowreturnthick-1-w" 
+                                     action="#{mbFamilia.prepareList}" 
+                                     value="Volver" 
+                                     immediate="true"/>
+                </f:facet>
+            </p:toolbar>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
 

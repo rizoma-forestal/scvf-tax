@@ -34,29 +34,32 @@ public class Autor implements Serializable {
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
     private String nombre;    
     
-    /*
-    ********** Agregar en Especie **************
-    @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo Autor no puede quedar vacío")
-    @JoinColumn(name="autor_id", nullable=false)
-    private Autor autor;
+    @OneToMany(mappedBy="autorEspecie")
+    private List<Especie> especiesXAutEsp;     
     
-    ************* Agregar aquí *****************
-    @OneToMany(mappedBy="autor")
-    private List<Especie> especies;           
+    @OneToMany(mappedBy="autores")
+    private List<Especie> especiesXAutores;            
 
     public Autor(){
-        especies = new ArrayList<>();
+        especiesXAutEsp = new ArrayList<>();
+        especiesXAutores = new ArrayList<>();
     }
 
-    public List<Especie> getEspecies() {
-        return especies;
+    public List<Especie> getEspeciesXAutores() {
+        return especiesXAutores;
     }
 
-    public void setEspecies(List<Especie> especies) {
-        this.especies = especies;
+    public void setEspeciesXAutores(List<Especie> especiesXAutores) {
+        this.especiesXAutores = especiesXAutores;
     }
-    */  
+
+    public List<Especie> getEspeciesXAutEsp() {
+        return especiesXAutEsp;
+    }
+
+    public void setEspeciesXAutEsp(List<Especie> especies) {
+        this.especiesXAutEsp = especies;
+    }
 
     public String getNombre() {
         return nombre;

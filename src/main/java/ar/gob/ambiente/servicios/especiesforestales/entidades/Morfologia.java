@@ -7,11 +7,14 @@
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -31,14 +34,6 @@ public class Morfologia implements Serializable {
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
     private String nombre;   
     
-    /*
-    ********** Agregar en Especie **************
-    @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo Morfología no puede quedar vacío")
-    @JoinColumn(name="morfologia_id", nullable=false)
-    private Morfologia morfologia;
-    
-    ************* Agregar aquí *****************
     @OneToMany(mappedBy="morfologia")
     private List<Especie> especies;           
 
@@ -52,8 +47,7 @@ public class Morfologia implements Serializable {
 
     public void setEspecies(List<Especie> especies) {
         this.especies = especies;
-    }
-    */      
+    }   
 
     public String getNombre() {
         return nombre;

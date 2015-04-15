@@ -1,229 +1,132 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-      
-    <h:head>
-        <title>#{bundle.EspecieTitle}</title>
-    </h:head>
-    <ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml">
-        <ui:define name="title">
-            <h:outputText value="#{bundle.EspecieTitle}" />
-        </ui:define>
-        <ui:define name="content">
-    <br/> 
-           <f:metadata>  
-                <f:event listener="#{mbEspecie.iniciar}" type="preRenderView"></f:event>  
-           </f:metadata>    
-            <h:form>
-                <p:panel id="EspecieForm" 
-                         header="#{bundle.especieListTitle}" 
-                         style="margin-bottom:10px;">
-                    
-                    <h:panelGrid columns="6">
-                        <p:commandButton icon="ui-icon-newwin" 
-                                         value="Agregar Nuevo" 
-                                         action="#{mbEspecie.prepareCreate}"/>
-                        
-                        <p:commandButton icon="ui-icon-refresh" 
-                                         value="Refrescar Listado" 
-                                         action="#{mbEspecie.prepareList}" 
-                                         update="especieList"/>
-                        
-                        <p:commandButton icon="ui-icon-home" 
-                                         value="Inicio" 
-                                         action="#{mbGenero.cleanUp()}"/>
-                    </h:panelGrid>
-                    
-                </p:panel>
+<ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+    <ui:define name="content">
+        <f:metadata>  
+            <f:event listener="#{mbEspecie.iniciar}" type="preRenderView"></f:event>  
+        </f:metadata>    
+        <h:form>
+            <p:panel id="EspecieForm" header="#{bundle.EspecieTitle}" style="margin-bottom:10px;">
+                <h:panelGrid columns="6">
+                    <p:commandButton icon="ui-icon-newwin" value="Agregar Nuevo" action="#{mbEspecie.prepareCreate}"/>
+                    <p:commandButton icon="ui-icon-refresh" value="Refrescar Listado" action="#{mbEspecie.prepareList}" update="especieList"/>
+                </h:panelGrid>
+            </p:panel>
 
-                <br/>           
+            <p:dataTable value="#{mbEspecie.items}" 
+                         filteredValue="#{mbEspecie.listaFilter}"
+                         var="e" 
+                         id="especieList" 
+                         rows="5"
+                         paginator="true"
+                         widgetVar="espTable"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
 
-                <p:dataTable value="#{mbEspecie.items}" 
-                             var="e" 
-                             id="especieList" 
-                             rows="5"
-                             paginator="true"
-                             widgetVar="espTable"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15">
-                    
-                    
-                    <f:facet name="header">
-                        #{bundle.especieListTitle}
-                        
-                        <p:commandButton id="toggler" 
-                                         type="button" 
-                                         value="Columnas" 
-                                         icon="ui-icon-calculator" 
-                                         style="margin-left: 10px" />
-                        
-                        <p:columnToggler datasource="especieList" 
-                                         trigger="toggler" />
+                <f:facet name="header">#{bundle.EspecieListTitle}
+                    <p:commandButton id="toggler" type="button" value="Columnas" icon="ui-icon-calculator" style="margin-left: 10px" />
+                    <p:columnToggler datasource="especieList" trigger="toggler" />
+                </f:facet>
+
+                <p:column headerText="Familia" 
+                          filterMatchMode="contains"
+                          sortBy="#{e.familia.nombre}" 
+                          filterBy="#{e.familia.nombre}">
+                    <p:outputLabel value="#{e.familia.nombre}"/>
+                </p:column>
+                
+                <p:column headerText="Genero" 
+                          filterMatchMode="contains"
+                          sortBy="#{e.genero.nombre}" 
+                          filterBy="#{e.genero.nombre}">
+                    <p:outputLabel value="#{e.genero.nombre}"/>
+                </p:column>       
+                
+                <p:column headerText="Especie" 
+                          filterMatchMode="contains"
+                          sortBy="#{e.nombre}" 
+                          filterBy="#{e.nombre}">
+                    <p:outputLabel value="#{e.nombre}"/>
+                </p:column>                   
+                
+                <p:column headerText="Nombre Cientifico" 
+                          filterMatchMode="contains"
+                          sortBy="#{e.nombrecientifico}" 
+                          filterBy="#{e.nombrecientifico}">
+                    <p:outputLabel value="#{e.nombrecientifico}"/>
+                </p:column>
+
+                <p:column headerText="Morfología" 
+                          filterMatchMode="contains"
+                          sortBy="#{e.morfologia.nombre}" 
+                          filterBy="#{e.morfologia.nombre}">
+                    <p:outputLabel value="#{e.morfologia.nombre}"/>
+                </p:column>  
+                
+                <p:column headerText="Origen" 
+                          filterMatchMode="contains"
+                          sortBy="#{e.origen.nombre}" 
+                          filterBy="#{e.origen.nombre}">
+                    <p:outputLabel value="#{e.origen.nombre}"/>
+                </p:column>   
+                
+                <p:column headerText="Cites" 
+                          filterMatchMode="contains"
+                          sortBy="#{e.cites.nombre}" 
+                          filterBy="#{e.cites.nombre}">
+                    <p:outputLabel value="#{e.cites.nombre}"/>
+                </p:column>       
+                
+                <p:column filterBy="#{e.adminentidad.habilitado}" 
+                          headerText="Estado" 
+                          footerText=""                               
+                          filterMatchMode="equals">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('espTable').filter()" style="font-size: 80%;">
+                            <f:converter converterId="javax.faces.Boolean" />
+                            <f:selectItem itemLabel="Todos" 
+                                          itemValue="" />
+                            <f:selectItem itemLabel="Activos" 
+                                          itemValue="true" />
+                            <f:selectItem itemLabel="Inactivos" 
+                                          itemValue="false" />
+                        </p:selectOneMenu>
                     </f:facet>
-                    
-                    <p:column headerText="Nombre Cientifico" 
-                              filterMatchMode="contains"
-                              sortBy="#{e.nombrecientifico}" 
-                              filterBy="#{e.nombrecientifico}">
-                        <p:outputLabel value="#{e.nombrecientifico}"/>
-                    </p:column>
-                      
-                    <p:column headerText="Genero" 
-                              filterMatchMode="contains"
-                              sortBy="#{e.genero.nombre}" 
-                              filterBy="#{e.genero.nombre}">
-                        <p:outputLabel value="#{e.genero.nombre}"/>
-                    </p:column>
-                   
-                    
-                    <p:column headerText="Nombre" 
-                              filterMatchMode="contains"
-                              sortBy="#{e.nombre}" 
-                              filterBy="#{e.nombre}">
-                        <p:outputLabel value="#{e.nombre}"/>
-                    </p:column>
-                    
-                    
-                    <p:column headerText="Nombre Ingles" 
-                              filterMatchMode="contains"
-                              sortBy="#{e.nombreingles}" 
-                              filterBy="#{e.nombreingles}">
-                        <p:outputLabel value="#{e.nombreingles}"/>
-                    </p:column>  
-                    
-                    
-                    <p:column headerText="Nombre Vulgar" 
-                              filterMatchMode="contains"
-                              sortBy="#{e.nombrevulgar}" 
-                              filterBy="#{e.nombrevulgar}">
-                        <p:outputLabel value="#{e.nombrevulgar}"/>
-                    </p:column>                     
+                    <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
+                </p:column>
+                
+                <p:column headerText="Acciones" style="width:135px">
+                    <p:commandButton icon="ui-icon-zoomin" action="#{mbEspecie.prepareView}" title="Ver Detalle">    
+                        <f:setPropertyActionListener value="#{e}" target="#{mbEspecie.current}" />  
+                    </p:commandButton>
 
-                    
-                    <p:column 
-                        headerText="Nativa" 
-                        filterBy="#{e.nativa}"
-                        filterMatchMode="equals">
-                        <f:facet name="filter">
-                            <p:selectOneMenu onchange="PF('espTable').filter()" style="font-size: 80%;">
-                                <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="Todos" 
-                                              itemValue="" />
-                                <f:selectItem itemLabel="Si" 
-                                              itemValue="true" />
-                                <f:selectItem itemLabel="No" 
-                                              itemValue="false" />
-                            </p:selectOneMenu>
-                        </f:facet>
-                        <h:outputText value="#{e.nativa ? 'Si': 'No'}" />
-                    </p:column>                     
+                    <p:commandButton icon="ui-icon-pencil" action="#{mbEspecie.prepareEdit}" title="Editar">
+                        <f:setPropertyActionListener value="#{e}" target="#{mbEspecie.current}" />  
+                    </p:commandButton>
 
-                    <p:column 
-                        headerText="CITES"   
-                        filterBy="#{e.cites}"
-                        filterMatchMode="equals">
-                        <f:facet name="filter">
-                            
-                            <p:selectOneMenu onchange="PF('espTable').filter()" style="font-size: 80%;">
-                                
-                                <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="Todos" 
-                                              itemValue="" />
-                                <f:selectItem itemLabel="Si" 
-                                              itemValue="true" />
-                                <f:selectItem itemLabel="No" 
-                                              itemValue="false" />
-                            
-                            
-                            </p:selectOneMenu>
-                        </f:facet> 
-                        <h:outputText value="#{e.cites ? 'Si': 'No'}" />
-                    </p:column>                     
-                    
-                    <p:column filterBy="#{e.adminentidad.habilitado}" 
-                              headerText="Estado" 
-                              footerText=""                               
-                              filterMatchMode="equals">
-                        <f:facet name="filter">
-                            <p:selectOneMenu onchange="PF('espTable').filter()" style="font-size: 80%;">
-                                <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="Todos" 
-                                              itemValue="" />
-                                <f:selectItem itemLabel="Activos" 
-                                              itemValue="true" />
-                                <f:selectItem itemLabel="Inactivos" 
-                                              itemValue="false" />
-                            </p:selectOneMenu>
-                        </f:facet>
-                        <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
-                    </p:column>
-                    
-                    <p:column headerText="Acciones" 
-                              style="width:135px">
-                        <p:commandButton icon="ui-icon-zoomin" 
-                                         action="#{mbEspecie.prepareView}"
-                                         title="Ver Detalle">    
-                            <f:setPropertyActionListener value="#{e}" 
-                                                         
-                                                         target="#{mbEspecie.current}" />  
-                        </p:commandButton>
-                            
-                        <p:commandButton icon="ui-icon-pencil" 
-                                         action="#{mbEspecie.prepareEdit}" 
-                                         title="Editar">
-                            <f:setPropertyActionListener value="#{e}" 
-                                                         target="#{mbEspecie.current}" />  
-                        </p:commandButton>
-                             
-                        <p:commandButton icon="ui-icon-close" 
-                                         action="#{mbEspecie.deshabilitar}"
-                                         rendered="#{e.adminentidad.habilitado == 'true'}"
-                                         title="Deshabilitar" 
-                                         update="especieList">
-                                        <f:setPropertyActionListener value="#{e}" 
-                                                                     target="#{mbEspecie.current}" />
-                                         <p:confirm header="Confirmar" 
-                                                    message="¿Desea deshabilitar la Especie?" 
-                                                    icon="ui-icon-alert" />
-                        </p:commandButton>                
-  
-                        <p:commandButton icon="ui-icon-check" 
-                                         action="#{mbEspecie.habilitar}" 
-                                         rendered="#{e.adminentidad.habilitado == 'false'}" 
-                                         title="Habilitar"
-                                         update="especieList">
-                                <f:setPropertyActionListener value="#{e}" 
-                                                             target="#{mbEspecie.current}" />
-                                <p:confirm header="Confirmar" 
-                                           message="¿Desea habilitar la Especie?" 
-                                           icon="ui-icon-alert" />
-                        </p:commandButton>
-                        
-                        <p:confirmDialog global="true" 
-                                         showEffect="fade" 
-                                         hideEffect="fade">
-                            
-                            <p:commandButton value="Si" 
-                                             type="button" 
-                                             styleClass="ui-confirmdialog-yes" 
-                                             icon="ui-icon-check" />
-                            
-                            <p:commandButton value="No" 
-                                             type="button" 
-                                             styleClass="ui-confirmdialog-no" 
-                                             icon="ui-icon-close" />
-                        </p:confirmDialog>    
-                             
-                    </p:column>                
-           
-                </p:dataTable>
+                    <p:commandButton icon="ui-icon-close" action="#{mbEspecie.deshabilitar}" rendered="#{e.adminentidad.habilitado == 'true'}" title="Deshabilitar" update="especieList">
+                        <f:setPropertyActionListener value="#{e}" target="#{mbEspecie.current}" />
+                        <p:confirm header="Confirmar" message="¿Desea deshabilitar la Especie?" icon="ui-icon-alert" />
+                    </p:commandButton>                
 
-            </h:form>
-        </ui:define>
-    </ui:composition>
-</html>
+                    <p:commandButton icon="ui-icon-check" action="#{mbEspecie.habilitar}" rendered="#{e.adminentidad.habilitado == 'false'}" title="Habilitar" update="especieList">
+                        <f:setPropertyActionListener value="#{e}" target="#{mbEspecie.current}" />
+                        <p:confirm header="Confirmar" message="¿Desea habilitar la Especie?" icon="ui-icon-alert" />
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>    
+                </p:column>                
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
 

@@ -7,6 +7,7 @@
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,14 +34,6 @@ public class Rango implements Serializable {
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
     private String nombre;    
     
-    /*
-    ********** Agregar en Especie **************
-    @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo Rango no puede quedar vacío")
-    @JoinColumn(name="rango_id", nullable=false)
-    private Rango rango;        
-    
-    ************* Agregar aquí *****************
     @OneToMany(mappedBy="rango")
     private List<Especie> especies;     
 
@@ -55,7 +48,6 @@ public class Rango implements Serializable {
     public void setEspecies(List<Especie> especies) {
         this.especies = especies;
     }
-    */
 
     public String getNombre() {
         return nombre;

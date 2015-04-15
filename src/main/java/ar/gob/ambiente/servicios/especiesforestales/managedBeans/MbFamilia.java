@@ -39,12 +39,14 @@ public class MbFamilia implements Serializable{
     
     private Familia current;
     private DataModel items = null;
+    private List<Familia> listaFilter;
     
     @EJB
     private FamiliaFacade familiaFacade;
-    private int selectedItemIndex;
-    private String selectParam;    
-    private List<String> listaNombres;    
+    
+    //private int selectedItemIndex;
+    //private String selectParam;    
+    //private List<String> listaNombres;    
     private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
     private MbLogin login;
     private Usuario usLogeado;
@@ -84,6 +86,14 @@ public class MbFamilia implements Serializable{
             }
         }
     }      
+
+    public List<Familia> getListaFilter() {
+        return listaFilter;
+    }
+
+    public void setListaFilter(List<Familia> listaFilter) {
+        this.listaFilter = listaFilter;
+    }
 
     public Familia getCurrent() {
         return current;
@@ -143,16 +153,6 @@ public class MbFamilia implements Serializable{
         return "list";
     }
     
-    public String iniciarList(){
-        String redirect = "";
-        if(selectParam != null){
-            redirect = "list";
-        }else{
-            redirect = "administracion/familia/list";
-        }
-        recreateModel();
-        return redirect;
-    }
 
     /**
      * @return acción para el detalle de la entidad
@@ -247,9 +247,6 @@ public class MbFamilia implements Serializable{
      */
     private void recreateModel() {
         items = null;
-        if(selectParam != null){
-            selectParam = null;
-        }
     }
     
 
@@ -359,61 +356,7 @@ public class MbFamilia implements Serializable{
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("FamiliaDeletedErrorOccured"));
         }
     }
-
-    /**
-     * Actualiza el detalle de la entidad si la última se eliminó
-     */
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            /*
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-            */
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
-        }
-    }
     
-    
-    /*
-     * Métodos de búsqueda
-     */
-    public String getSelectParam() {
-        return selectParam;
-    }
-
-    public void setSelectParam(String selectParam) {
-        this.selectParam = selectParam;
-    }
-    
-   /* private void buscarFamilia(){
-        items = new ListDataModel(getFacade().getXString(selectParam)); 
-    }   */
-    
-    /**
-     * Método para llegar la lista para el autocompletado de la búsqueda de nombres
-     * @param query
-     * @return 
-     *//*
-    public List<String> completeNombres(String query){
-        listaNombres = getFacade().getNombres();
-        List<String> nombres = new ArrayList();
-        Iterator itLista = listaNombres.listIterator();
-        while(itLista.hasNext()){
-            String nom = (String)itLista.next();
-            if(nom.contains(query)){
-                nombres.add(nom);
-            }
-        }
-        return nombres;
-    }
-        */
     
     /********************************************************************
     ** Converter. Se debe actualizar la entidad y el facade respectivo **

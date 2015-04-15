@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -31,6 +33,10 @@ public class Familia implements Serializable {
     private Long id;
     private String nombre;
     
+    @Column (nullable=true, length=50)
+    @Size(message = "El campo subFamilia no puede tener más de 50 caracteres", max = 50)
+    private String subFamilia;     
+    
     @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="adminentidad_id")
     private AdminEntidad adminentidad;
@@ -41,6 +47,14 @@ public class Familia implements Serializable {
     //agregar constructor con el arrayList
     public Familia(){
         generos = new ArrayList<>();
+    }
+
+    public String getSubFamilia() {
+        return subFamilia;
+    }
+
+    public void setSubFamilia(String subFamilia) {
+        this.subFamilia = subFamilia;
     }
 
     public List<Genero> getGeneros() {
