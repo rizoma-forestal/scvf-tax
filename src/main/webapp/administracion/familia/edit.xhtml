@@ -12,13 +12,12 @@
             <p:panel id="pnEdit" header="#{bundle.FamiliaEditTitle}" style="margin-bottom:10px;">
                 <p:growl id="messages" />
                 <h:panelGrid columns="2">
-                    <h:inputHidden id="id" value="#{mbFamilia.selected.id}" />
                     <p:outputLabel value="#{bundle.CreateFamiliaLabel_nombre}" for="nombre"/>
                     <p:inputText id="nombre" validator="#{mbFamilia.validarUpdate}" value="#{mbFamilia.selected.nombre}" 
                                  requiredMessage="#{bundle.CreateFamiliaRequiredMessage_nombre}" required="true"/>
 
                     <p:outputLabel value="#{bundle.CreateFamiliaLabel_subFamilia}" for="subFamilia"/>
-                    <p:inputText id="subFamilia" value="#{mbFamilia.selected.nombre}" />
+                    <p:inputText id="subFamilia" value="#{mbFamilia.selected.subFamilia}" />
                 </h:panelGrid>
             </p:panel>
 

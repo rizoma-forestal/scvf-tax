@@ -106,10 +106,10 @@ public class Especie implements Serializable {
     public String getNombreCompleto() {
         nombreCompleto = getGenero().getFamilia().getNombre() + " " + getGenero().getNombre() + " " + getNombre();
         if(this.autorEspecie != null){
-            nombreCompleto = nombreCompleto + getAutorEspecie().getNombre();
+            nombreCompleto = nombreCompleto + " " + getAutorEspecie().getNombre();
         }
         if(this.subEspecie != null){
-            nombreCompleto = nombreCompleto + getSubEspecie();
+            nombreCompleto = nombreCompleto + " " + getSubEspecie();
         }
         return nombreCompleto;
     }

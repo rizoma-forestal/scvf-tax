@@ -10,9 +10,7 @@
             <h:form>
                 <p:panel id="pnView" header="#{bundle.EspecieViewTitle}" style="margin-bottom:10px;">
                     <p:messages id="messages" />
-                    
                         <h:panelGrid columns="2">
-                            
                             <h:outputLabel value="#{bundle.CreateEspecieLabel_familia} "/>
                             <h:outputText value="#{mbEspecie.selected.genero.familia.nombre}" 
                                           title="#{bundle.CreateEspecieTitle_genero}"/> 
@@ -31,7 +29,15 @@
                         
                             <h:outputLabel value="#{bundle.CreateEspecieLabel_sinonimos} "/>
                             <h:outputText value="#{mbEspecie.selected.sinonimo}" 
-                                          title="#{bundle.CreateEspecieTitle_sinonimos}"/>   
+                                          title="#{bundle.CreateEspecieTitle_sinonimos}"/>  
+                            
+                            <h:outputLabel value="#{bundle.ViewEspecieLabel_nombreCientifico} "/>
+                            <h:outputText value="#{mbEspecie.selected.nombrecientifico}" 
+                                          title="#{bundle.ViewEspecieTitle_nombreCientifico}"/> 
+                            
+                            <h:outputLabel value="#{bundle.ViewEspecieLabel_nombreCompleto} "/>
+                            <h:outputText value="#{mbEspecie.selected.nombreCompleto}" 
+                                          title="#{bundle.ViewEspecieTitle_nombreCompleto}"/>  
                             
                             <h:outputLabel value="#{bundle.CreateEspecieLabel_origen} "/>
                             <h:outputText value="#{mbEspecie.selected.origen.nombre}" 
@@ -50,7 +56,7 @@
                                           title="#{bundle.CreateEspecieTitle_rango}"/> 
                             
                             <h:outputLabel value="#{bundle.CreateEspecieLabel_publicacion} "/>
-                            <h:outputText value="#{mbEspecie.selected.publicacion.nombre}" 
+                            <h:outputText value="#{mbEspecie.selected.publicacion.nombre} - #{mbEspecie.selected.publicacion.anio}" 
                                           title="#{bundle.CreateEspecieTitle_publicacion}"/> 
                             
                             <h:outputLabel value="#{bundle.CreateEspecieLabel_autorEspecie} "/>
@@ -60,8 +66,6 @@
                             <h:outputLabel value="#{bundle.CreateEspecieLabel_autores} "/>
                             <h:outputText value="#{mbEspecie.selected.autores.nombre}" 
                                           title="#{bundle.CreateEspecieTitle_autores}"/> 
-                            
-                            <!-- Campos administrativos -->
 
                             <h:outputLabel value="#{bundle.UsuarioAlta}"/>
                             <h:outputText value="#{mbEspecie.selected.adminentidad.usAlta}"
@@ -89,7 +93,6 @@
                               
                         </h:panelGrid> 
                     </p:panel>
-                
                 <p:toolbar>
                     <f:facet name="left">
                         <p:commandButton icon="ui-icon-refresh" action="#{mbEspecie.prepareList}" value="Volver" ajax="false"/>

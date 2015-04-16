@@ -45,12 +45,14 @@ public class EspecieServlet extends HttpServlet {
   
           //espFcd.existe("Pirulo");
             
+            /*
             if(espFcd.existe("Pirulo")){
                 out.println("<h1>No Existe</h1>");
                 }
                 else{
                     out.println("<h1>Ya existe</h1>");
                         }
+            */
             
 /*         if(espFcd.getUtilizado(Long.valueOf(1))){
                 out.println("<h1>No Tiene Dependencias</h1>");

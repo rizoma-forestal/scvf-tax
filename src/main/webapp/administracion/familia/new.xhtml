@@ -9,7 +9,6 @@
 
     <ui:define name="content">
         <h:form>
-
             <p:panel id="pnNew"  header="#{bundle.FamiliaNewTitle}" style="margin-bottom:10px;">
                 <p:growl id="messages" />
                 <h:panelGrid columns="2">
@@ -18,31 +17,19 @@
                                  requiredMessage="#{bundle.CreateFamiliaRequiredMessage_nombre}" required="true"/>
 
                     <p:outputLabel value="#{bundle.CreateFamiliaLabel_subFamilia}" for="subFamilia"/>
-                    <p:inputText id="subFamilia" value="#{mbFamilia.selected.nombre}" />
+                    <p:inputText id="subFamilia" value="#{mbFamilia.selected.subFamilia}" />
                 </h:panelGrid>
             </p:panel>
-
+            
             <p:toolbar>
-
                 <f:facet name="left">
-                    <p:commandButton icon="ui-icon-check" 
-                                     value="Guardar" 
-                                     action="#{mbFamilia.create}" 
-                                     update="pnNew"/>
-
-                    <p:commandButton icon="ui-icon-cancel" 
-                                     value="Limpiar" 
-                                     style="float: next">
+                    <p:commandButton icon="ui-icon-check" value="Guardar" action="#{mbFamilia.create}" update="pnNew"/>
+                    <p:commandButton icon="ui-icon-cancel" value="Limpiar" style="float: next">
                         <p:ajax update="pnNew" resetValues="true" />
                     </p:commandButton>
-
-                    <p:commandButton icon="ui-icon-arrowreturnthick-1-w" 
-                                     action="#{mbFamilia.prepareList}" 
-                                     value="Volver" 
-                                     immediate="true"/>
+                    <p:commandButton icon="ui-icon-arrowreturnthick-1-w" action="#{mbFamilia.prepareList}" value="Volver" immediate="true"/>
                 </f:facet>
             </p:toolbar>
-
         </h:form>
     </ui:define>
 </ui:composition>

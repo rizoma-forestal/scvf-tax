@@ -7,4 +7,56 @@
      xmlns:p="http://primefaces.org/ui"
      xmlns:h="http://xmlns.jcp.org/jsf/html">
          
+    <ui:define name="content">
+        <h:form>
+            <p:panel id="rangoForm" header="#{bundle.RangoListTitle}" style="margin-bottom:10px;">
+                <h:panelGrid columns="6">
+                    <p:commandButton icon="ui-icon-newwin" value="Agregar Nuevo" action="#{mbRango.prepareCreate}"/>
+                    <p:commandButton icon="ui-icon-refresh" value="Refrescar Listado" action="#{mbRango.prepareList}" update="rangoList"/>
+                </h:panelGrid>
+            </p:panel>
+
+            <p:dataTable value="#{mbRango.listado}" 
+                         filteredValue="#{mbRango.listaFilter}"
+                         var="e" 
+                         id="rangoList" 
+                         rows="5"
+                         paginator="true"
+                         widgetVar="famTable"                             
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+
+                <f:facet name="header"> 
+                    #{bundle.RangoListTitle}  
+                    <p:commandButton id="toggler" type="button" value="Columnas" icon="ui-icon-calculator" style="margin-left: 10px" />
+                    <p:columnToggler datasource="rangoList" trigger="toggler" />
+                </f:facet>
+
+                <p:column headerText="Nombre" filterMatchMode="contains" sortBy="#{e.nombre}" filterBy="#{e.nombre}">
+                    <p:outputLabel value="#{e.nombre}"/>
+                </p:column>
+
+                <p:column headerText="Acciones" style="width:140px">
+                    <p:growl id="messages" showDetail="true" />                           
+                    <p:commandButton icon="ui-icon-zoomin" action="#{mbRango.prepareView}" title="Ver Detalle">
+                        <f:setPropertyActionListener value="#{e}" target="#{mbRango.current}" />  
+                    </p:commandButton>
+
+                    <p:commandButton icon="ui-icon-pencil" action="#{mbRango.prepareEdit}" title="Editar" >
+                        <f:setPropertyActionListener value="#{e}" target="#{mbRango.current}" /> 
+                    </p:commandButton>
+
+                    <p:commandButton icon="ui-icon-close" action="#{mbRango.prepareDestroy}" title="Eliminar" update="rangoList">
+                        <f:setPropertyActionListener value="#{e}" target="#{mbRango.current}" />
+                        <p:confirm header="Confirmar" message="¿Desea eliminar a este Rango?" icon="ui-icon-alert" />
+                    </p:commandButton>                
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>      
+                </p:column>                
+            </p:dataTable>
+        </h:form>
+    </ui:define>     
 </ui:composition>

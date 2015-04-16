@@ -68,4 +68,14 @@
         <managed-bean-class>ar.gob.ambiente.servicios.especiesforestales.managedBeans.MbOrigen</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>mbPublicacion</managed-bean-name>
+        <managed-bean-class>ar.gob.ambiente.servicios.especiesforestales.managedBeans.MbPublicacion</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>mbRango</managed-bean-name>
+        <managed-bean-class>ar.gob.ambiente.servicios.especiesforestales.managedBeans.MbRango</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>

@@ -76,6 +76,7 @@ public class MbEspecie implements Serializable{
     private AutorFacade autorFacade;
     
     private Familia selectedFamilia;
+    private Genero selectedGenero;
     
     //private int selectedItemIndex;
     //private String selectParam;    
@@ -128,6 +129,14 @@ public class MbEspecie implements Serializable{
             }
         }
     }      
+
+    public Familia getSelectedFamilia() {
+        return selectedFamilia;
+    }
+
+    public void setSelectedFamilia(Familia selectedFamilia) {
+        this.selectedFamilia = selectedFamilia;
+    }
 
     public List<Origen> getListaOrigenes() {
         return listaOrigenes;
@@ -315,45 +324,16 @@ public class MbEspecie implements Serializable{
           update();        
           recreateModel();     
     }
-     
-    /**
-     * Método para validar que no exista ya una entidad con este nombre al momento de crearla
-     * @param arg0: vista jsf que llama al validador
-     * @param arg1: objeto de la vista que hace el llamado
-     * @param arg2: contenido del campo de texto a validar 
-     */
-    public void validarInsert(FacesContext arg0, UIComponent arg1, Object arg2){
-        validarExistente(arg2);
-    }
-    
-    /**
-     * Método para validar que no exista una entidad con este nombre, siempre que dicho nombre no sea el que tenía originalmente
-     * @param arg0: vista jsf que llama al validador
-     * @param arg1: objeto de la vista que hace el llamado
-     * @param arg2: contenido del campo de texto a validar 
-     * @throws ValidatorException 
-     */
-    public void validarUpdate(FacesContext arg0, UIComponent arg1, Object arg2){
-        if(!current.getNombre().equals((String)arg2)){
-            validarExistente(arg2);
-        }
-    }
     
     /**
      * 
      * @param event
      */
     public void familiaChangeListener(ValueChangeEvent event) {
-        selectedFamilia = (Familia)event.getNewValue();
+        Familia fam = (Familia) event.getNewValue();
         
-        listaGenero = generoFacade.getGenerosXFamilia(selectedFamilia);
-    }        
-    
-    private void validarExistente(Object arg2) throws ValidatorException{
-        if(!getFacade().existe((String)arg2)){
-            throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateEspecieExistente")));
-        }
-    }
+        listaGenero = generoFacade.getGenerosXFamilia(fam);
+    }       
     
     
     /**
@@ -378,9 +358,15 @@ public class MbEspecie implements Serializable{
         admEnt.setUsAlta(usLogeado);
         current.setAdminentidad(admEnt);        
         try {
-            getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieCreated"));
-            return "view";
+            if(getFacade().noExiste(current.getGenero(), current.getNombre(), current.getSubEspecie())){
+                getFacade().create(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieCreated"));
+                return "view"; 
+            }else{
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EslecieExistente"));
+                return null;
+            }
+
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieCreatedErrorOccured"));
             return null;

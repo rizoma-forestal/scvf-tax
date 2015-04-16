@@ -36,24 +36,34 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
      * @param anio
      * @return: devuelve True o False
      */
-    public boolean existe(String nombre, int anio){
+    public boolean noExiste(String nombre, int anio){
         em = getEntityManager();       
         String queryString = "SELECT pub.nombre FROM Publicacion pub "
                 + "WHERE pub.nombre = :nombre "
                 + "AND pub.anio = :anio";
-        
         Query q = em.createQuery(queryString)
                 .setParameter("nombre", nombre)
                 .setParameter("anio", anio);
         return q.getResultList().isEmpty();
     }  
     
+    public Publicacion getExistente(String nombre, int anio){
+        em = getEntityManager();       
+        String queryString = "SELECT pub FROM Publicacion pub "
+                + "WHERE pub.nombre = :nombre "
+                + "AND pub.anio = :anio";
+        Query q = em.createQuery(queryString)
+                .setParameter("nombre", nombre)
+                .setParameter("anio", anio);
+        return (Publicacion)q.getSingleResult();
+    }
+    
     /**
      * Método que verifica si la entidad tiene dependencias
      * @param id: ID de la entidad
      * @return: True o False
      */
-    public boolean tieneDependencias(Long id){
+    public boolean noTieneDependencias(Long id){
         em = getEntityManager();       
         
         String queryString = "SELECT sub FROM SubEspecie sub " 
@@ -64,4 +74,8 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         
         return q.getResultList().isEmpty();
     }    
+
+    public boolean existe(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

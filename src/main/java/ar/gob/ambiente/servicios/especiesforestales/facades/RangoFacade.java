@@ -50,7 +50,7 @@ public class RangoFacade extends AbstractFacade<Rango> {
      * @param id: ID de la entidad
      * @return: True o False
      */
-    public boolean tieneDependencias(Long id){
+    public boolean noTieneDependencias(Long id){
         em = getEntityManager();       
         
         String queryString = "SELECT sub FROM SubEspecie sub " 

@@ -40,27 +40,19 @@
                     <p:outputLabel value="#{e.subFamilia}"/>
                 </p:column>
 
-                <p:column filterBy="#{e.adminentidad.habilitado}" 
-                          headerText="Estado" 
-                          footerText=""                               
-                          filterMatchMode="equals">
+                <p:column filterBy="#{e.adminentidad.habilitado}" headerText="Estado" filterMatchMode="equals">
                     <f:facet name="filter">
-                        <p:selectOneMenu onchange="PF('famTable').filter()" 
-                                           style="font-size: 80%;">
+                        <p:selectOneMenu onchange="PF('famTable').filter()" style="font-size: 80%;">
                             <f:converter converterId="javax.faces.Boolean" />
-                            <f:selectItem itemLabel="Todos" 
-                                          itemValue="" />
-                            <f:selectItem itemLabel="Activos" 
-                                          itemValue="true" />
-                            <f:selectItem itemLabel="Inactivos" 
-                                          itemValue="false" />
+                            <f:selectItem itemLabel="Todos" itemValue="" />
+                            <f:selectItem itemLabel="Activos" itemValue="true" />
+                            <f:selectItem itemLabel="Inactivos" itemValue="false" />
                         </p:selectOneMenu>
                     </f:facet>
                     <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
                 </p:column>
 
-
-                <p:column headerText="Acciones" style="width:135px">
+                <p:column headerText="Acciones" style="width:140px">
                     <p:growl id="messages" showDetail="true" />                           
                     <p:commandButton icon="ui-icon-zoomin" action="#{mbFamilia.prepareView}" title="Ver Detalle">
                         <f:setPropertyActionListener value="#{e}" target="#{mbFamilia.current}" />  
@@ -70,28 +62,16 @@
                         <f:setPropertyActionListener value="#{e}" target="#{mbFamilia.current}" /> 
                     </p:commandButton>
 
-                    <p:commandButton icon="ui-icon-close" 
-                                     action="#{mbFamilia.deshabilitar}"
-                                     rendered="#{e.adminentidad.habilitado == 'true'}"
-                                     title="Deshabilitar"
-                                     update="familiaList">
-                                <f:setPropertyActionListener value="#{e}" 
-                                                             target="#{mbFamilia.current}" />
-                                    <p:confirm header="Confirmar" 
-                                               message="¿Desea deshabilitar la Familia?" 
-                                               icon="ui-icon-alert" />
+                    <p:commandButton icon="ui-icon-close" action="#{mbFamilia.deshabilitar}" rendered="#{e.adminentidad.habilitado == 'true'}" 
+                                     title="Deshabilitar" update="familiaList">
+                        <f:setPropertyActionListener value="#{e}" target="#{mbFamilia.current}" />
+                        <p:confirm header="Confirmar"  message="¿Desea deshabilitar la Familia?" icon="ui-icon-alert" />
                     </p:commandButton>                
 
-                    <p:commandButton icon="ui-icon-check" 
-                                     action="#{mbFamilia.habilitar}" 
-                                     rendered="#{e.adminentidad.habilitado == 'false'}" 
-                                     title="Habilitar"
-                                     update="familiaList">
-                            <f:setPropertyActionListener value="#{e}" 
-                                                         target="#{mbFamilia.current}" />
-                                    <p:confirm header="Confirmar" 
-                                               message="¿Desea habilitar la Familia?" 
-                                               icon="ui-icon-alert" />
+                    <p:commandButton icon="ui-icon-check" action="#{mbFamilia.habilitar}" rendered="#{e.adminentidad.habilitado == 'false'}" 
+                                     title="Habilitar" update="familiaList">
+                        <f:setPropertyActionListener value="#{e}" target="#{mbFamilia.current}" />
+                        <p:confirm header="Confirmar" message="¿Desea habilitar la Familia?" icon="ui-icon-alert" />
                     </p:commandButton> 
 
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

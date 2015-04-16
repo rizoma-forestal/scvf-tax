@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/facelets/templates/entidadTemplate.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+    <ui:define name="content">
+        <h:form>
+            <p:panel id="pnView" header="#{bundle.PublicacionViewTitle}" style="margin-bottom:10px;">
+                <p:messages id="messages" />
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreatePublicacionLabel_nombre}"/>
+                    <h:outputText value="#{mbPublicacion.selected.nombre}" title="#{bundle.CreatePublicacionTitle_nombre}"/>
+                    
+                    <h:outputLabel value="#{bundle.CreatePublicacionLabel_anio}"/>
+                    <h:outputText value="#{mbPublicacion.selected.anio}" title="#{bundle.CreatePublicacionTitle_anio}"/>
+
+
+                    <h:outputLabel value="#{bundle.EspeciesAsociadas}&nbsp;" />
+                    <p:commandButton value="Ver especies" type="button" onclick="PF('Especies').show();" actionListener="#{mbPublicacion.selected.especies}" />      
+                </h:panelGrid>   
+                <p:dialog style="font-size: 80%" 
+                          header="Listado de Especies asociadas a esta Publicacion" 
+                          widgetVar="Especies" 
+                          showEffect="fade" 
+                          hideEffect="fade" 
+                          height="100" 
+                          width="30%">
+                    <p:dataTable value="#{mbPublicacion.selected.especies}" var="g" id="esp">
+                        <p:column headerText="Especie" 
+                                  filterMatchMode="contains"
+                                  filterBy="#{g.nombrecientifico}"
+                                  sortBy="#{g.nombrecientifico}" >
+                            <p:outputLabel value="#{g.nombrecientifico}"/> 
+                        </p:column>                        
+                    </p:dataTable>
+                </p:dialog>
+            </p:panel>
+
+            <p:toolbar>
+                <f:facet name="left">
+                    <p:commandButton icon="ui-icon-refresh" action="#{mbPublicacion.prepareList}" value="Volver" ajax="false"/>
+                </f:facet>
+            </p:toolbar>
+
+        </h:form>
+    </ui:define>   
+</ui:composition>
+    
+    
+

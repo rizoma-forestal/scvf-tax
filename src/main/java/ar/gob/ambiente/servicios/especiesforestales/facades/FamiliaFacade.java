@@ -39,18 +39,13 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
      * @param stringParam: cadena que buscará en todos los campos de tipo varchar de la tabla correspondiente
      * @return: El conjunto de resultados provenientes de la búsqueda. 
      */      
-    public List<Familia> getXString(String stringParam){
+    public Familia getXNombre(String stringParam){
         em = getEntityManager();
-        List<Familia> result;
-        
         String queryString = "SELECT fam FROM Familia fam "
-                + "WHERE fam.nombre LIKE :stringParam ";
-        
+                + "WHERE fam.nombre = :stringParam";
         Query q = em.createQuery(queryString)
-                .setParameter("stringParam", "%" + stringParam + "%");        
-        
-        result = q.getResultList();
-        return result;
+                .setParameter("stringParam", stringParam);        
+        return (Familia)q.getSingleResult();
     }
 
     /**

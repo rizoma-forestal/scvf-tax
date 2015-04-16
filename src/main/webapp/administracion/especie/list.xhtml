@@ -36,9 +36,9 @@
 
                 <p:column headerText="Familia" 
                           filterMatchMode="contains"
-                          sortBy="#{e.familia.nombre}" 
-                          filterBy="#{e.familia.nombre}">
-                    <p:outputLabel value="#{e.familia.nombre}"/>
+                          sortBy="#{e.genero.familia.nombre}" 
+                          filterBy="#{e.genero.familia.nombre}">
+                    <p:outputLabel value="#{e.genero.familia.nombre}"/>
                 </p:column>
                 
                 <p:column headerText="Genero" 
@@ -84,8 +84,7 @@
                 </p:column>       
                 
                 <p:column filterBy="#{e.adminentidad.habilitado}" 
-                          headerText="Estado" 
-                          footerText=""                               
+                          headerText="Estado"                            
                           filterMatchMode="equals">
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('espTable').filter()" style="font-size: 80%;">
@@ -101,7 +100,7 @@
                     <h:outputText value="#{e.adminentidad.habilitado ? 'Habilitado': 'Deshabilitado'}" />
                 </p:column>
                 
-                <p:column headerText="Acciones" style="width:135px">
+                <p:column headerText="Acciones" style="width:140px">
                     <p:commandButton icon="ui-icon-zoomin" action="#{mbEspecie.prepareView}" title="Ver Detalle">    
                         <f:setPropertyActionListener value="#{e}" target="#{mbEspecie.current}" />  
                     </p:commandButton>

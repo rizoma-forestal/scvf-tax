@@ -13,21 +13,20 @@
                     <h:panelGrid columns="2">
                         
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_familia}" for="familia"/>                             
-                        <p:selectOneMenu id="familia" valueChangeListener="#{mbEspecie.familiaChangeListener}" >
+                        <p:selectOneMenu id="familia" value="#{mbEspecie.selected.genero.familia}" valueChangeListener="#{mbEspecie.familiaChangeListener}" >
                             <f:selectItem itemLabel="Seleccione el Genero" itemValue="" noSelectionOption="true" />                           
                             <f:selectItems value="#{mbEspecie.listaFamilia}" var="familia" itemLabel="#{familia.nombre}" itemValue="#{familia}"/>
                             <p:ajax event="change" update="genero"/>
                         </p:selectOneMenu>   
 
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_genero}" for="genero"/>                             
-                        <p:selectOneMenu id="genero" value="#{mbEspecie.selected.genero}" 
-                                         requiredMessage="#{bundle.CreateEspecieGeneroRequiredMessage}" required="true">
+                        <p:selectOneMenu id="genero" value="#{mbEspecie.selected.genero}" >
                             <f:selectItem itemLabel="Seleccione el Genero" itemValue="" noSelectionOption="true" />                           
                             <f:selectItems value="#{mbEspecie.listaGenero}" var="genero" itemLabel="#{genero.nombre}" itemValue="#{genero}"/>
                         </p:selectOneMenu>   
                         
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_nombre}" for="nombre"/>                       
-                        <p:inputText id="nombre" validator="#{mbEspecie.validarInsert}" value="#{mbEspecie.selected.nombre}" 
+                        <p:inputText id="nombre" value="#{mbEspecie.selected.nombre}" 
                                      requiredMessage="#{bundle.CreateEspecieRequiredMessage_nombre}" required="true"/>                           
                         
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_subEspecie}" for="subespecie"/>
@@ -69,7 +68,7 @@
                         <p:selectOneMenu id="publicacion" value="#{mbEspecie.selected.publicacion}" 
                                          requiredMessage="El campo #{bundle.CreateEspecieTitle_publicacion} es obligatorio" required="true">
                             <f:selectItem itemLabel="Seleccione la #{bundle.CreateEspecieTitle_publicacion}" itemValue="" noSelectionOption="true" />                           
-                            <f:selectItems value="#{mbEspecie.listaPublicaciones}" var="publicacion" itemLabel="#{publicacion.nombre}" itemValue="#{publicacion}"/>
+                            <f:selectItems value="#{mbEspecie.listaPublicaciones}" var="publicacion" itemLabel="#{publicacion.nombre} - #{publicacion.anio}" itemValue="#{publicacion}"/>
                         </p:selectOneMenu> 
                         
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_autorEspecie}" for="autorEspecie"/>                             

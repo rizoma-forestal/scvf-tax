@@ -39,19 +39,14 @@ public class GeneroFacade extends AbstractFacade<Genero> {
      * @param stringParam: cadena que buscará en todos los campos de tipo varchar de la tabla correspondiente
      * @return: El conjunto de resultados provenientes de la búsqueda. 
      */      
-    public List<Genero> getXString(String stringParam){
+    public Genero getXNombre(String stringParam){
         em = getEntityManager();
-        List<Genero> result;
-        
         String queryString = "SELECT gen FROM Genero gen "
-                + "WHERE gen.nombre LIKE :stringParam "
-                + "AND gen.adminentidad.habilitado =true";
-        
+                + "WHERE gen.nombre = :stringParam "
+                + "AND gen.adminentidad.habilitado = true";
         Query q = em.createQuery(queryString)
-                .setParameter("stringParam", "%" + stringParam + "%"); 
-        
-        result = q.getResultList();
-        return result;
+                .setParameter("stringParam", stringParam); 
+        return (Genero)q.getSingleResult();
     }
 
     /**
@@ -121,7 +116,8 @@ public class GeneroFacade extends AbstractFacade<Genero> {
         em = getEntityManager();        
         String queryString = "SELECT gen FROM Genero gen "
                 + "WHERE gen.familia = :familia";
-        Query q = em.createQuery(queryString);
+        Query q = em.createQuery(queryString)
+                .setParameter("familia", familia);
         return q.getResultList();
     }
 }

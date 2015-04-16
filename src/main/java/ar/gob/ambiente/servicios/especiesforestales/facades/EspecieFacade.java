@@ -7,6 +7,7 @@
 package ar.gob.ambiente.servicios.especiesforestales.facades;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Genero;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -54,15 +55,31 @@ public class EspecieFacade extends AbstractFacade<Especie> {
     }
     
        
-    public boolean existe(String nombre){
+    public boolean noExiste(Genero genero, String nombre, String subEspecie){
         em = getEntityManager();       
         String queryString = "SELECT esp.nombre FROM Especie esp "
-                + "WHERE esp.nombre = :nombre";
+                + "WHERE esp.nombre = :nombre "
+                + "AND esp.subEspecie = :subEspecie "
+                + "AND esp.genero = :genero";
         Query q = em.createQuery(queryString)
-                .setParameter("nombre", nombre);
+                .setParameter("nombre", nombre)
+                .setParameter("subEspecie", subEspecie)
+                .setParameter("genero", genero);
         return q.getResultList().isEmpty();        
-        
     }    
+    
+    public Especie getExistente(Genero genero, String nombre, String subEspecie){
+        em = getEntityManager();       
+        String queryString = "SELECT esp.nombre FROM Especie esp "
+                + "WHERE esp.nombre = :nombre "
+                + "AND esp.subEspecie = :subEspecie "
+                + "AND esp.genero = :genero";
+        Query q = em.createQuery(queryString)
+                .setParameter("nombre", nombre)
+                .setParameter("subEspecie", subEspecie)
+                .setParameter("genero", genero);
+        return (Especie)q.getSingleResult();
+    }
 
     public List<String> getNombre(){
         em = getEntityManager();
