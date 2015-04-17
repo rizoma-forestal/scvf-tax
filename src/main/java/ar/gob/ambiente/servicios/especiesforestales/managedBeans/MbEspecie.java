@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -44,7 +43,6 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 /**
  *
@@ -361,9 +359,9 @@ public class MbEspecie implements Serializable{
             if(getFacade().noExiste(current.getGenero(), current.getNombre(), current.getSubEspecie())){
                 getFacade().create(current);
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieCreated"));
-                return "view"; 
+                return "view";
             }else{
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EslecieExistente"));
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieExistente"));
                 return null;
             }
 
@@ -376,8 +374,8 @@ public class MbEspecie implements Serializable{
 
     public String update() {
         Date date = new Date(System.currentTimeMillis());
-        //Date dateBaja = new Date();
-        
+        Especie esp;
+
         // actualizamos según el valor de update
         if(update == 1){
             current.getAdminentidad().setFechaBaja(date);
@@ -395,11 +393,39 @@ public class MbEspecie implements Serializable{
             current.getAdminentidad().setFechaModif(date);
             current.getAdminentidad().setUsModif(usLogeado);
         }
-        // acualizo
+        // acualizo según la operación seleccionada
         try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
-            return "view";
+            if(update == 0){
+                // valido que no exista otra entidad con las misma identidad
+                esp = getFacade().getExistente(current.getGenero(), current.getNombre(), current.getSubEspecie());
+                if(esp.getId().equals(current.getId())){
+                    // si tienen el mismo id es la misma entidad
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
+                    return "view";
+                }else{
+                    // si la identidad está usada ya, retorno con mensaje de error
+                    JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieExistente"));
+                    return null;
+                }
+            }else if(update == 1){
+                // si deshabilito, valido que no haya dependencias 
+                if(getFacade().noExiste(current.getGenero(), current.getNombre(), current.getSubEspecie())){
+                    // si no existe, actualizo
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
+                    return "view";
+                }else{
+                    // si tiene dependencias, retorno con mensaje de error
+                    JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieNonDeletable"));
+                    return null;
+                }
+            }else{
+                    // si la operación es habilitar, ejecuto directamente
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
+                    return "view";
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieUpdatedErrorOccured"));
             return null;
