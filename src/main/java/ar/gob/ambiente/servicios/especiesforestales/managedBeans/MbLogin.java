@@ -8,7 +8,9 @@ package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.CriptPass;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.UsuarioFacade;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -59,7 +61,7 @@ public class MbLogin implements Serializable{
 /**
      * Método que borra de la memoria los MB innecesarios al cargar el listado 
      */
-    public void iniciar(){
+    public void iniciar() throws IOException{
         if(iniciado){
             String s;
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
@@ -74,10 +76,25 @@ public class MbLogin implements Serializable{
                 }
             }
         }else{
-            usLogeado = usuarioFacade.getUsuario(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-            iniciado = true;
+            if(usuarioFacade.getUsuario(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()) != null){
+                usLogeado = usuarioFacade.getUsuario(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+                ambito = usLogeado.getRol().getNombre();
+                iniciado = true;
+            }else{
+                FacesContext fc=FacesContext.getCurrentInstance();
+                fc.getExternalContext().redirect(ResourceBundle.getBundle("/Bundle").getString("logError"));
+            }
         }
     }      
+
+    public boolean isIniciado() {
+        return iniciado;
+    }
+
+    public void setIniciado(boolean iniciado) {
+        this.iniciado = iniciado;
+    }
+    
     public List<String> getListMbActivos() {
         return listMbActivos;
     }

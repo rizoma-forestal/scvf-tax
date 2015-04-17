@@ -6,6 +6,7 @@
 
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Origen;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.OrigenFacade;
@@ -32,6 +33,7 @@ public class MbOrigen implements Serializable{
     private Origen current;
     private List<Origen> listado = null;
     private List<Origen> listaFilter;    
+    private List<Especie> listEspFilter;
     
     @EJB
     private OrigenFacade origenFacade;
@@ -42,6 +44,14 @@ public class MbOrigen implements Serializable{
      * Creates a new instance of MbOrigen
      */
     public MbOrigen() {
+    }
+
+    public List<Especie> getListEspFilter() {
+        return listEspFilter;
+    }
+
+    public void setListEspFilter(List<Especie> listEspFilter) {
+        this.listEspFilter = listEspFilter;
     }
 
     public Origen getCurrent() {

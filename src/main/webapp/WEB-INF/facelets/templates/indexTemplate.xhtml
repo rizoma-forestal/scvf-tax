@@ -52,7 +52,7 @@
                                         url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizOrigen}/list.xhtml"/>  
                         </p:submenu> 
                         
-                        <p:submenu label="Seguridad">
+                        <p:submenu label="Seguridad" rendered="#{mbLogin.ambito == 'Seguridad'}">
                             <p:menuitem value="Usuarios" 
                                         url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizUsuario}/list.xhtml"/>
                             <p:menuitem value="Roles" 

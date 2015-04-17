@@ -7,6 +7,7 @@
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Cites;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.CitesFacade;
 import java.io.Serializable;
@@ -31,7 +32,8 @@ public class MbCites implements Serializable{
     
     private Cites current;
     private List<Cites> listado = null;
-    private List<Cites> listaFilter;    
+    private List<Cites> listaFilter;  
+    private List<Especie> listEspFilter;
     
     @EJB
     private CitesFacade citesFacade;
@@ -42,6 +44,14 @@ public class MbCites implements Serializable{
      * Creates a new instance of MbCites
      */
     public MbCites() {
+    }
+
+    public List<Especie> getListEspFilter() {
+        return listEspFilter;
+    }
+
+    public void setListEspFilter(List<Especie> listEspFilter) {
+        this.listEspFilter = listEspFilter;
     }
 
     public Cites getCurrent() {

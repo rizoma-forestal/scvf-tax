@@ -7,6 +7,7 @@
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Autor;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.AutorFacade;
 import java.io.Serializable;
@@ -32,6 +33,7 @@ public class MbAutor implements Serializable{
     private Autor current;
     private List<Autor> listado = null;
     private List<Autor> listaFilter;    
+    private List<Especie> listEspFilter;
     
     @EJB
     private AutorFacade autorFacade;
@@ -42,6 +44,14 @@ public class MbAutor implements Serializable{
      * Creates a new instance of MbAutor
      */
     public MbAutor() {
+    }
+
+    public List<Especie> getListEspFilter() {
+        return listEspFilter;
+    }
+
+    public void setListEspFilter(List<Especie> listEspFilter) {
+        this.listEspFilter = listEspFilter;
     }
 
     public Autor getCurrent() {

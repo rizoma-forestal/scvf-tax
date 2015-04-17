@@ -47,7 +47,7 @@
                           hideEffect="fade" 
                           height="100" 
                           width="30%">
-                    <p:dataTable value="#{mbAutor.selected.especiesXAutores}" var="g" id="EspeciesGral">
+                    <p:dataTable value="#{mbAutor.selected.especiesXAutores}" var="g" id="EspeciesGral" filteredValue="#{mbAutor.listEspFilter}">
                         <p:column headerText="Especie" 
                                   filterMatchMode="contains"
                                   filterBy="#{g.nombrecientifico}"

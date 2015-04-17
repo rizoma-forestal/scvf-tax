@@ -6,6 +6,7 @@
 
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Rango;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.RangoFacade;
@@ -32,6 +33,7 @@ public class MbRango implements Serializable{
     private Rango current;
     private List<Rango> listado = null;
     private List<Rango> listaFilter;    
+    private List<Especie> listEspFilter;
     
     @EJB
     private RangoFacade rangoFacade;
@@ -42,6 +44,14 @@ public class MbRango implements Serializable{
      * Creates a new instance of MbRango
      */
     public MbRango() {
+    }
+
+    public List<Especie> getListEspFilter() {
+        return listEspFilter;
+    }
+
+    public void setListEspFilter(List<Especie> listEspFilter) {
+        this.listEspFilter = listEspFilter;
     }
 
     public Rango getCurrent() {

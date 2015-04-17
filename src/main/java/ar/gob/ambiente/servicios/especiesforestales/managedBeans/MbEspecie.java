@@ -396,35 +396,17 @@ public class MbEspecie implements Serializable{
         // acualizo según la operación seleccionada
         try {
             if(update == 0){
-                // valido que no exista otra entidad con las misma identidad
-                esp = getFacade().getExistente(current.getGenero(), current.getNombre(), current.getSubEspecie());
-                if(esp.getId().equals(current.getId())){
-                    // si tienen el mismo id es la misma entidad
-                    getFacade().edit(current);
-                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
-                    return "view";
-                }else{
-                    // si la identidad está usada ya, retorno con mensaje de error
-                    JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieExistente"));
-                    return null;
-                }
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
+                return "view";
             }else if(update == 1){
-                // si deshabilito, valido que no haya dependencias 
-                if(getFacade().noExiste(current.getGenero(), current.getNombre(), current.getSubEspecie())){
-                    // si no existe, actualizo
-                    getFacade().edit(current);
-                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
-                    return "view";
-                }else{
-                    // si tiene dependencias, retorno con mensaje de error
-                    JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieNonDeletable"));
-                    return null;
-                }
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieDeshabilitada"));
+                return "view";
             }else{
-                    // si la operación es habilitar, ejecuto directamente
-                    getFacade().edit(current);
-                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
-                    return "view";
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieHabilitada"));
+                return "view";
             }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieUpdatedErrorOccured"));

@@ -59,7 +59,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         return q.getResultList().isEmpty();
     }    
 
-    public boolean tieneDependencias(Long id) {
+    public boolean noTieneDependencias(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
      /**
@@ -96,11 +96,16 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
      */
     public Usuario getUsuario(String nombre){
         em = getEntityManager();
-        Usuario us;
+        List<Usuario> lUs;
         String queryString = "SELECT us FROM Usuario us "
                 + "WHERE us.nombre = :nombre";
         Query q = em.createQuery(queryString)
                 .setParameter("nombre", nombre);
-        return (Usuario)q.getSingleResult();
+        lUs = q.getResultList();
+        if(!lUs.isEmpty()){
+            return lUs.get(0);
+        }else{
+            return null;
+        }
     }
 }

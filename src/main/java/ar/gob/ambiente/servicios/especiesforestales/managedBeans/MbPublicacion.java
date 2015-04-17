@@ -6,6 +6,7 @@
 
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Publicacion;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.PublicacionFacade;
@@ -33,6 +34,7 @@ public class MbPublicacion implements Serializable{
     private Publicacion current;
     private List<Publicacion> listado = null;
     private List<Publicacion> listaFilter;    
+    private List<Especie> listEspFilter;
     
     @EJB
     private PublicacionFacade publicacionFacade;
@@ -43,6 +45,14 @@ public class MbPublicacion implements Serializable{
      * Creates a new instance of MbPublicacion
      */
     public MbPublicacion() {
+    }
+
+    public List<Especie> getListEspFilter() {
+        return listEspFilter;
+    }
+
+    public void setListEspFilter(List<Especie> listEspFilter) {
+        this.listEspFilter = listEspFilter;
     }
 
     public Publicacion getCurrent() {

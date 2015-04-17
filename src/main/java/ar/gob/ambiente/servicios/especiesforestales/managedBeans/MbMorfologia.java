@@ -6,6 +6,7 @@
 
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
+import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Morfologia;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.util.JsfUtil;
 import ar.gob.ambiente.servicios.especiesforestales.facades.MorfologiaFacade;
@@ -32,6 +33,7 @@ public class MbMorfologia implements Serializable{
     private Morfologia current;
     private List<Morfologia> listado = null;
     private List<Morfologia> listaFilter;    
+    private List<Especie> listEspFilter;
     
     @EJB
     private MorfologiaFacade morfologiaFacade;
@@ -41,6 +43,14 @@ public class MbMorfologia implements Serializable{
      * Creates a new instance of MbMorfologia
      */
     public MbMorfologia() {
+    }
+
+    public List<Especie> getListEspFilter() {
+        return listEspFilter;
+    }
+
+    public void setListEspFilter(List<Especie> listEspFilter) {
+        this.listEspFilter = listEspFilter;
     }
 
     public Morfologia getCurrent() {

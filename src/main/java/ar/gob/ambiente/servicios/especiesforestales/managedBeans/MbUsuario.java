@@ -48,10 +48,7 @@ public class MbUsuario implements Serializable{
     @EJB
     private UsuarioFacade usuarioFacade;       
     private List<Rol> listaRol;
-    private int selectedItemIndex;
-    private String selectParam;   
 
-    
     /**
      * Creates a new instance of MbUsuario
      */
@@ -139,7 +136,6 @@ public class MbUsuario implements Serializable{
     public Usuario getSelected() {
         if (current == null) {
             current = new Usuario();
-            selectedItemIndex = -1;
         }
         return current;
     }  
@@ -153,16 +149,6 @@ public class MbUsuario implements Serializable{
         //recreateModel();
         return "list";
     }    
-    public String iniciarList(){
-        String redirect = "";
-        if(selectParam != null){
-            redirect = "list";
-        }else{
-            redirect = "administracion/usuario/list";
-        }
-        recreateModel();
-        return redirect;
-    }
     
     /**
      * @return acción para el detalle de la entidad
@@ -218,8 +204,7 @@ public class MbUsuario implements Serializable{
     } 
     
        public String deshabilitar() {
-        //Si esta libre de dependencias deshabilita
-        if (getFacade().tieneDependencias(current.getId())){
+        if (getFacade().noTieneDependencias(current.getId())){
             current.getAdmin().setHabilitado(false);
             update();        
             recreateModel();
@@ -354,10 +339,19 @@ public class MbUsuario implements Serializable{
             }
 
             // Actualizo
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
-            recreateModel();
-            return "view";
+            if(update == 0){
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
+                return "view";
+            }else if(update == 1){
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioDeshabilitado"));
+                return "view";
+            }else{
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioHabilitado"));
+                return "view";
+            }
                 
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdatedErrorOccured"));
@@ -372,21 +366,6 @@ public class MbUsuario implements Serializable{
     public Usuario getUsuario(java.lang.Long id) {
         return getFacade().find(id);
     }    
-    
-    /**
-     * Método para revocar la sesión del MB
-     * @return 
-     */
-    public String cleanUp(){
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(true);
-        session.removeAttribute("mbUsuario");
-   
-        return "inicio";
-    }      
-    
-    
-    
     
     
     /*********************

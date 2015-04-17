@@ -57,10 +57,23 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
         em = getEntityManager();       
         String queryString = "SELECT fam.nombre FROM Familia fam "
                 + "WHERE fam.nombre = :stringParam ";
-        
         Query q = em.createQuery(queryString)
                 .setParameter("stringParam", aBuscar);
         return q.getResultList().isEmpty();
+    }      
+    
+    /**
+     * Metodo que verifica si ya existe la entidad.
+     * @param aBuscar: es la cadena que buscara para ver si ya existe en la BDD
+     * @return: devuelve True o False
+     */
+    public Familia getExistente(String aBuscar){
+        em = getEntityManager();       
+        String queryString = "SELECT fam.nombre FROM Familia fam "
+                + "WHERE fam.nombre = :stringParam ";
+        Query q = em.createQuery(queryString)
+                .setParameter("stringParam", aBuscar);
+        return (Familia)q.getResultList();
     }        
     
     
@@ -69,16 +82,14 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
      * @param id: ID de la entidad
      * @return: True o False
      */
-    public boolean tieneDependencias(Long id){
+    public boolean noTieneDependencias(Long id){
         em = getEntityManager();       
         
         String queryString = "SELECT gen FROM Genero gen " 
                 + "WHERE gen.familia.id = :idParam "
                 + "AND gen.adminentidad.habilitado = true";      
-        
         Query q = em.createQuery(queryString)
                 .setParameter("idParam", id);
-        
         return q.getResultList().isEmpty();
     }
      /**

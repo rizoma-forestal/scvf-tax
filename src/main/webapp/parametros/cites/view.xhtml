@@ -27,7 +27,7 @@
                           hideEffect="fade" 
                           height="100" 
                           width="30%">
-                    <p:dataTable value="#{mbCites.selected.especies}" var="g" id="esp">
+                    <p:dataTable value="#{mbCites.selected.especies}" var="g" id="esp" filteredValue="#{mbCites.listEspFilter}">
                         <p:column headerText="Especie" 
                                   filterMatchMode="contains"
                                   filterBy="#{g.nombrecientifico}"

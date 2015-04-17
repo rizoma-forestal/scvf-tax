@@ -201,14 +201,14 @@ public class MbFamilia implements Serializable{
      /**
      */    
     public void deshabilitar() {
-       if (getFacade().tieneDependencias(current.getId())){
+       if (getFacade().noTieneDependencias(current.getId())){
           update = 1;
           update();        
           recreateModel();
        } 
         else{
             //No Deshabilita 
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroNonDeletable"));            
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaNonDeletable"));            
         }
     } 
    
@@ -279,7 +279,7 @@ public class MbFamilia implements Serializable{
      */
     public String update() {
         Date date = new Date(System.currentTimeMillis());
-        //Date dateBaja = new Date();
+        Familia fam;
         
         // actualizamos según el valor de update
         if(update == 1){
@@ -299,11 +299,21 @@ public class MbFamilia implements Serializable{
             current.getAdminentidad().setUsModif(usLogeado);
         }
 
-        // acualizo
+        // acualizo según la operación seleccionada
         try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaUpdated"));
-            return "view";
+            if(update == 0){
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaUpdated"));
+                return "view";
+            }else if(update == 1){
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaDeshabilitada"));
+                return "view";
+            }else{
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaHabilitada"));
+                return "view";
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("FamiliaUpdatedErrorOccured"));
             return null;

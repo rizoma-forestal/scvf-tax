@@ -27,7 +27,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 /**
@@ -38,19 +37,17 @@ public class MbRol implements Serializable{
     
     private Rol current;
     private DataModel items = null;
+    private List<Rol> listaFilter;
     
     @EJB
     private RolFacade rolFacade;
     @EJB
     private UsuarioFacade usuarioFacade;
-    private int selectedItemIndex;
-    private String selectParam;
-    private List<String> listaNombres;
     private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
     private MbLogin login;
     private Usuario usLogeado;
     private boolean iniciado;
-    private List<Usuario> listaUsuario;
+    private List<Usuario> listUsFilter;
     
     
     /**
@@ -87,8 +84,24 @@ public class MbRol implements Serializable{
             }
         }
     }      
+
+    public List<Usuario> getListUsFilter() {
+        return listUsFilter;
+    }
+
+    public void setListUsFilter(List<Usuario> listUsFilter) {
+        this.listUsFilter = listUsFilter;
+    }
+
+    public List<Rol> getListaFilter() {
+        return listaFilter;
+    }
+
+    public void setListaFilter(List<Rol> listaFilter) {
+        this.listaFilter = listaFilter;
+    }
     
-        public Rol getCurrent() {
+    public Rol getCurrent() {
         return current;
     }
 
@@ -105,7 +118,6 @@ public class MbRol implements Serializable{
     public Rol getSelected() {
         if (current == null) {
             current = new Rol();
-            //selectedItemIndex = -1;
         }
         return current;
     }   
@@ -121,19 +133,6 @@ public class MbRol implements Serializable{
         return items;
     }
     
-    /**
-     * Método para revocar la sesión del MB
-     * @return 
-     */
-    public String cleanUp(){
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(true);
-        session.removeAttribute("mbRol");
-   
-        return "inicio";
-    }      
-    
-    
     
     /*******************************
      ** Métodos de inicialización **
@@ -148,11 +147,6 @@ public class MbRol implements Serializable{
     
     public String iniciarList(){
         String redirect = "";
-        if(selectParam != null){
-            redirect = "list";
-        }else{
-            redirect = "seguridad/rol/list";
-        }
         recreateModel();
         return redirect;
     }
@@ -168,7 +162,7 @@ public class MbRol implements Serializable{
      * @return acción para el formulario de nuevo
      */
     public String prepareCreate() {
-        listaUsuario = usuarioFacade.findAll();
+        //listaUsuario = usuarioFacade.findAll();
         current = new Rol();
         return "new";
     }
@@ -205,8 +199,10 @@ public class MbRol implements Serializable{
      /**
      */    
     public void deshabilitar() {
-        update = 1;
-        update();        
+        if (getFacade().noTieneDependencias(current.getId())){
+            update = 1;
+            update();      
+        }
         recreateModel();
     }    
     
@@ -245,16 +241,13 @@ public class MbRol implements Serializable{
      */
     private void recreateModel() {
         items = null;
-        if(selectParam != null){
-            selectParam = null;
-        }
     }
     
 
     /*************************
     ** Métodos de operación **
     **************************/
-    /**
+    /** 
      * @return 
      */
     public String create() {
@@ -280,7 +273,6 @@ public class MbRol implements Serializable{
      */
     public String update() {
         Date date = new Date(System.currentTimeMillis());
-        //Date dateBaja = new Date();
         
         // actualizamos según el valor de update
         if(update == 1){
@@ -302,30 +294,23 @@ public class MbRol implements Serializable{
 
         // acualizo
         try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolUpdated"));
-            return "view";
+            if(update == 0){
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolUpdated"));
+                return "view";
+            }else if(update == 1){
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolDeshabilitado"));
+                return "view";
+            }else{
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolHabilitado"));
+                return "view";
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("RolUpdatedErrorOccured"));
             return null;
         }
-    }
-
-    /*************************
-    ** Métodos de selección **
-    **************************/
-    /**
-     * @return la totalidad de las entidades persistidas formateadas
-     */
-    public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(rolFacade.findAll(), false);
-    }
-
-    /**
-     * @return de a una las entidades persistidas formateadas
-     */
-    public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(rolFacade.findAll(), true);
     }
 
     /**
@@ -345,73 +330,7 @@ public class MbRol implements Serializable{
     private RolFacade getFacade() {
         return rolFacade;
     }
-    
-    /**
-     * Opera el borrado de la entidad
-     */
-    private void performDestroy() {
-        try {
-            //getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolDeleted"));
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("RolDeletedErrorOccured"));
-        }
-    }
 
-    /**
-     * Actualiza el detalle de la entidad si la última se eliminó
-     */
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            /*
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-            */
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
-        }
-    }
-    
-    
-    /*
-     * Métodos de búsqueda
-     */
-    public String getSelectParam() {
-        return selectParam;
-    }
-
-    public void setSelectParam(String selectParam) {
-        this.selectParam = selectParam;
-    }
-    
-   /* private void buscarRol(){
-        items = new ListDataModel(getFacade().getXString(selectParam)); 
-    }   */
-    
-    /**
-     * Método para llegar la lista para el autocompletado de la búsqueda de nombres
-     * @param query
-     * @return 
-     *//*
-    public List<String> completeNombres(String query){
-        listaNombres = getFacade().getNombres();
-        List<String> nombres = new ArrayList();
-        Iterator itLista = listaNombres.listIterator();
-        while(itLista.hasNext()){
-            String nom = (String)itLista.next();
-            if(nom.contains(query)){
-                nombres.add(nom);
-            }
-        }
-        return nombres;
-    }
-        */
     
     /********************************************************************
     ** Converter. Se debe actualizar la entidad y el facade respectivo **

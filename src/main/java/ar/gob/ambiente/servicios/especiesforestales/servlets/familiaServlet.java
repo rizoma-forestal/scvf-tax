@@ -60,7 +60,7 @@ public class familiaServlet extends HttpServlet {
                         }
             
             
-            if(espFcd.tieneDependencias(Long.valueOf(1))){
+            if(espFcd.noTieneDependencias(Long.valueOf(1))){
                 out.println("<h1>No Tiene Dependencias</h1>");
                 }
                 else{

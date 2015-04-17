@@ -302,9 +302,19 @@ public class MbGenero implements Serializable{
         }
         // acualizo
         try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroUpdated"));
-            return "view";
+            if(update == 0){
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroUpdated"));
+                return "view";
+            }else if(update == 1){
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroDeshabilitado"));
+                return "view";
+            }else{
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroHabilitado"));
+                return "view";
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("GeneroUpdatedErrorOccured"));
             return null;

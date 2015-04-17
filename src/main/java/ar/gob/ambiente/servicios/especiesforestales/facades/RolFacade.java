@@ -70,7 +70,7 @@ public class RolFacade extends AbstractFacade<Rol> {
      * @param id: ID de la entidad
      * @return: True o False
      */
-    public boolean tieneDependencias(Long id){
+    public boolean noTieneDependencias(Long id){
         em = getEntityManager();       
         
         String queryString = "SELECT usu FROM Usuario usu " 
