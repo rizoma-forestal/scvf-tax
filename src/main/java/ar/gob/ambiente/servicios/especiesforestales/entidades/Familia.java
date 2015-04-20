@@ -44,7 +44,6 @@ public class Familia implements Serializable {
     @JoinColumn(name="adminentidad_id")
     private AdminEntidad adminentidad;
     
-    @XmlTransient
     @OneToMany(mappedBy="familia")
     private List<Genero> generos;
 
@@ -61,6 +60,7 @@ public class Familia implements Serializable {
         this.subFamilia = subFamilia;
     }
 
+    @XmlTransient
     public List<Genero> getGeneros() {
         return generos;
     }
@@ -77,6 +77,7 @@ public class Familia implements Serializable {
         this.nombre = nombre;
     }
 
+    @XmlTransient
     public AdminEntidad getAdminentidad() {
         return adminentidad;
     }

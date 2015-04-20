@@ -41,7 +41,6 @@ public class Publicacion implements Serializable {
     @NotNull(message = "El campo año no puede quedar vacío")
     private int anio;    
 
-    @XmlTransient
     @OneToMany(mappedBy="publicacion")
     private List<Especie> especies;   
 
@@ -49,6 +48,7 @@ public class Publicacion implements Serializable {
         especies = new ArrayList<>();
     }
     
+    @XmlTransient
     public List<Especie> getEspecies() {
         return especies;
     }

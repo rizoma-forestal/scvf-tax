@@ -36,8 +36,7 @@ public class Origen implements Serializable {
     @NotNull(message = "El campo nombre no puede quedar nulo")
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
     private String nombre;   
-    
-    @XmlTransient
+   
     @OneToMany(mappedBy="origen")
     private List<Especie> especies;           
 
@@ -45,6 +44,7 @@ public class Origen implements Serializable {
         especies = new ArrayList<>();
     }
 
+    @XmlTransient
     public List<Especie> getEspecies() {
         return especies;
     }

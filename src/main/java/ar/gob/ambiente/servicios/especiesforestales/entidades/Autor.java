@@ -37,11 +37,9 @@ public class Autor implements Serializable {
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
     private String nombre;    
     
-    @XmlTransient
     @OneToMany(mappedBy="autorEspecie")
     private List<Especie> especiesXAutEsp;     
     
-    @XmlTransient
     @OneToMany(mappedBy="autores")
     private List<Especie> especiesXAutores;            
 
@@ -50,6 +48,7 @@ public class Autor implements Serializable {
         especiesXAutores = new ArrayList<>();
     }
 
+    @XmlTransient
     public List<Especie> getEspeciesXAutores() {
         return especiesXAutores;
     }
@@ -58,6 +57,7 @@ public class Autor implements Serializable {
         this.especiesXAutores = especiesXAutores;
     }
 
+    @XmlTransient
     public List<Especie> getEspeciesXAutEsp() {
         return especiesXAutEsp;
     }

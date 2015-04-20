@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
@@ -84,7 +85,7 @@ public class Especie implements Serializable {
     @Column (nullable=true, length=100)
     @Size(message = "El campo sinonimo no puede tener más de 100 caracteres", max = 100)
     private String sinonimo;      
-    
+
     @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="adminentidad_id")
     private AdminEntidad adminentidad;
@@ -216,6 +217,7 @@ public class Especie implements Serializable {
         this.genero = genero;
     }
 
+    @XmlTransient
     public AdminEntidad getAdminentidad() {
         return adminentidad;
     }

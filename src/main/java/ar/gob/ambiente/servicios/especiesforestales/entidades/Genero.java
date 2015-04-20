@@ -44,7 +44,6 @@ public class Genero implements Serializable {
     @JoinColumn(name="adminentidad_id")
     private AdminEntidad adminentidad;    
    
-    @XmlTransient
     @OneToMany(mappedBy="genero")
     private List<Especie> especies;
 
@@ -53,6 +52,7 @@ public class Genero implements Serializable {
         especies = new ArrayList<>();
     }
     
+    @XmlTransient
     public List<Especie> getEspecies() {
         return especies;
     }
@@ -86,6 +86,7 @@ public class Genero implements Serializable {
         this.id = id;
     }
 
+    @XmlTransient
     public AdminEntidad getAdminentidad() {
         return adminentidad;
     }
@@ -122,8 +123,5 @@ public class Genero implements Serializable {
     public AdminEntidad getAdminentidad(AdminEntidad admEnt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-
-   
 }
  

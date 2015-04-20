@@ -37,7 +37,6 @@ public class Morfologia implements Serializable {
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
     private String nombre;   
     
-    @XmlTransient
     @OneToMany(mappedBy="morfologia")
     private List<Especie> especies;           
 
@@ -45,6 +44,7 @@ public class Morfologia implements Serializable {
         especies = new ArrayList<>();
     }
 
+    @XmlTransient
     public List<Especie> getEspecies() {
         return especies;
     }
