@@ -1,4 +1,4 @@
-
+﻿
 *********** Entidades paramétricas ************
     utiliza el método findAll()
 getAutores()
@@ -26,3 +26,4 @@ getEspeciesXSubespecie(String subespecie)
 
 getEspeciesXCategoria()
     método genérico que debe recibir como parámetros un array de pares [String categoria, Long id]
+
