@@ -20,12 +20,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
  *
  * @author rincostante
  */
+@XmlRootElement(name = "especie")
 @Entity
 public class Especie implements Serializable {
     private static final long serialVersionUID = 1L;

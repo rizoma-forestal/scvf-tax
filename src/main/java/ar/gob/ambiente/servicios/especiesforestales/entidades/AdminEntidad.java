@@ -20,11 +20,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author rincostante
  */
+@XmlRootElement(name = "adminentidad")
 @Entity
 public class AdminEntidad implements Serializable {
     private static final long serialVersionUID = 1L;

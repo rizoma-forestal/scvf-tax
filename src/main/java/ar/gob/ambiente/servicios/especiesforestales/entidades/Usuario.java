@@ -6,7 +6,6 @@
 
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
-import ar.gob.ambiente.servicios.especiesforestales.entidades.AdminEntidad;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Entidad que encapsula los datos de los usuarios
@@ -31,6 +31,7 @@ import javax.validation.constraints.Size;
  *      AdmEntidad
  * @author rincostante
  */
+@XmlRootElement(name = "usuario")
 @Entity
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;

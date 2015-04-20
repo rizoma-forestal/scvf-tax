@@ -8,6 +8,8 @@ package ar.gob.ambiente.servicios.especiesforestales.facades;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Genero;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -42,14 +44,11 @@ public class EspecieFacade extends AbstractFacade<Especie> {
     public List<Especie> getXString(String stringParam){
         em = getEntityManager();
         List<Especie> result;
-        
-        String queryString = "SELECT esp.* FROM Especie esp "
+        String queryString = "SELECT esp FROM Especie esp "
                 + "WHERE esp.nombre LIKE :stringParam "
                 + "AND esp.adminentidad.habilitado =true";
-        
         Query q = em.createQuery(queryString)
-                .setParameter("stringParam", "%" + stringParam + "%");        
-        
+                .setParameter("stringParam", "%" + stringParam + "%");
         result = q.getResultList();
         return result;
     }
@@ -88,4 +87,61 @@ public class EspecieFacade extends AbstractFacade<Especie> {
         return q.getResultList();
     }
 
+    public List<Especie> getHabilitadas(){
+        em = getEntityManager();
+        String queryString = "SELECT esp FROM Especie esp "
+                + "WHERE esp.adminentidad.habilitado = true";
+        Query q = em.createQuery(queryString);
+        return q.getResultList();
+    }
+    
+    public List<Especie> getXGenero(Genero genero){
+        em = getEntityManager();
+        String queryString = "SELECT esp FROM Especie esp "
+                + "WHERE esp.genero = :genero "
+                + "AND esp.adminentidad.habilitado = true";
+        Query q = em.createQuery(queryString)
+                .setParameter("genero", genero);
+        return q.getResultList();
+    }
+    
+    public List<Especie> getXSubespecie(String subespecie){
+        em = getEntityManager();
+        String queryString = "SELECT esp FROM Especie esp "
+                + "WHERE esp.subEspecie LIKE :subespecie "
+                + "AND esp.adminentidad.habilitado = true";
+        Query q = em.createQuery(queryString)
+                .setParameter("subespecie", "%" + subespecie + "%");
+        return q.getResultList();
+    }
+    
+    public List<Especie> getEspeciesXCategorias(List<HashMap<String, Long>> categorias){
+        String queryString = "SELECT esp FROM Especie esp "
+                + "WHERE esp.adminentidad.habilitado = true ";
+        Iterator<HashMap<String, Long>> it = categorias.iterator();
+        HashMap<String, Long> hm;
+        while(it.hasNext()){
+            hm = it.next();
+            if(hm.get("autor") != null){
+                queryString = queryString + "AND esp.autor = " + hm.get("autor") + " ";
+            }
+            if(hm.get("cites") != null){
+                queryString = queryString + "AND esp.cites = " + hm.get("cites") + " ";
+            }
+            if(hm.get("morfologia") != null){
+                queryString = queryString + "AND esp.morfologia = " + hm.get("morfologia") + " ";
+            }
+            if(hm.get("origen") != null){
+                queryString = queryString + "AND esp.origen = " + hm.get("origen") + " ";
+            } 
+            if(hm.get("publicacion") != null){
+                queryString = queryString + "AND esp.publicacion = " + hm.get("publicacion") + " ";
+            }
+            if(hm.get("rango") != null){
+                queryString = queryString + "AND esp.rango = " + hm.get("rango") + " ";
+            }
+        }
+        Query q = em.createQuery(queryString);
+        return q.getResultList();
+    }
 }

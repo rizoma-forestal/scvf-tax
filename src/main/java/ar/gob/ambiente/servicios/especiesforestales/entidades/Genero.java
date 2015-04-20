@@ -20,11 +20,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author rincostante
  */
+@XmlRootElement(name = "genero")
 @Entity
 public class Genero implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -41,7 +44,7 @@ public class Genero implements Serializable {
     @JoinColumn(name="adminentidad_id")
     private AdminEntidad adminentidad;    
    
-
+    @XmlTransient
     @OneToMany(mappedBy="genero")
     private List<Especie> especies;
 

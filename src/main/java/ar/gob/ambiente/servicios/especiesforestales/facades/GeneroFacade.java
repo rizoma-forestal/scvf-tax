@@ -115,9 +115,11 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     public List<Genero> getGenerosXFamilia(Familia familia){
         em = getEntityManager();        
         String queryString = "SELECT gen FROM Genero gen "
-                + "WHERE gen.familia = :familia";
+                + "WHERE gen.familia = :familia "
+                + "AND gen.adminentidad.habilitado = true";
         Query q = em.createQuery(queryString)
                 .setParameter("familia", familia);
         return q.getResultList();
     }
+
 }

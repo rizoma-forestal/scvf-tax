@@ -18,11 +18,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author carmendariz
  */
+@XmlRootElement(name = "rol")
 @Entity
 public class Rol implements Serializable {
      private static final long serialVersionUID = 1L;
@@ -35,6 +38,7 @@ public class Rol implements Serializable {
     @JoinColumn(name="adminentidad_id")
     private AdminEntidad adminentidad;
     
+    @XmlTransient
     @OneToMany(mappedBy="rol")
     private List<Usuario> usuarios;
     

@@ -1,0 +1,28 @@
+
+*********** Entidades paramétricas ************
+    utiliza el método findAll()
+getAutores()
+getCites()
+getMorfologias()
+getOrigenes()
+getPublicaciones()
+getRangos()
+
+*********** Entidades principales *************
+    utilizan el método getActivos de los respectivos facades
+getEspecies()
+getFamilias()
+getGeneros()
+
+*********** Consultas *************************
+getEspecie(Long id)
+    crear los métodos en los respectivos facades
+getGenerosXFamilia(Familia familia) 
+getEspeciesXGenero(Genero genero)
+getEspeciesXnombre(String cadena
+	debe buscar la cadena dentro del nombre
+getEspeciesXSubespecie(String subespecie)
+	debe buscar la cadena dentro de la subespecie)
+
+getEspeciesXCategoria()
+    método genérico que debe recibir como parámetros un array de pares [String categoria, Long id]

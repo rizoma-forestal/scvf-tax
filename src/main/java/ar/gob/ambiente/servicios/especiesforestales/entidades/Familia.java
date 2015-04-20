@@ -20,11 +20,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author rincostante
  */
+@XmlRootElement(name = "familia")
 @Entity
 public class Familia implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -41,6 +44,7 @@ public class Familia implements Serializable {
     @JoinColumn(name="adminentidad_id")
     private AdminEntidad adminentidad;
     
+    @XmlTransient
     @OneToMany(mappedBy="familia")
     private List<Genero> generos;
 
