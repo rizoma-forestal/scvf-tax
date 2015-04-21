@@ -15,8 +15,8 @@ import ar.gob.ambiente.servicios.especiesforestales.entidades.Morfologia;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Origen;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Publicacion;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Rango;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.util.Categorias;
 import ar.gob.ambiente.servicios.especiesforestales.seervicios.EspeciesServicio;
-import java.util.HashMap;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
@@ -128,22 +128,22 @@ public class EspeciesVegWebService {
 
     /**
      * Web service operation
-     * @param familia
+     * @param idFamilia
      * @return 
      */
     @WebMethod(operationName = "verGenerosPorFamilia")
-    public List<Genero> verGenerosPorFamilia(@WebParam(name = "familia") Familia familia) {
-        return espSrv.getGenerosXFamilia(familia);
+    public List<Genero> verGenerosPorFamilia(@WebParam(name = "idFamilia") Long idFamilia) {
+        return espSrv.getGenerosXFamilia(idFamilia);
     }
 
     /**
      * Web service operation
-     * @param genero
+     * @param idGenero
      * @return 
      */
     @WebMethod(operationName = "verEspeciesPorGenero")
-    public List<Especie> verEspeciesPorGenero(@WebParam(name = "genero") Genero genero) {
-        return espSrv.getEspeciesXGenero(genero);
+    public List<Especie> verEspeciesPorGenero(@WebParam(name = "idGenero") Long idGenero) {
+        return espSrv.getEspeciesXGenero(idGenero);
     }
 
     /**
@@ -172,7 +172,7 @@ public class EspeciesVegWebService {
      * @return 
      */
     @WebMethod(operationName = "buscarEspeciesPorCategorias")
-    public List<Especie> buscarEspeciesPorCategorias(@WebParam(name = "categorias") List<HashMap<String, Long>> categorias) {
+    public List<Especie> buscarEspeciesPorCategorias(@WebParam(name = "categorias") String categorias) {
         return espSrv.getEspeciesXCategorias(categorias);
     }
 }

@@ -122,4 +122,19 @@ public class GeneroFacade extends AbstractFacade<Genero> {
         return q.getResultList();
     }
 
+    /**
+     * Método que devuelve el género según el id de una familia.
+     * A utilizar en el servcio
+     * @param id
+     * @return 
+     */
+    public List<Genero> getGenerosXIdFamilia(Long id){
+        em = getEntityManager();        
+        String queryString = "SELECT gen FROM Genero gen "
+                + "WHERE gen.familia.id = :id "
+                + "AND gen.adminentidad.habilitado = true";
+        Query q = em.createQuery(queryString)
+                .setParameter("id", id);
+        return q.getResultList();
+    }
 }

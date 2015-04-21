@@ -15,6 +15,7 @@ import ar.gob.ambiente.servicios.especiesforestales.entidades.Morfologia;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Origen;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Publicacion;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Rango;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.util.Categorias;
 import ar.gob.ambiente.servicios.especiesforestales.facades.AutorFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.CitesFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.EspecieFacade;
@@ -26,7 +27,6 @@ import ar.gob.ambiente.servicios.especiesforestales.facades.PublicacionFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.RangoFacade;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -188,11 +188,11 @@ public class EspeciesServicio{
         return lstGeneros;
     }
 
-    public List<Genero> getGenerosXFamilia(Familia familia) {
+    public List<Genero> getGenerosXFamilia(Long id) {
         List<Genero> lstGeneros = new ArrayList();
         Date date;
         try{
-            lstGeneros = generoFacade.getGenerosXFamilia(familia);
+            lstGeneros = generoFacade.getGenerosXIdFamilia(id);
             logger.log(Level.INFO, "Ejecutando el método getGenerosXFamilia() desde el servicio");
         }
         catch (Exception ex){
@@ -202,11 +202,11 @@ public class EspeciesServicio{
         return lstGeneros;
     }
 
-    public List<Especie> getEspeciesXGenero(Genero genero) {
+    public List<Especie> getEspeciesXGenero(Long idGenero) {
         List<Especie> lstEspecies = new ArrayList();
         Date date;
         try{
-            lstEspecies = especieFacade.getXGenero(genero);
+            lstEspecies = especieFacade.getXGenero(idGenero);
             logger.log(Level.INFO, "Ejecutando el método getEspeciesXGenero() desde el servicio");
         }
         catch (Exception ex){
@@ -244,7 +244,7 @@ public class EspeciesServicio{
         return lstEspecies; 
     }
 
-    public List<Especie> getEspeciesXCategorias(List<HashMap<String, Long>> categorias) {
+    public List<Especie> getEspeciesXCategorias(String categorias) {
         List<Especie> lstEspecies = new ArrayList();
         Date date;
         try{

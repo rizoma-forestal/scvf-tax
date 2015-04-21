@@ -8,9 +8,13 @@ package ar.gob.ambiente.servicios.especiesforestales.facades;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Genero;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.util.Categorias;
+import ar.gob.ambiente.servicios.especiesforestales.entidades.util.ParItemValor;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -95,13 +99,13 @@ public class EspecieFacade extends AbstractFacade<Especie> {
         return q.getResultList();
     }
     
-    public List<Especie> getXGenero(Genero genero){
+    public List<Especie> getXGenero(Long id){
         em = getEntityManager();
         String queryString = "SELECT esp FROM Especie esp "
-                + "WHERE esp.genero = :genero "
+                + "WHERE esp.genero.id = :id "
                 + "AND esp.adminentidad.habilitado = true";
         Query q = em.createQuery(queryString)
-                .setParameter("genero", genero);
+                .setParameter("id", id);
         return q.getResultList();
     }
     
@@ -115,33 +119,53 @@ public class EspecieFacade extends AbstractFacade<Especie> {
         return q.getResultList();
     }
     
-    public List<Especie> getEspeciesXCategorias(List<HashMap<String, Long>> categorias){
+    /**
+     *
+     * @param categorias
+     * @return
+     */
+    public List<Especie> getEspeciesXCategorias(String categorias){
+        String strValor;
+        Map<Integer, String> mValores = new HashMap<>();
+        Integer key;
         String queryString = "SELECT esp FROM Especie esp "
                 + "WHERE esp.adminentidad.habilitado = true ";
-        Iterator<HashMap<String, Long>> it = categorias.iterator();
-        HashMap<String, Long> hm;
+        
+        // armo un array con los valores recibidos
+        String[] arrayValores = categorias.split(",");
+        
+        // recorro el array y guardo en un map los pares cuyo valor no es "0"
+        for (int i = 0; i < arrayValores.length; i++) {
+            strValor = arrayValores[i];
+                if(!strValor.equals("0")){
+                    mValores.put(i, strValor);
+            }
+        }
+         
+        // recorro el map para construir la query
+        Iterator it = mValores.keySet().iterator();
         while(it.hasNext()){
-            hm = it.next();
-            if(hm.get("autor") != null){
-                queryString = queryString + "AND esp.autor = " + hm.get("autor") + " ";
+            key = (Integer)it.next();
+            if(key == 0){
+                queryString = queryString + "AND esp.autores.id = " + Long.valueOf(mValores.get(key)) + " ";
             }
-            if(hm.get("cites") != null){
-                queryString = queryString + "AND esp.cites = " + hm.get("cites") + " ";
+            if(key == 1){
+                queryString = queryString + "AND esp.cites.id = " + Long.valueOf(mValores.get(key)) + " ";
             }
-            if(hm.get("morfologia") != null){
-                queryString = queryString + "AND esp.morfologia = " + hm.get("morfologia") + " ";
+            if(key == 2){
+                queryString = queryString + "AND esp.morfologia.id = " + Long.valueOf(mValores.get(key)) + " ";
             }
-            if(hm.get("origen") != null){
-                queryString = queryString + "AND esp.origen = " + hm.get("origen") + " ";
-            } 
-            if(hm.get("publicacion") != null){
-                queryString = queryString + "AND esp.publicacion = " + hm.get("publicacion") + " ";
+            if(key == 3){
+                queryString = queryString + "AND esp.origen.id = " + Long.valueOf(mValores.get(key)) + " ";
             }
-            if(hm.get("rango") != null){
-                queryString = queryString + "AND esp.rango = " + hm.get("rango") + " ";
+            if(key == 4){
+                queryString = queryString + "AND esp.publicacion.id = " + Long.valueOf(mValores.get(key)) + " ";
+            }
+            if(key == 5){
+                queryString = queryString + "AND esp.rango.id = " + Long.valueOf(mValores.get(key)) + " ";
             }
         }
         Query q = em.createQuery(queryString);
-        return q.getResultList();
+        return q.getResultList();        
     }
 }
