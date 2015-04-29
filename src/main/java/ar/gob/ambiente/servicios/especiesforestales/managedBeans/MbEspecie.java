@@ -396,9 +396,21 @@ public class MbEspecie implements Serializable{
         // acualizo según la operación seleccionada
         try {
             if(update == 0){
-                getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
-                return "view";
+                if(getFacade().noExiste(current.getGenero(), current.getNombre(), current.getSubEspecie())){
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
+                    return "view";
+                }else{
+                    esp = getFacade().getExistente(current.getGenero(), current.getNombre(), current.getSubEspecie());
+                    if(esp.getId() == current.getId()){
+                        getFacade().edit(current);
+                        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
+                        return "view";
+                    }else{
+                        JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieExistente"));
+                        return null;
+                    }
+                }
             }else if(update == 1){
                 getFacade().edit(current);
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieDeshabilitada"));
@@ -417,19 +429,6 @@ public class MbEspecie implements Serializable{
     /*************************
     ** Métodos de selección **
     **************************/
-    /**
-     * @return la totalidad de las entidades persistidas formateadas
-     */
-    public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(especieFacade.findAll(), false);
-    }
-
-    /**
-     * @return de a una las entidades persistidas formateadas
-     */
-    public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(especieFacade.findAll(), true);
-    }
 
     /**
      * @param id equivalente al id de la entidad persistida
@@ -447,18 +446,6 @@ public class MbEspecie implements Serializable{
      */
     private EspecieFacade getFacade() {
         return especieFacade;
-    }
-    
-    /**
-     * Opera el borrado de la entidad
-     */
-    private void performDestroy() {
-        try {
-            //getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieDeleted"));
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("EspecieDeletedErrorOccured"));
-        }
     }
 
     

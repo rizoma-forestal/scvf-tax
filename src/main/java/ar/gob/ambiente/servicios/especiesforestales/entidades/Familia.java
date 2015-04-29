@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -29,6 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement(name = "familia")
 @Entity
+@Table(name = "familia")
 public class Familia implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -85,8 +87,6 @@ public class Familia implements Serializable {
     public void setAdminentidad(AdminEntidad adminentidad) {
         this.adminentidad = adminentidad;
     }
-
-
     
     public Long getId() {
         return id;

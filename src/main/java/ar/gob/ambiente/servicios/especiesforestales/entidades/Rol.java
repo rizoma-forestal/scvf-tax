@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -27,6 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement(name = "rol")
 @Entity
+@Table(name = "rol")
 public class Rol implements Serializable {
      private static final long serialVersionUID = 1L;
     @Id

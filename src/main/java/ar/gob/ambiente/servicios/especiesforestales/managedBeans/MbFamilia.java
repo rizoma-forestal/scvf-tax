@@ -127,20 +127,7 @@ public class MbFamilia implements Serializable{
         }
         return items;
     }
-
-   /**
-     * Método para revocar la sesión del MB
-     * @return 
-     */
-    public String cleanUp(){
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(true);
-        session.removeAttribute("mbFamilia");
-   
-        return "inicio";
-    }      
-    
-    
+ 
     
     /*******************************
      ** Métodos de inicialización **
