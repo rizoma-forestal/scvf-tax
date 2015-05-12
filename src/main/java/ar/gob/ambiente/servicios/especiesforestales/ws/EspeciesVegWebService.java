@@ -15,7 +15,6 @@ import ar.gob.ambiente.servicios.especiesforestales.entidades.Morfologia;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Origen;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Publicacion;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Rango;
-import ar.gob.ambiente.servicios.especiesforestales.entidades.util.Categorias;
 import ar.gob.ambiente.servicios.especiesforestales.seervicios.EspeciesServicio;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
