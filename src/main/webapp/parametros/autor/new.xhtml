@@ -13,7 +13,7 @@
                 <p:growl id="messages" />
                 <h:panelGrid columns="2">
                     <p:outputLabel value="#{bundle.CreateAutorLabel_nombre}" for="nombre"/>
-                    <p:inputText id="nombre" validator="#{mbAutor.validarInsert}" value="#{mbAutor.selected.nombre}" 
+                    <p:inputText id="nombre" validator="#{mbAutor.validarInsert}" value="#{mbAutor.selected.nombre}" style="width: 300px"
                                  requiredMessage="#{bundle.CreateAutorRequiredMessage_nombre}" required="true"/>
                 </h:panelGrid>
             </p:panel>

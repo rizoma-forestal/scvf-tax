@@ -52,8 +52,7 @@ public class Especie implements Serializable {
     private Autor autorEspecie;    
     
     @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo autores no puede quedar vacío")
-    @JoinColumn(name="autor_id", nullable=false)
+    @JoinColumn(name="autor_id", nullable=true)
     private Autor autores;      
     
     @ManyToOne(fetch=FetchType.LAZY)
@@ -61,31 +60,27 @@ public class Especie implements Serializable {
     private Cites cites;
     
     @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo Morfología no puede quedar vacío")
-    @JoinColumn(name="morfologia_id", nullable=false)
+    @JoinColumn(name="morfologia_id", nullable=true)
     private Morfologia morfologia;
     
     @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo Origen no puede quedar vacío")
-    @JoinColumn(name="origen_id", nullable=false)
+    @JoinColumn(name="origen_id", nullable=true)
     private Origen origen;
     
     @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo Publicación no puede quedar vacío")
-    @JoinColumn(name="publicacion_id", nullable=false)
+    @JoinColumn(name="publicacion_id", nullable=true)
     private Publicacion publicacion; 
     
     @ManyToOne(fetch=FetchType.LAZY)
-    @NotNull(message = "El campo Rango no puede quedar vacío")
-    @JoinColumn(name="rango_id", nullable=false)
+    @JoinColumn(name="rango_id", nullable=true)
     private Rango rango;    
     
-    @Column (nullable=true, length=50)
-    @Size(message = "El campo subEspecie no puede tener más de 50 caracteres", max = 50)
+    @Column (nullable=true, length=100)
+    @Size(message = "El campo subEspecie no puede tener más de 50 caracteres", max = 100)
     private String subEspecie;   
     
-    @Column (nullable=true, length=100)
-    @Size(message = "El campo sinonimo no puede tener más de 100 caracteres", max = 100)
+    @Column (nullable=true, length=3500)
+    @Size(message = "El campo sinonimo no puede tener más de 3500 caracteres", max = 3500)
     private String sinonimo;      
 
     @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)

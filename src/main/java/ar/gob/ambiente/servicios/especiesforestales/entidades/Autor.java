@@ -36,7 +36,7 @@ public class Autor implements Serializable {
     
     @Column (nullable=false, length=50, unique=true)
     @NotNull(message = "El campo nombre no puede quedar nulo")
-    @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
+    @Size(message = "El campo nombre debe tener entre 1 y 150 caracteres", min = 1, max = 150)
     private String nombre;    
     
     @OneToMany(mappedBy="autorEspecie")
