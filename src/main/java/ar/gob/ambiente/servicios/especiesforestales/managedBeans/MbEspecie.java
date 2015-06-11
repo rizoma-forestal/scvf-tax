@@ -42,7 +42,6 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 /**
  *
@@ -120,7 +119,7 @@ public class MbEspecie implements Serializable{
             while(enume.hasMoreElements()){
                 s = (String)enume.nextElement();
                 if(s.substring(0, 2).equals("mb")){
-                    if(!s.equals("mbUsuario") && !s.equals("mbLogin")){
+                    if(!s.equals("mbLogin")){
                         session.removeAttribute(s);
                     }
                 }

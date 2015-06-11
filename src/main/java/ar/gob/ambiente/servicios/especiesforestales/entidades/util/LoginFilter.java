@@ -6,7 +6,6 @@
 
 package ar.gob.ambiente.servicios.especiesforestales.entidades.util;
 
-import ar.gob.ambiente.servicios.especiesforestales.managedBeans.MbLogin;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -153,7 +152,7 @@ public class LoginFilter implements Filter {
             // redirecciona para la autenticación del usuario
             res.sendRedirect(ResourceBundle.getBundle("/Bundle").getString("RutaAutenticacion") + "/faces/login.xhtml");
             return; 
-        }        
+        }
 
         // El recurso requiere protección, pero el usuario ya está logueado.
         chain.doFilter(request, response);  
