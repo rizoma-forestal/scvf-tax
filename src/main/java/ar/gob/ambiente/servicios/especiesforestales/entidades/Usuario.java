@@ -54,48 +54,26 @@ public class Usuario implements Serializable {
     private String nombre;     
     
     /**
-     * Campo de texto que indica la clave de acceso del usuario
+     * Campo de texto que indica el nombre del usuario
      */        
-    @Column (nullable=false, length=50, unique=true)
+    @Column (nullable=false, length=100)
     @NotNull(message = "{entidades.fieldNotNullError}")
-    @Size(message = "{endidades.stringSizeError}", min = 1, max = 50)
-    private String calve; 
+    @Size(message = "{endidades.stringSizeError}", min = 1, max = 100)
+    private String nombreCompleto;       
     
     /**
      * Campo de tipo AdmEntidad que encapsula los datos propios para su trazabilidad.
      */
     @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @NotNull(message = "{enitdades.objectNotNullError}") 
-    private AdminEntidad admin;
-    
-    /**
-     * Este campo solo está en true cuando el usuario es registrado o
-     * su contraseña blanqueada. El sistema validará este campo en cada 
-     * inicio de sesión, en caso de ser verdadero redirecciona al cambio de contraseña,
-     * la que una vez actualizada permitirá al usuario reiniciar sesión y operar normalemente el sistema.
-     */
-    @Column(nullable=false)
-    @NotNull(message = "El campo 'primeraVez' no puede quedar vacío")
-    private boolean primeraVez = true;    
-    
-    /**
-     * Campo que muestra los Apellidos y nombres personales del docente
-     */
-    @Transient
-    String apYNom;
-    
-    /**
-     * Campo que muestra el número de documento personal del docente
-     */
-    @Transient
-    String documento;    
+    private AdminEntidad admin;   
 
-    public boolean isPrimeraVez() {
-        return primeraVez;
+    public String getNombreCompleto() {
+        return nombreCompleto;
     }
 
-    public void setPrimeraVez(boolean primeraVez) {
-        this.primeraVez = primeraVez;
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
     }
 
     /**
@@ -122,22 +100,6 @@ public class Usuario implements Serializable {
         this.rol = rol;
     }
 
-    public String getApYNom() {
-        return apYNom;
-    }
-
-    public void setApYNom(String apYNom) {
-        this.apYNom = apYNom;
-    }
-
-    public String getDocumento() {
-        return documento;
-    }
-
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
     /**
      *
      * @return
@@ -152,22 +114,6 @@ public class Usuario implements Serializable {
      */
     public void setAdmin(AdminEntidad admin) {
         this.admin = admin;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getCalve() {
-        return calve;
-    }
-
-    /**
-     *
-     * @param calve
-     */
-    public void setCalve(String calve) {
-        this.calve = calve;
     }
 
     /**

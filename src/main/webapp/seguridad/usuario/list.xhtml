@@ -39,6 +39,10 @@
                 <p:column headerText="#{bundle.UsuarioLabelNombre}" sortBy="#{e.nombre}" filterBy="#{e.nombre}" filterMatchMode="contains">
                     <p:outputLabel value="#{e.nombre}"/>
                 </p:column> 
+                
+                <p:column headerText="#{bundle.UsuarioLabelNombreCompleto}" sortBy="#{e.nombreCompleto}" filterBy="#{e.nombreCompleto}" filterMatchMode="contains">
+                    <p:outputLabel value="#{e.nombreCompleto}"/>
+                </p:column> 
 
                 <p:column headerText="#{bundle.RolTitle}" filterMatchMode="contains" sortBy="#{e.rol.nombre}" filterBy="#{e.rol.nombre}">
                     <p:outputLabel value="#{e.rol.nombre}"/>
@@ -60,12 +64,9 @@
                     <h:outputText value="#{e.admin.habilitado ? 'Habilitado': 'Deshabilitado'}" />
                 </p:column>
 
-                <p:column headerText="Acciones" style="width:140px">
+                <p:column headerText="Acciones" style="width:100px">
                     <p:growl id="messages" showDetail="true" />
                     <p:commandButton icon="ui-icon-zoomin" action="#{mbUsuario.prepareView}">
-                        <f:setPropertyActionListener value="#{e}" target="#{mbUsuario.current}" />
-                    </p:commandButton>
-                    <p:commandButton icon="ui-icon-pencil" action="#{mbUsuario.prepareEdit}">
                         <f:setPropertyActionListener value="#{e}" target="#{mbUsuario.current}" />
                     </p:commandButton>
                     <p:commandButton icon="ui-icon-close" action="#{mbUsuario.prepareDesHabilitar}" rendered="#{e.admin.habilitado == true}"
