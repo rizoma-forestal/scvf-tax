@@ -48,7 +48,7 @@ public class MbUsuario implements Serializable{
     private Usuario usLogeado;
     private MbLogin login;   
     private boolean iniciado;  
-    private int update; // 1=deshabiliar | 2=habilitar
+    private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
     
     @EJB
     private RolFacade rolFacade;
@@ -186,6 +186,16 @@ public class MbUsuario implements Serializable{
      */
     public String prepareView() {
         return "view";
+    }  
+    
+    /**
+     * @return acción para la edición de la entidad
+     */
+    public String prepareEdit() {
+        // cargo los roles
+        listaRol = rolFacade.getActivos();
+        update = 0;
+        return "edit";        
     }    
     
     /**
@@ -267,7 +277,7 @@ public class MbUsuario implements Serializable{
         return "view";
     } 
     
-       public String deshabilitar() {
+    public String deshabilitar() {
         if (getFacade().noTieneDependencias(current.getId())){
             current.getAdmin().setHabilitado(false);
             update();        
@@ -343,17 +353,23 @@ public class MbUsuario implements Serializable{
                 current.getAdmin().setFechaBaja(date);
                 current.getAdmin().setUsBaja(usLogeado);
                 current.getAdmin().setHabilitado(false);
-            }
-            else{
+            }if(update == 2){
                 current.getAdmin().setFechaModif(date);
                 current.getAdmin().setUsModif(usLogeado);
                 current.getAdmin().setHabilitado(true);
                 current.getAdmin().setFechaBaja(null);
                 current.getAdmin().setUsBaja(usLogeado);
+            }if(update == 0){
+                current.getAdmin().setFechaModif(date);
+                current.getAdmin().setUsModif(usLogeado);
             }
 
             // Actualizo
-            if(update == 1){
+            if(update == 0){
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
+                return "view";
+            }else if(update == 1){
                 getFacade().edit(current);
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioDeshabilitado"));
                 return "view";

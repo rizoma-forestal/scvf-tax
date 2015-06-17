@@ -64,11 +64,16 @@
                     <h:outputText value="#{e.admin.habilitado ? 'Habilitado': 'Deshabilitado'}" />
                 </p:column>
 
-                <p:column headerText="Acciones" style="width:100px">
+                <p:column headerText="Acciones" style="width:140px">
                     <p:growl id="messages" showDetail="true" />
                     <p:commandButton icon="ui-icon-zoomin" action="#{mbUsuario.prepareView}">
                         <f:setPropertyActionListener value="#{e}" target="#{mbUsuario.current}" />
                     </p:commandButton>
+                    
+                    <p:commandButton icon="ui-icon-pencil" action="#{mbUsuario.prepareEdit}" title="Editar" >
+                        <f:setPropertyActionListener value="#{e}" target="#{mbUsuario.current}" /> 
+                    </p:commandButton>
+                    
                     <p:commandButton icon="ui-icon-close" action="#{mbUsuario.prepareDesHabilitar}" rendered="#{e.admin.habilitado == true}"
                                      title="Deshabilitar" update="usList">
                         <f:setPropertyActionListener value="#{e}" target="#{mbUsuario.current}" />
