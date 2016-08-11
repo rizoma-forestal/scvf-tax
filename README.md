@@ -4,7 +4,7 @@ especiesForestales
 Descripción de la aplicación:
 -----------------------------
 
-Esta aplicación gestiona la información correspondiente a la taxonomía de especies vegetales. Contiene una API de servicios web para ser consumidos tanto por apliaciones internas como externas, de manera de proveer un registro único de taxonomías. Dada su estructura, sería fácil de escalar de manera de gestionar también la taxonomía de especies animales. Se preve proximamente desacoplear el backend en un módulo EJB que proporcione la API de servicios web y una fachada que ofresca los mismos métodos para consumo mediante JNDI.
+Esta aplicación gestiona la información correspondiente a la taxonomía de especies vegetales. Contiene una API de servicios web para ser consumidos tanto por aplicaciones internas como externas, de manera de proveer un registro único de taxonomías. Dada su estructura, sería fácil de escalar de manera de gestionar también la taxonomía de especies animales. Se preve proximamente desacoplear el backend en un módulo EJB que proporcione la API de servicios web y una fachada que ofrezca los mismos métodos para consumo mediante JNDI.
 
 La acreditación de esta aplicación es gestionada mediante el servicio brindado por gestionAplicaciones. Disitingue dos roles de usuarios, el administrador que gestiona los contenidos y el seguridad, que gestiona usuarios y roles. Para asignar usuarios a la aplicación, previamente deben ser vinculados mediante gestionAplicaciones.	
 
