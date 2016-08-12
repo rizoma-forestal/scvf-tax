@@ -39,8 +39,6 @@ Deberá crearse la base de datos especiesForestales en el servidor local de Post
 Los backup de la base se encuentran en \\vmfs\Desarrollo\Servicios\Especies\bkBase y los scripts en \\vmfs\Desarrollo\Servicios\Especies\scriptsBase
 	
 Se recmienda crear, luego de la base, primero las tablas y luego las restricciones de cada una.
-	
-Para comenzar una base desde cero se recomienda isertar el primer usuario según lo que se especifica en registrarPrimerUsuario.txt en \\vmfs\Desarrollo\Servicios\Especies\scriptsBase
 
 
 Servicios brindados:
