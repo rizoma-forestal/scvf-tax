@@ -218,7 +218,10 @@ public class MbUsuario implements Serializable{
         
         // obtengo los usuarios existentes
         List<Usuario> lstUsExist = usuarioFacade.findAll();
-        
+        // limpio el listado de usuarios disponibles
+        if(lstUsDisponibles != null){
+            lstUsDisponibles.clear();
+        }
         // obtengo los usuarios disponibles para la app, solo si obtuve el idApp
         if(idApp > 0){
             List<ar.gob.ambiente.servicios.especiesforestales.wsExt.Usuario> lstUsDisp = verUsuariosPorIdApp();
