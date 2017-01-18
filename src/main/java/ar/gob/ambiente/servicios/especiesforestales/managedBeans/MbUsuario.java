@@ -39,7 +39,7 @@ import java.util.logging.Logger;
  * @author rincostante
  */
 public class MbUsuario implements Serializable{
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/AccesoAppWebService/AccesoAppWebService.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/gestionAplicaciones/AccesoAppWebService/AccesoAppWebService.wsdl")
     private AccesoAppWebService_Service service;
     
     private Usuario current;

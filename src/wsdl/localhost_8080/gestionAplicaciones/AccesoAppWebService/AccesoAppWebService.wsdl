@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.gestionaplicaciones.aplicaciones.ambiente.gob.ar/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="AccesoAppWebService" targetNamespace="http://ws.gestionaplicaciones.aplicaciones.ambiente.gob.ar/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ws.gestionaplicaciones.aplicaciones.ambiente.gob.ar/" elementFormDefault="unqualified" targetNamespace="http://ws.gestionaplicaciones.aplicaciones.ambiente.gob.ar/" version="1.0">
+
+  <xs:element name="verAplicaciones" type="tns:verAplicaciones"/>
+
+  <xs:element name="verAplicacionesResponse" type="tns:verAplicacionesResponse"/>
+
+  <xs:element name="verUsuariosPorApp" type="tns:verUsuariosPorApp"/>
+
+  <xs:element name="verUsuariosPorAppResponse" type="tns:verUsuariosPorAppResponse"/>
+
+  <xs:complexType name="verAplicaciones">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="verAplicacionesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:aplicacion"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="aplicacion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="areaReferente" type="xs:string"/>
+      <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+      <xs:element minOccurs="0" name="rutaImagen" type="xs:string"/>
+      <xs:element minOccurs="0" name="url" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="verUsuariosPorApp">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="idApp" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="verUsuariosPorAppResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:usuario"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="usuario">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+      <xs:element minOccurs="0" name="nombreCompleto" type="xs:string"/>
+      <xs:element minOccurs="0" name="rol" type="tns:rol"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="rol">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="verUsuariosPorAppResponse">
+    <wsdl:part element="tns:verUsuariosPorAppResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verAplicacionesResponse">
+    <wsdl:part element="tns:verAplicacionesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verAplicaciones">
+    <wsdl:part element="tns:verAplicaciones" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verUsuariosPorApp">
+    <wsdl:part element="tns:verUsuariosPorApp" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AccesoAppWebService">
+    <wsdl:operation name="verAplicaciones">
+      <wsdl:input message="tns:verAplicaciones" name="verAplicaciones">
+    </wsdl:input>
+      <wsdl:output message="tns:verAplicacionesResponse" name="verAplicacionesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verUsuariosPorApp">
+      <wsdl:input message="tns:verUsuariosPorApp" name="verUsuariosPorApp">
+    </wsdl:input>
+      <wsdl:output message="tns:verUsuariosPorAppResponse" name="verUsuariosPorAppResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AccesoAppWebServiceSoapBinding" type="tns:AccesoAppWebService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="verAplicaciones">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="verAplicaciones">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verAplicacionesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verUsuariosPorApp">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="verUsuariosPorApp">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verUsuariosPorAppResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AccesoAppWebService">
+    <wsdl:port binding="tns:AccesoAppWebServiceSoapBinding" name="AccesoAppWebServicePort">
+      <soap:address location="http://localhost:8080/gestionAplicaciones/AccesoAppWebService/AccesoAppWebService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
