@@ -203,6 +203,8 @@ public class LoginFilter implements Filter {
         return true;
       if (urlStr.indexOf("/javax.faces.resource/") != -1)
         return true;
+      if (urlStr.indexOf("/especiesvegwebservice/") != -1)
+          return true;
       if (urlStr.endsWith(".gif"))
         return true;    
       if (urlStr.endsWith(".png"))
