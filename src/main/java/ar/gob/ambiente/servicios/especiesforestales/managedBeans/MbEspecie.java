@@ -105,7 +105,7 @@ public class MbEspecie implements Serializable{
         iniciado = false;
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
         login = (MbLogin)ctx.getSessionMap().get("mbLogin");
-        usLogeado = login.getUsLogeado();
+        if(login != null) usLogeado = login.getUsLogeado();
     }
     /**
      * Método que borra de la memoria los MB innecesarios al cargar el listado 

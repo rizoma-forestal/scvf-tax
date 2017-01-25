@@ -64,7 +64,7 @@ public class MbFamilia implements Serializable{
         update = 0;
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
         login = (MbLogin)ctx.getSessionMap().get("mbLogin");
-        usLogeado = login.getUsLogeado();
+        if(login != null) usLogeado = login.getUsLogeado();
     }
     
     /**
