@@ -31,36 +31,36 @@
                 <h:form>
                     <p:menubar>
                         <p:menuitem value="Inicio" 
-                                    url="#{bundle.Servidor}#{bundle.RutaAplicacion}" />
+                                    url="#{config.Servidor}#{bundle.RutaAplicacion}" />
                         <p:submenu label="Administración">
                             <p:menuitem value="Familia" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizFamilia}/list.xhtml"/>
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizFamilia}/list.xhtml"/>
                             <p:menuitem value="Genero" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizGenero}/list.xhtml"/> 
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizGenero}/list.xhtml"/> 
                             <p:menuitem value="Especie" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizEspecie}/list.xhtml"/>                                                               
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizEspecie}/list.xhtml"/>                                                               
                         </p:submenu> 
                         
                         <p:submenu label="Parámetros">
                             <p:menuitem value="Morfología" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizMorfologia}/list.xhtml"/>
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizMorfologia}/list.xhtml"/>
                             <p:menuitem value="Rango" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizRango}/list.xhtml"/> 
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizRango}/list.xhtml"/> 
                             <p:menuitem value="Autor" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizAutor}/list.xhtml"/>      
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizAutor}/list.xhtml"/>      
                             <p:menuitem value="Publicación" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizPublicacion}/list.xhtml"/>
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizPublicacion}/list.xhtml"/>
                             <p:menuitem value="Cites" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizCites}/list.xhtml"/> 
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizCites}/list.xhtml"/> 
                             <p:menuitem value="Origen" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizOrigen}/list.xhtml"/>  
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizOrigen}/list.xhtml"/>  
                         </p:submenu> 
                         
                         <p:submenu label="Seguridad" rendered="#{mbLogin.ambito == 'Seguridad'}">
                             <p:menuitem value="Usuarios" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizUsuario}/list.xhtml"/>
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizUsuario}/list.xhtml"/>
                             <p:menuitem value="Roles" 
-                                        url="#{bundle.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizRol}/list.xhtml"/>                                      
+                                        url="#{config.Servidor}#{bundle.RutaAplicacion}/#{bundle.RaizRol}/list.xhtml"/>                                      
                         </p:submenu> 
                         
                         <f:facet name="options">

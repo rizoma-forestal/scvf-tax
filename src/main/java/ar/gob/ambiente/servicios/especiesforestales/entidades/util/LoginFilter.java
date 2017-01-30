@@ -115,7 +115,7 @@ public class LoginFilter implements Filter {
         //Proceso la URL que está requiriendo el cliente
         String urlStr = req.getRequestURL().toString().toLowerCase();
         boolean noProteger = noProteger(urlStr);
-        System.out.println(urlStr + " - desprotegido=[" + noProteger + "]");
+        //System.out.println(urlStr + " - desprotegido=[" + noProteger + "]");
 
         //Si no requiere protección continúo normalmente.
         if (noProteger(urlStr)) {
@@ -150,7 +150,7 @@ public class LoginFilter implements Filter {
             res.addCookie(cookieUrl);
             
             // redirecciona para la autenticación del usuario
-            res.sendRedirect(ResourceBundle.getBundle("/Bundle").getString("RutaAutenticacion") + "/faces/login.xhtml");
+            res.sendRedirect(ResourceBundle.getBundle("/Config").getString("RutaAutenticacion") + "/faces/login.xhtml");
             return; 
         }
 
@@ -203,6 +203,8 @@ public class LoginFilter implements Filter {
         return true;
       if (urlStr.indexOf("/javax.faces.resource/") != -1)
         return true;
+      if (urlStr.indexOf("/especiesvegwebservice/") != -1)
+          return true;
       if (urlStr.endsWith(".gif"))
         return true;    
       if (urlStr.endsWith(".png"))

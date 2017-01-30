@@ -39,7 +39,7 @@ import java.util.logging.Logger;
  * @author rincostante
  */
 public class MbUsuario implements Serializable{
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/AccesoAppWebService/AccesoAppWebService.wsdl")
+    @WebServiceRef
     private AccesoAppWebService_Service service;
     
     private Usuario current;
@@ -77,8 +77,10 @@ public class MbUsuario implements Serializable{
         iniciado = false;
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
         login = (MbLogin)ctx.getSessionMap().get("mbLogin");
-        usLogeado = login.getUsLogeado();    
-        lstApp = verAplicaciones();
+        if(login != null){
+            usLogeado = login.getUsLogeado();    
+            lstApp = verAplicaciones();
+        }
     }
     
     /**
@@ -218,7 +220,10 @@ public class MbUsuario implements Serializable{
         
         // obtengo los usuarios existentes
         List<Usuario> lstUsExist = usuarioFacade.findAll();
-        
+        // limpio el listado de usuarios disponibles
+        if(lstUsDisponibles != null){
+            lstUsDisponibles.clear();
+        }
         // obtengo los usuarios disponibles para la app, solo si obtuve el idApp
         if(idApp > 0){
             List<ar.gob.ambiente.servicios.especiesforestales.wsExt.Usuario> lstUsDisp = verUsuariosPorIdApp();

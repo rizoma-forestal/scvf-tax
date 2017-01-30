@@ -4,4 +4,5 @@
     <system systemId="http://vmdeswebjava.medioambiente.gov.ar:8080/AccesoAppWebService/AccesoAppWebService?xsd=1" uri="wsdl/vmdeswebjava.medioambiente.gov.ar_8080/AccesoAppWebService/AccesoAppWebService.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/AccesoAppWebService/AccesoAppWebService?WSDL" uri="wsdl/localhost_8080/AccesoAppWebService/AccesoAppWebService.wsdl"/>
     <system systemId="http://localhost:8080/AccesoAppWebService/AccesoAppWebService?xsd=1" uri="wsdl/localhost_8080/AccesoAppWebService/AccesoAppWebService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/gestionAplicaciones/AccesoAppWebService/AccesoAppWebService?wsdl" uri="wsdl/localhost_8080/gestionAplicaciones/AccesoAppWebService/AccesoAppWebService.wsdl"/>
 </catalog>
