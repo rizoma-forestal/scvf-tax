@@ -8,9 +8,6 @@ package ar.gob.ambiente.servicios.especiesforestales.facades;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Especie;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Genero;
-import ar.gob.ambiente.servicios.especiesforestales.entidades.util.Categorias;
-import ar.gob.ambiente.servicios.especiesforestales.entidades.util.ParItemValor;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +35,20 @@ public class EspecieFacade extends AbstractFacade<Especie> {
         super(Especie.class);
     }
 
+    public Especie getXNombre(String stringParam){
+        List<Especie> lstEsp;
+        em = getEntityManager();
+        String queryString = "SELECT esp FROM Especie esp "
+                + "WHERE esp.nombre = :stringParam";
+        Query q = em.createQuery(queryString)
+                .setParameter("stringParam", stringParam);        
+        lstEsp = q.getResultList();
+        if(lstEsp.isEmpty()){
+            return null;
+        }else{
+            return lstEsp.get(0);
+        }
+    }    
     
     /**
      * Método que devuelve todas las Especies que contienen la cadena recibida como parámetro 
@@ -73,7 +84,7 @@ public class EspecieFacade extends AbstractFacade<Especie> {
     
     public Especie getExistente(Genero genero, String nombre, String subEspecie){
         em = getEntityManager();       
-        String queryString = "SELECT esp.nombre FROM Especie esp "
+        String queryString = "SELECT esp FROM Especie esp "
                 + "WHERE esp.nombre = :nombre "
                 + "AND esp.subEspecie = :subEspecie "
                 + "AND esp.genero = :genero";
@@ -99,6 +110,23 @@ public class EspecieFacade extends AbstractFacade<Especie> {
         return q.getResultList();
     }
     
+    /**
+     * Método que devuelve todos las Especies (forestales, solo para SACVeFor)
+     * A utilizar por API REST
+     * @return las Especies vinculados al SACVeFor
+     */
+    public List<Especie> getSvfActivas(){
+        em = getEntityManager();        
+        List<Especie> result;
+        String queryString = "SELECT esp FROM Especie esp " 
+                + "WHERE esp.adminentidad.habilitado = true "
+                + "AND esp.esSacvefor = true "
+                + "ORDER BY esp.nombre";                   
+        Query q = em.createQuery(queryString);
+        result = q.getResultList();
+        return result;
+    }      
+    
     public List<Especie> getXGenero(Long id){
         em = getEntityManager();
         String queryString = "SELECT esp FROM Especie esp "
@@ -108,6 +136,25 @@ public class EspecieFacade extends AbstractFacade<Especie> {
                 .setParameter("id", id);
         return q.getResultList();
     }
+    
+    /**
+     * Método que devuelve todos las Especies (forestales, solo para SACVeFor)
+     * a partir del id del Género
+     * A utilizar por API REST
+     * @param id correspondiente al id del Género
+     * @return las Especies correspondientes al id del Género solicitado
+     */    
+    public List<Especie> getSvfEspeciesXIdGenero(Long id){
+        em = getEntityManager();
+        String queryString = "SELECT esp FROM Especie esp "
+                + "WHERE esp.genero.id = :id "
+                + "AND esp.adminentidad.habilitado = true "
+                + "AND esp.esSacvefor = true "
+                + "ORDER BY esp.nombre";
+        Query q = em.createQuery(queryString)
+                .setParameter("id", id);
+        return q.getResultList();
+    }    
     
     public List<Especie> getXSubespecie(String subespecie){
         em = getEntityManager();

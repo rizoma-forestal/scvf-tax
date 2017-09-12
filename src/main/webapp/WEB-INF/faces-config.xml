@@ -82,4 +82,10 @@
         <managed-bean-class>ar.gob.ambiente.servicios.especiesforestales.managedBeans.MbRango</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <description>Bean temporal para importar las especies/generos/familias del SACVeFor</description>
+        <managed-bean-name>mbImport</managed-bean-name>
+        <managed-bean-class>ar.gob.ambiente.servicios.especiesforestales.managedBeans.MbImport</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 </faces-config>

@@ -212,7 +212,9 @@ public class LoginFilter implements Filter {
       if (urlStr.endsWith(".ico"))
         return true;
       if (urlStr.endsWith(".css"))
-        return true;       
+        return true;      
+      if (urlStr.indexOf("/rest/") != -1)
+        return true; 
       return false;
     }     
 

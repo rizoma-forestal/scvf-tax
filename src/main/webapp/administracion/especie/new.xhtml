@@ -27,17 +27,14 @@
                         
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_nombre}" for="nombre"/>                       
                         <p:inputText id="nombre" value="#{mbEspecie.selected.nombre}" 
-                                     requiredMessage="#{bundle.CreateEspecieRequiredMessage_nombre}" required="true"/>                           
+                                     requiredMessage="#{bundle.CreateEspecieRequiredMessage_nombre}" required="true"/>     
+                        
+                        <p:outputLabel value="SACVeFor: " for="esScvf"/>   
+                        <p:selectBooleanCheckbox id="esScvf" value="#{mbEspecie.selected.esSacvefor}" />
                         
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_subEspecie}" for="subespecie"/>
                         <p:inputText id="subespecie" value="#{mbEspecie.selected.subEspecie}" 
                                      requiredMessage="#{bundle.CreateEspecieRequiredMessage_subEspecie}" required="false" />   
-                        
-                        <p:outputLabel value="#{bundle.CreateEspecieLabel_sinonimos}" for="sinonimos"/>
-                        <p:inputTextarea value="#{mbEspecie.selected.sinonimo}" rows="5" cols="50" 
-                                         counter="sinonimos" maxlength="3500" 
-                                         counterTemplate="{0} Caracteres restantes." autoResize="false" style="width: 500px" />
-                        <h:outputText id="sinonimos" style="font-size: 80%" />
 
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_origen}" for="origen"/>                             
                         <p:selectOneMenu id="origen" value="#{mbEspecie.selected.origen}" >
@@ -76,11 +73,16 @@
                         </p:selectOneMenu> 
                         
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_autores}" for="autores"/>                             
-                        <p:selectOneMenu id="autores" value="#{mbEspecie.selected.autores}" 
-                                         requiredMessage="El campo #{bundle.CreateEspecieTitle_autores} es obligatorio" required="true">
+                        <p:selectOneMenu id="autores" value="#{mbEspecie.selected.autores}" >
                             <f:selectItem itemLabel="Seleccione los #{bundle.CreateEspecieTitle_autores}" itemValue="" noSelectionOption="true" />                           
                             <f:selectItems value="#{mbEspecie.listaAutores}" var="autores" itemLabel="#{autores.nombre}" itemValue="#{autores}"/>
                         </p:selectOneMenu> 
+                        
+                        <p:outputLabel value="#{bundle.CreateEspecieLabel_sinonimos}" for="sinonimos"/>
+                        <p:inputTextarea value="#{mbEspecie.selected.sinonimo}" rows="5" cols="50" 
+                                         counter="sinonimos" maxlength="3500" 
+                                         counterTemplate="{0} Caracteres restantes." autoResize="false" style="width: 500px" />
+                        <h:outputText id="sinonimos" style="font-size: 80%" />
 
                     </h:panelGrid>
                 </p:panel>

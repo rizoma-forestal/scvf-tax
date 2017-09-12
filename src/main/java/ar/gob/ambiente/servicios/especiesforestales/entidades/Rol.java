@@ -49,6 +49,7 @@ public class Rol implements Serializable {
         usuarios = new ArrayList<>();
     }
 
+    @XmlTransient
     public List<Usuario> getUsuarios() {
         return usuarios;
     }

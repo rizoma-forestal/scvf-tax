@@ -18,6 +18,9 @@
 
                     <p:outputLabel value="#{bundle.CreateFamiliaLabel_subFamilia}" for="subFamilia"/>
                     <p:inputText id="subFamilia" value="#{mbFamilia.selected.subFamilia}" />
+                    
+                    <p:outputLabel value="SACVeFor: " for="esScvf"/>   
+                    <p:selectBooleanCheckbox id="esScvf" value="#{mbFamilia.selected.esSacvefor}" />
                 </h:panelGrid>
             </p:panel>
 

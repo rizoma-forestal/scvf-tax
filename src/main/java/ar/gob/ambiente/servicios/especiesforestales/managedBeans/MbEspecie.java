@@ -71,20 +71,22 @@ public class MbEspecie implements Serializable{
     private PublicacionFacade pubFacade;
     @EJB
     private AutorFacade autorFacade;
-    
+
     private Familia selectedFamilia;
-    private Genero selectedGenero;
-    
-    //private int selectedItemIndex;
-    //private String selectParam;    
-    //private List<String> listaNombres;  
     private List<Familia> listaFamilia;
+    private Genero selectedGenero;
     private List<Genero> listaGenero;
+    private Origen selectedOrigen;
     private List<Origen> listaOrigenes;
+    private Morfologia selectedMorf;
     private List<Morfologia> listaMorfologias;
+    private Cites selectedCites;
     private List<Cites> listaCites;
+    private Rango selectedRango;
     private List<Rango> listaRangos;
+    private Publicacion selectedPublicacion;
     private List<Publicacion> listaPublicaciones;
+    private Autor selectedAutor;
     private List<Autor> listaAutores;
     
     private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
@@ -126,6 +128,62 @@ public class MbEspecie implements Serializable{
             }
         }
     }      
+
+    public Origen getSelectedOrigen() {
+        return selectedOrigen;
+    }
+
+    public void setSelectedOrigen(Origen selectedOrigen) {
+        this.selectedOrigen = selectedOrigen;
+    }
+
+    public Morfologia getSelectedMorf() {
+        return selectedMorf;
+    }
+
+    public void setSelectedMorf(Morfologia selectedMorf) {
+        this.selectedMorf = selectedMorf;
+    }
+
+    public Cites getSelectedCites() {
+        return selectedCites;
+    }
+
+    public void setSelectedCites(Cites selectedCites) {
+        this.selectedCites = selectedCites;
+    }
+
+    public Rango getSelectedRango() {
+        return selectedRango;
+    }
+
+    public void setSelectedRango(Rango selectedRango) {
+        this.selectedRango = selectedRango;
+    }
+
+    public Publicacion getSelectedPublicacion() {
+        return selectedPublicacion;
+    }
+
+    public void setSelectedPublicacion(Publicacion selectedPublicacion) {
+        this.selectedPublicacion = selectedPublicacion;
+    }
+
+    public Autor getSelectedAutor() {
+        return selectedAutor;
+    }
+
+    public void setSelectedAutor(Autor selectedAutor) {
+        this.selectedAutor = selectedAutor;
+    }
+
+    public Genero getSelectedGenero() {
+        return selectedGenero;
+    }
+
+    public void setSelectedGenero(Genero selectedGenero) {
+        this.selectedGenero = selectedGenero;
+    }
 
     public Familia getSelectedFamilia() {
         return selectedFamilia;
@@ -278,14 +336,9 @@ public class MbEspecie implements Serializable{
      * @return acción para la edición de la entidad
      */
     public String prepareEdit() {
-        listaFamilia = familiaFacade.getActivos();
-        listaOrigenes = origenFacade.findAll();
-        listaMorfologias = morfologiaFacade.findAll();
-        listaCites = citesFacade.findAll();
-        listaRangos = rangoFacade.findAll();
-        listaPublicaciones = pubFacade.findAll();
-        listaAutores = autorFacade.findAll();
-        
+        // cargo todos los listados y el objeto seleccionado
+        cargarCombos();
+
         return "edit";
     }
     
@@ -327,11 +380,14 @@ public class MbEspecie implements Serializable{
      * @param event
      */
     public void familiaChangeListener(ValueChangeEvent event) {
-        Familia fam = (Familia) event.getNewValue();
+        selectedFamilia = (Familia) event.getNewValue();
         
-        listaGenero = generoFacade.getGenerosXFamilia(fam);
+        listaGenero = generoFacade.getGenerosXFamilia(selectedFamilia);
     }       
     
+    public void generoChangeListener(ValueChangeEvent event) {
+        selectedGenero = (Genero) event.getNewValue();
+    }           
     
     /**
      * Restea la entidad
@@ -396,6 +452,15 @@ public class MbEspecie implements Serializable{
         try {
             if(update == 0){
                 if(getFacade().noExiste(current.getGenero(), current.getNombre(), current.getSubEspecie())){
+                    // asigno los objetos de los combos
+                    current.setGenero(selectedGenero);
+                    current.setOrigen(selectedOrigen);
+                    current.setMorfologia(selectedMorf);
+                    current.setCites(selectedCites);
+                    current.setRango(selectedRango);
+                    current.setPublicacion(selectedPublicacion);
+                    current.setAutores(selectedAutor);
+                    // actualizo
                     getFacade().edit(current);
                     JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
                     return "view";
@@ -445,6 +510,36 @@ public class MbEspecie implements Serializable{
      */
     private EspecieFacade getFacade() {
         return especieFacade;
+    }
+
+    /**
+     * método para cargar los objetos selected vinculados a los combos y los respectivos listados para la edición de la especie
+     */
+    private void cargarCombos() {
+        // familia
+        selectedFamilia = current.getGenero().getFamilia();
+        listaFamilia = familiaFacade.getActivos();
+        // género
+        selectedGenero = current.getGenero();
+        listaGenero = generoFacade.getGenerosXFamilia(selectedFamilia);
+        // origen
+        selectedOrigen = current.getOrigen();
+        listaOrigenes = origenFacade.findAll();
+        // Morfología
+        selectedMorf = current.getMorfologia();
+        listaMorfologias = morfologiaFacade.findAll();
+        // Cites
+        selectedCites = current.getCites();
+        listaCites = citesFacade.findAll();
+        // Rangos
+        selectedRango = current.getRango();
+        listaRangos = rangoFacade.findAll();
+        // Publicaciones
+        selectedPublicacion = current.getPublicacion();
+        listaPublicaciones = pubFacade.findAll();
+        // Autores
+        selectedAutor = current.getAutores();
+        listaAutores = autorFacade.findAll();
     }
 
     

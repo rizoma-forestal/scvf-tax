@@ -40,13 +40,19 @@ public class GeneroFacade extends AbstractFacade<Genero> {
      * @return: El conjunto de resultados provenientes de la búsqueda. 
      */      
     public Genero getXNombre(String stringParam){
+        List<Genero> lstGen;
         em = getEntityManager();
         String queryString = "SELECT gen FROM Genero gen "
                 + "WHERE gen.nombre = :stringParam "
                 + "AND gen.adminentidad.habilitado = true";
         Query q = em.createQuery(queryString)
-                .setParameter("stringParam", stringParam); 
-        return (Genero)q.getSingleResult();
+                .setParameter("stringParam", stringParam);        
+        lstGen = q.getResultList();
+        if(lstGen.isEmpty()){
+            return null;
+        }else{
+            return lstGen.get(0);
+        }
     }
 
     /**
@@ -105,6 +111,23 @@ public class GeneroFacade extends AbstractFacade<Genero> {
         Query q = em.createQuery(queryString);
         result = q.getResultList();
         return result;
+    }   
+    
+    /**
+     * Método que devuelve todos los Géneros (forestales, solo para SACVeFor)
+     * A utilizar por API REST
+     * @return los Géneros vinculados al SACVeFor
+     */
+    public List<Genero> getSvfActivos(){
+        em = getEntityManager();        
+        List<Genero> result;
+        String queryString = "SELECT gen FROM Genero gen " 
+                + "WHERE gen.adminentidad.habilitado = true "
+                + "AND gen.esSacvefor = true "
+                + "ORDER BY gen.nombre";                   
+        Query q = em.createQuery(queryString);
+        result = q.getResultList();
+        return result;
     }    
     
     /**
@@ -137,4 +160,22 @@ public class GeneroFacade extends AbstractFacade<Genero> {
                 .setParameter("id", id);
         return q.getResultList();
     }
+    
+    /**
+     * Método que devuelve todos los géneros (forestales, solo para SACVeFor)
+     * a partir del id de la familia
+     * A utilizar por API REST
+     * @param id correspondiente al id de la Familia
+     * @return los Géneros correspondientes al id de la Familia solicitado
+     */
+    public List<Genero> getSvfGenerosXIdFamilia(Long id){
+        em = getEntityManager();        
+        String queryString = "SELECT gen FROM Genero gen "
+                + "WHERE gen.familia.id = :id "
+                + "AND gen.adminentidad.habilitado = true "
+                + "AND gen.esSacvefor = true";
+        Query q = em.createQuery(queryString)
+                .setParameter("id", id);
+        return q.getResultList();
+    }    
 }

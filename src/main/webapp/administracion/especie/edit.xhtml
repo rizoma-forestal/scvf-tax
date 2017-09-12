@@ -20,7 +20,7 @@
                         </p:selectOneMenu>   
 
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_genero}" for="genero"/>                             
-                        <p:selectOneMenu id="genero" value="#{mbEspecie.selected.genero}" >
+                        <p:selectOneMenu id="genero" value="#{mbEspecie.selectedGenero}" valueChangeListener="#{mbEspecie.generoChangeListener}" >
                             <f:selectItem itemLabel="Seleccione el Genero" itemValue="" noSelectionOption="true" />                           
                             <f:selectItems value="#{mbEspecie.listaGenero}" var="genero" itemLabel="#{genero.nombre}" itemValue="#{genero}"/>
                         </p:selectOneMenu>   
@@ -29,59 +29,60 @@
                         <p:inputText id="nombre" value="#{mbEspecie.selected.nombre}" 
                                      requiredMessage="#{bundle.CreateEspecieRequiredMessage_nombre}" required="true"/>                           
                         
+                        <p:outputLabel value="SACVeFor: " for="esScvf"/>   
+                        <p:selectBooleanCheckbox id="esScvf" value="#{mbEspecie.selected.esSacvefor}" />
+                        
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_subEspecie}" for="subespecie"/>
                         <p:inputText id="subespecie" value="#{mbEspecie.selected.subEspecie}" 
                                      requiredMessage="#{bundle.CreateEspecieRequiredMessage_subEspecie}" required="false" />   
+
+                        <p:outputLabel value="#{bundle.CreateEspecieLabel_origen}" for="origen"/>                             
+                        <p:selectOneMenu id="origen" value="#{mbEspecie.selectedOrigen}" >
+                            <f:selectItem itemLabel="Seleccione el #{bundle.CreateEspecieTitle_origen}" itemValue="" noSelectionOption="true" />                           
+                            <f:selectItems value="#{mbEspecie.listaOrigenes}" var="origen" itemLabel="#{origen.nombre}" itemValue="#{origen}"/>
+                        </p:selectOneMenu>   
+                        
+                        <p:outputLabel value="#{bundle.CreateEspecieLabel_morfologia}" for="morfologia"/>                             
+                        <p:selectOneMenu id="morfologia" value="#{mbEspecie.selectedMorf}" >
+                            <f:selectItem itemLabel="Seleccione la #{bundle.CreateEspecieTitle_morfologia}" itemValue="" noSelectionOption="true" />                           
+                            <f:selectItems value="#{mbEspecie.listaMorfologias}" var="morfologia" itemLabel="#{morfologia.nombre}" itemValue="#{morfologia}"/>
+                        </p:selectOneMenu> 
+                        
+                        <p:outputLabel value="#{bundle.CreateEspecieLabel_cites}" for="cites"/>                             
+                        <p:selectOneMenu id="cites" value="#{mbEspecie.selectedCites}" >
+                            <f:selectItem itemLabel="Seleccione el tipo Cites" itemValue="" noSelectionOption="true" />                           
+                            <f:selectItems value="#{mbEspecie.listaCites}" var="cites" itemLabel="#{cites.nombre}" itemValue="#{cites}"/>
+                        </p:selectOneMenu>   
+                        
+                        <p:outputLabel value="#{bundle.CreateEspecieLabel_rango}" for="rango"/>                             
+                        <p:selectOneMenu id="rango" value="#{mbEspecie.selectedRango}" >
+                            <f:selectItem itemLabel="Seleccione el #{bundle.CreateEspecieTitle_rango}" itemValue="" noSelectionOption="true" />                           
+                            <f:selectItems value="#{mbEspecie.listaRangos}" var="rango" itemLabel="#{rango.nombre}" itemValue="#{rango}"/>
+                        </p:selectOneMenu> 
+                        
+                        <p:outputLabel value="#{bundle.CreateEspecieLabel_publicacion}" for="publicacion"/>                             
+                        <p:selectOneMenu id="publicacion" value="#{mbEspecie.selectedPublicacion}" >
+                            <f:selectItem itemLabel="Seleccione la #{bundle.CreateEspecieTitle_publicacion}" itemValue="" noSelectionOption="true" />                           
+                            <f:selectItems value="#{mbEspecie.listaPublicaciones}" var="publicacion" itemLabel="#{publicacion.nombre} - #{publicacion.anio}" itemValue="#{publicacion}"/>
+                        </p:selectOneMenu> 
+                        
+                        <p:outputLabel value="#{bundle.CreateEspecieLabel_autorEspecie}" for="autorEspecie"/>                             
+                        <p:selectOneMenu id="autorEspecie" value="#{mbEspecie.selectedAutor}" >
+                            <f:selectItem itemLabel="Seleccione el Autor de la #{bundle.CreateEspecieTitle_autorEspecie}" itemValue="" noSelectionOption="true" />                           
+                            <f:selectItems value="#{mbEspecie.listaAutores}" var="autorEspecie" itemLabel="#{autorEspecie.nombre}" itemValue="#{autorEspecie}"/>
+                        </p:selectOneMenu> 
+                        
+                        <p:outputLabel value="#{bundle.CreateEspecieLabel_autores}" for="autores"/>                             
+                        <p:selectOneMenu id="autores" value="#{mbEspecie.selectedAutor}" >
+                            <f:selectItem itemLabel="Seleccione los #{bundle.CreateEspecieTitle_autores}" itemValue="" noSelectionOption="true" />                           
+                            <f:selectItems value="#{mbEspecie.listaAutores}" var="autores" itemLabel="#{autores.nombre}" itemValue="#{autores}"/>
+                        </p:selectOneMenu> 
                         
                         <p:outputLabel value="#{bundle.CreateEspecieLabel_sinonimos}" for="sinonimos"/>
                         <p:inputTextarea value="#{mbEspecie.selected.sinonimo}" rows="5" cols="50" 
                                          counter="sinonimos" maxlength="3500" 
                                          counterTemplate="{0} Caracteres restantes." autoResize="false" style="width: 500px" />
                         <h:outputText id="sinonimos" style="font-size: 80%" />
-
-                        <p:outputLabel value="#{bundle.CreateEspecieLabel_origen}" for="origen"/>                             
-                        <p:selectOneMenu id="origen" value="#{mbEspecie.selected.origen}" >
-                            <f:selectItem itemLabel="Seleccione el #{bundle.CreateEspecieTitle_origen}" itemValue="" noSelectionOption="true" />                           
-                            <f:selectItems value="#{mbEspecie.listaOrigenes}" var="origen" itemLabel="#{origen.nombre}" itemValue="#{origen}"/>
-                        </p:selectOneMenu>   
-                        
-                        <p:outputLabel value="#{bundle.CreateEspecieLabel_morfologia}" for="morfologia"/>                             
-                        <p:selectOneMenu id="morfologia" value="#{mbEspecie.selected.morfologia}" >
-                            <f:selectItem itemLabel="Seleccione la #{bundle.CreateEspecieTitle_morfologia}" itemValue="" noSelectionOption="true" />                           
-                            <f:selectItems value="#{mbEspecie.listaMorfologias}" var="morfologia" itemLabel="#{morfologia.nombre}" itemValue="#{morfologia}"/>
-                        </p:selectOneMenu> 
-                        
-                        <p:outputLabel value="#{bundle.CreateEspecieLabel_cites}" for="cites"/>                             
-                        <p:selectOneMenu id="cites" value="#{mbEspecie.selected.cites}" >
-                            <f:selectItem itemLabel="Seleccione el tipo Cites" itemValue="" noSelectionOption="true" />                           
-                            <f:selectItems value="#{mbEspecie.listaCites}" var="cites" itemLabel="#{cites.nombre}" itemValue="#{cites}"/>
-                        </p:selectOneMenu>   
-                        
-                        <p:outputLabel value="#{bundle.CreateEspecieLabel_rango}" for="rango"/>                             
-                        <p:selectOneMenu id="rango" value="#{mbEspecie.selected.rango}" >
-                            <f:selectItem itemLabel="Seleccione el #{bundle.CreateEspecieTitle_rango}" itemValue="" noSelectionOption="true" />                           
-                            <f:selectItems value="#{mbEspecie.listaRangos}" var="rango" itemLabel="#{rango.nombre}" itemValue="#{rango}"/>
-                        </p:selectOneMenu> 
-                        
-                        <p:outputLabel value="#{bundle.CreateEspecieLabel_publicacion}" for="publicacion"/>                             
-                        <p:selectOneMenu id="publicacion" value="#{mbEspecie.selected.publicacion}" >
-                            <f:selectItem itemLabel="Seleccione la #{bundle.CreateEspecieTitle_publicacion}" itemValue="" noSelectionOption="true" />                           
-                            <f:selectItems value="#{mbEspecie.listaPublicaciones}" var="publicacion" itemLabel="#{publicacion.nombre} - #{publicacion.anio}" itemValue="#{publicacion}"/>
-                        </p:selectOneMenu> 
-                        
-                        <p:outputLabel value="#{bundle.CreateEspecieLabel_autorEspecie}" for="autorEspecie"/>                             
-                        <p:selectOneMenu id="autorEspecie" value="#{mbEspecie.selected.autorEspecie}" >
-                            <f:selectItem itemLabel="Seleccione el Autor de la #{bundle.CreateEspecieTitle_autorEspecie}" itemValue="" noSelectionOption="true" />                           
-                            <f:selectItems value="#{mbEspecie.listaAutores}" var="autorEspecie" itemLabel="#{autorEspecie.nombre}" itemValue="#{autorEspecie}"/>
-                        </p:selectOneMenu> 
-                        
-                        <p:outputLabel value="#{bundle.CreateEspecieLabel_autores}" for="autores"/>                             
-                        <p:selectOneMenu id="autores" value="#{mbEspecie.selected.autores}" 
-                                         requiredMessage="El campo #{bundle.CreateEspecieTitle_autores} es obligatorio" required="true">
-                            <f:selectItem itemLabel="Seleccione los #{bundle.CreateEspecieTitle_autores}" itemValue="" noSelectionOption="true" />                           
-                            <f:selectItems value="#{mbEspecie.listaAutores}" var="autores" itemLabel="#{autores.nombre}" itemValue="#{autores}"/>
-                        </p:selectOneMenu> 
-
                     </h:panelGrid>
                 </p:panel>
 

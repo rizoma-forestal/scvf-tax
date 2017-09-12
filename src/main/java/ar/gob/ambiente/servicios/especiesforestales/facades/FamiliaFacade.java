@@ -40,12 +40,18 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
      * @return: El conjunto de resultados provenientes de la búsqueda. 
      */      
     public Familia getXNombre(String stringParam){
+        List<Familia> lstFam;
         em = getEntityManager();
         String queryString = "SELECT fam FROM Familia fam "
                 + "WHERE fam.nombre = :stringParam";
         Query q = em.createQuery(queryString)
                 .setParameter("stringParam", stringParam);        
-        return (Familia)q.getSingleResult();
+        lstFam = q.getResultList();
+        if(lstFam.isEmpty()){
+            return null;
+        }else{
+            return lstFam.get(0);
+        }
     }
 
     /**
@@ -113,10 +119,27 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
         em = getEntityManager();        
         List<Familia> result;
         String queryString = "SELECT fam FROM Familia fam " 
-                + "WHERE fam.adminentidad.habilitado = true";                   
+                + "WHERE fam.adminentidad.habilitado = true "
+                + "ORDER BY fam.nombre";                  
         Query q = em.createQuery(queryString);
         result = q.getResultList();
         return result;
     }    
 
+    /**
+     * Método que devuelve todos las Familias (forestales, solo para SACVeFor)
+     * A utilizar por API REST
+     * @return las Familias vinculadas al SACVeFor
+     */
+    public List<Familia> getSvfActivas(){
+        em = getEntityManager();        
+        List<Familia> result;
+        String queryString = "SELECT fam FROM Familia fam " 
+                + "WHERE fam.adminentidad.habilitado = true "
+                + "AND fam.esSacvefor = true "
+                + "ORDER BY fam.nombre";                   
+        Query q = em.createQuery(queryString);
+        result = q.getResultList();
+        return result;
+    }
 }

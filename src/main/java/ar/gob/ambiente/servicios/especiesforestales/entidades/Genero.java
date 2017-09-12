@@ -49,9 +49,21 @@ public class Genero implements Serializable {
     @OneToMany(mappedBy="genero")
     private List<Especie> especies;
 
+    /**
+     * Campo para identificar las Familias consumidas por el SACVeFor
+     */    
+    private boolean esSacvefor;    
 
     public Genero(){
         especies = new ArrayList<>();
+    }
+
+    public boolean isEsSacvefor() {
+        return esSacvefor;
+    }
+
+    public void setEsSacvefor(boolean esSacvefor) {
+        this.esSacvefor = esSacvefor;
     }
     
     @XmlTransient

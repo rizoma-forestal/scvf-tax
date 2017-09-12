@@ -81,7 +81,12 @@ public class Especie implements Serializable {
     
     @Column (nullable=true, length=3500)
     @Size(message = "El campo sinonimo no puede tener más de 3500 caracteres", max = 3500)
-    private String sinonimo;      
+    private String sinonimo;    
+    
+    /**
+     * Campo para identificar las Especies consumidas por el SACVeFor
+     */
+    private boolean esSacvefor;
 
     @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="adminentidad_id")
@@ -102,6 +107,14 @@ public class Especie implements Serializable {
      */
     @Transient
     String nombreCompleto;
+
+    public boolean isEsSacvefor() {
+        return esSacvefor;
+    }
+
+    public void setEsSacvefor(boolean esSacvefor) {
+        this.esSacvefor = esSacvefor;
+    }
     
     public String getNombreCompleto() {
         nombreCompleto = getGenero().getFamilia().getNombre() + " " + getGenero().getNombre() + " " + getNombre();
@@ -191,7 +204,7 @@ public class Especie implements Serializable {
     }
 
     public String getNombrecientifico() {
-        return genero.getNombre()+ "." + getNombre();
+        return genero.getNombre()+ " " + getNombre();
     }
 
     public void setNombrecientifico(String nombrecientifico) {

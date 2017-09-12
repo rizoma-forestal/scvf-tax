@@ -48,10 +48,23 @@ public class Familia implements Serializable {
     
     @OneToMany(mappedBy="familia")
     private List<Genero> generos;
+    
+    /**
+     * Campo para identificar las Familias consumidas por el SACVeFor
+     */    
+    private boolean esSacvefor;    
 
     //agregar constructor con el arrayList
     public Familia(){
         generos = new ArrayList<>();
+    }
+
+    public boolean isEsSacvefor() {
+        return esSacvefor;
+    }
+
+    public void setEsSacvefor(boolean esSacvefor) {
+        this.esSacvefor = esSacvefor;
     }
 
     public String getSubFamilia() {
