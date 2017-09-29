@@ -155,7 +155,8 @@ public class GeneroFacade extends AbstractFacade<Genero> {
         em = getEntityManager();        
         String queryString = "SELECT gen FROM Genero gen "
                 + "WHERE gen.familia.id = :id "
-                + "AND gen.adminentidad.habilitado = true";
+                + "AND gen.adminentidad.habilitado = true "
+                + "ORDER BY gen.nombre";
         Query q = em.createQuery(queryString)
                 .setParameter("id", id);
         return q.getResultList();
@@ -173,7 +174,8 @@ public class GeneroFacade extends AbstractFacade<Genero> {
         String queryString = "SELECT gen FROM Genero gen "
                 + "WHERE gen.familia.id = :id "
                 + "AND gen.adminentidad.habilitado = true "
-                + "AND gen.esSacvefor = true";
+                + "AND gen.esSacvefor = true "
+                + "ORDER BY gen.nombre";
         Query q = em.createQuery(queryString)
                 .setParameter("id", id);
         return q.getResultList();
