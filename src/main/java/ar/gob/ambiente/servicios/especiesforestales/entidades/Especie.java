@@ -43,7 +43,7 @@ public class Especie implements Serializable {
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
     private String nombre;   
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne/*(fetch=FetchType.LAZY)*/
     @JoinColumn(name="genero_id")
     private Genero genero;
     
