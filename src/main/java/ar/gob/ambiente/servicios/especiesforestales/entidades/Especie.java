@@ -47,31 +47,31 @@ public class Especie implements Serializable {
     @JoinColumn(name="genero_id")
     private Genero genero;
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne/*(fetch=FetchType.LAZY)*/
     @JoinColumn(name="autorEsp_id", nullable=true)
     private Autor autorEspecie;    
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne/*(fetch=FetchType.LAZY)*/
     @JoinColumn(name="autor_id", nullable=true)
     private Autor autores;      
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne/*(fetch=FetchType.LAZY)*/
     @JoinColumn(name="cites_id", nullable=true)
     private Cites cites;
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne/*(fetch=FetchType.LAZY)*/
     @JoinColumn(name="morfologia_id", nullable=true)
     private Morfologia morfologia;
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne/*(fetch=FetchType.LAZY)*/
     @JoinColumn(name="origen_id", nullable=true)
     private Origen origen;
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne/*(fetch=FetchType.LAZY)*/
     @JoinColumn(name="publicacion_id", nullable=true)
     private Publicacion publicacion; 
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne/*(fetch=FetchType.LAZY)*/
     @JoinColumn(name="rango_id", nullable=true)
     private Rango rango;    
     
