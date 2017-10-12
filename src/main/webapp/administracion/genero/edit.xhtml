@@ -11,7 +11,7 @@
                 <p:panel id="pnEdit" 
                          header="#{bundle.GeneroEditTitle}" 
                          style="margin-bottom:10px;">
-                    <h:panelGrid columns="4">
+                    <h:panelGrid columns="3">
 
                         <p:outputLabel value="#{bundle.CreateGeneroLabel_familia}" 
                                        for="familia"/> 
@@ -27,7 +27,6 @@
                                            itemLabel="#{familia.nombre}" 
                                            itemValue="#{familia}"/>
                         </p:selectOneMenu>      
-                        <p:outputLabel value="" />
                         
                         <h:inputHidden id="id"
                                        value="#{mbGenero.selected.id}"/>

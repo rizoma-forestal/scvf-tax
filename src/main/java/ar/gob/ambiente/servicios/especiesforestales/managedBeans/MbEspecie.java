@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -466,7 +467,7 @@ public class MbEspecie implements Serializable{
                     return "view";
                 }else{
                     esp = getFacade().getExistente(current.getGenero(), current.getNombre(), current.getSubEspecie());
-                    if(esp.getId() == current.getId()){
+                    if(Objects.equals(esp.getId(), current.getId())){
                         getFacade().edit(current);
                         JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("EspecieUpdated"));
                         return "view";
