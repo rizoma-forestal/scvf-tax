@@ -4,12 +4,16 @@ especiesForestales
 Descripción de la aplicación:
 -----------------------------
 
-Esta aplicación gestiona la información correspondiente a la taxonomía de especies vegetales. Contiene una API de servicios web para ser consumidos tanto por aplicaciones internas como externas, de manera de proveer un registro único de taxonomías. Dada su estructura, sería fácil de escalar de manera de gestionar también la taxonomía de especies animales. Se preve proximamente desacoplear el backend en un módulo EJB que proporcione la API de servicios web y una fachada que ofrezca los mismos métodos para consumo mediante JNDI.
+Esta aplicación gestiona la información correspondiente a la taxonomía de especies vegetales. Contiene una API de servicios web para ser consumidos tanto por aplicaciones internas como externas, de manera de proveer un registro único de taxonomías. Dada su estructura, sería fácil de escalar de manera de gestionar también la taxonomía de especies animales. Creada especialmente para consumir su información vía REST por SACVeFor y SIIF
 
-La acreditación de esta aplicación es gestionada mediante el servicio brindado por gestionAplicaciones. Disitingue dos roles de usuarios, el administrador que gestiona los contenidos y el seguridad, que gestiona usuarios y roles. Para asignar usuarios a la aplicación, previamente deben ser vinculados mediante gestionAplicaciones.	
+La acreditación de esta aplicación es gestionada mediante el servicio brindado por gestionAplicaciones. Disitingue dos roles de usuarios, el administrador que gestiona los contenidos y el seguridad, que gestiona usuarios y roles. Para asignar usuarios a la aplicación, previamente deben ser vinculados mediante gestionAplicaciones. No obstante, se modificó la forma de validación para no depender del active directory del MAyDS en un principio.
 
-Para más datos se recomienda acceder a la documentación de la aplicación en \\vmfs\Desarrollo\Servicios\Especies.
+Si bien para la versión anterior se implementó un servicio SOAP mediante wsdl, para la actual se cambió a RESTFull. Proximamente se implementará la securización de los servicios y se incorporará la documentación mediante apiDoc.
 
+
+
+Primera versión con servicios WSDL sobre glassFish
+==================================================
 
 Ambiente:
 ---------
