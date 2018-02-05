@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
@@ -16,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-/*import javax.persistence.ManyToMany;*/
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -25,7 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entidad que encapsula la informacion concerniente a un Género.
+ * Se omite la documentación de los métodos get y set.
  * @author rincostante
  */
 @XmlRootElement(name = "genero")
@@ -33,27 +28,47 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "genero")
 public class Genero implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    /**
+     * Variable privada: Identificador único
+     */       
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    /**
+     * Variable privada: Nombre de el género
+     */ 
     private String nombre;
     
+    /**
+     * Variable privada de tipo Familia: familia a la que pertenece el género
+     */
     @ManyToOne /*(fetch=FetchType.LAZY)*/
     @JoinColumn(name="familia_id")
     private Familia familia;
        
+    /**
+     * Variable privada de tipo AdminEntidad: representa la entidad administrativa del género
+     */    
     @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="adminentidad_id")
     private AdminEntidad adminentidad;    
    
+    /**
+     * Variable privada tipo List<Especie>: Listado de las especies pertenecientes al género
+     */
     @OneToMany(mappedBy="genero")
     private List<Especie> especies;
 
     /**
-     * Campo para identificar las Familias consumidas por el SACVeFor
+     * Variable privada: identifica a los Géneros consumidos por el SACVeFor
      */    
     private boolean esSacvefor;    
 
+    /**
+     * Constructor
+     */
     public Genero(){
         especies = new ArrayList<>();
     }
@@ -66,6 +81,10 @@ public class Genero implements Serializable {
         this.esSacvefor = esSacvefor;
     }
     
+    /**
+     * El listado de especies pertenecientes al género no estará presente en la información suministrada por la API
+     * @return List<Especie> listado de especies pertenecientes al género.
+     */    
     @XmlTransient
     public List<Especie> getEspecies() {
         return especies;
@@ -100,6 +119,10 @@ public class Genero implements Serializable {
         this.id = id;
     }
 
+    /**
+     * La entidad administrativa no estará presente en la información suministrada por la API
+     * @return AdminEntidad entidad administrativa de la familia
+     */        
     @XmlTransient
     public AdminEntidad getAdminentidad() {
         return adminentidad;
@@ -109,6 +132,10 @@ public class Genero implements Serializable {
         this.adminentidad = adminentidad;
     }
 
+    /**
+     * Método que crea un hash con a partir de la id del género
+     * @return int Un entero con el hash
+     */       
     @Override
     public int hashCode() {
         int hash = 0;
@@ -116,6 +143,11 @@ public class Genero implements Serializable {
         return hash;
     }
 
+    /**
+     * Método que compara una instancia de Género con otra según su id
+     * @param object La instancia de Género a comparar con la presente
+     * @return boolean Verdadero si son iguales, falso si son distintas
+     */            
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -129,13 +161,12 @@ public class Genero implements Serializable {
         return true;
     }
 
+    /**
+     * Método que devuelve un String con el id del Género
+     * @return String id del Género en formato String
+     */  
     @Override
     public String toString() {
         return "ar.gob.ambiente.servicios.especiesforestales.entidades.Genero[ id=" + id + " ]";
     }
-
-    public AdminEntidad getAdminentidad(AdminEntidad admEnt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
- 

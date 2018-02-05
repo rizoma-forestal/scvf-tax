@@ -11,11 +11,8 @@ import ar.gob.ambiente.servicios.especiesforestales.facades.FamiliaFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.GeneroFacade;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +20,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -37,11 +33,11 @@ import sacvefor.Genero_svfFacade;
 
 /**
  * Temporal para importar las especies del SACVeFor
+ * @deprecated Ya utilizada para realizar la migración
  * @author rincostante
  */
 public class MbImport implements Serializable{
 
-    private List<String> listColumnas;
     private Familia_svf familiaSvf;
     private Genero_svf generoSvf;
     private Especie_svf especieSvf;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.facades;
 
@@ -13,27 +8,38 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
- *
+ * Clase que implementa la abstracta para el acceso a datos de la entidad Rango.
  * @author rincostante
  */
 @Stateless
 public class RangoFacade extends AbstractFacade<Rango> {
+    
+    /**
+     * Variable privada: EntityManager al que se le indica la unidad de persistencia mediante la cual accederá a la base de datos
+     */ 
     @PersistenceContext(unitName = "ar.gob.ambiente.servicios_especiesForestales_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
+    /**
+     * Método que implementa el abstracto para la obtención del EntityManager
+     * @return EntityManager para acceder a datos
+     */   
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
+    /**
+     * Constructor
+     */
     public RangoFacade() {
         super(Rango.class);
     }
     
     /**
      * Metodo que verifica si ya existe la entidad.
-     * @param aBuscar: es la cadena que buscara para ver si ya existe en la BDD
-     * @return: devuelve True o False
+     * @param aBuscar String cadena que buscara para ver si ya existe en la BDD
+     * @return boolean devuelve True o False según el caso
      */
     public boolean existe(String aBuscar){
         em = getEntityManager();       
@@ -47,8 +53,8 @@ public class RangoFacade extends AbstractFacade<Rango> {
     
     /**
      * Método que verifica si la entidad tiene dependencias
-     * @param id: ID de la entidad
-     * @return: True o False
+     * @param id Long ID de la entidad
+     * @return boolean True o False según el caso
      */
     public boolean noTieneDependencias(Long id){
         em = getEntityManager();       

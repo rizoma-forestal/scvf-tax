@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.entidades.util;
 
@@ -11,6 +6,7 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -20,7 +16,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 /**
- * 
+ * Clase utilitaria que contiene la funcionalidad para encriptar y desencriptar contraseñas
  * @author rincostante
  */
 public class CriptPass {
@@ -29,7 +25,7 @@ public class CriptPass {
     
     /**
      * Método para crear las contraseñas de manera aleatoria al crear un usuario por primera vez
-     * @return 
+     * @return String contraseña generada
      */
     public static String generar(){
         int longitud = base.length();
@@ -44,12 +40,12 @@ public class CriptPass {
 
     /**
      * Método para encriptar las contraseñas
-     * @param texto
-     * @return 
+     * @param texto Contraseña a encriptar
+     * @return String contraseña encriptada
      */
     public static String encriptar(String texto) {
  
-        String secretKey = "zorbazorbas"; //llave para encriptar datos
+        String secretKey = ResourceBundle.getBundle("/Bundle").getString("ClaveEncriptar"); //llave para encriptar datos
         String base64EncryptedString = "";
  
         try {
@@ -76,12 +72,12 @@ public class CriptPass {
     /**
      * Método para desencriptar una contraseña encriptada
      * @param textoEncriptado
-     * @return
+     * @return String contraseña desencriptada
      * @throws Exception 
      */
     public static String desencriptar(String textoEncriptado) throws Exception {
  
-        String secretKey = "zorbazorbas"; //llave para encriptar datos
+        String secretKey = ResourceBundle.getBundle("/Bundle").getString("ClaveEncriptar"); //llave para encriptar datos
         String base64EncryptedString = "";
  
         try {

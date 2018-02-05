@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sacvefor;
 
 import java.io.Serializable;
@@ -18,7 +14,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- *
+ * Entidad que encapsula la informacion concerniente a una Especie migrada desde SACVeFor
+ * @deprecated solo utilizada para la migración desde el SACVeFor, ya realizada
  * @author rincostante
  */
 @Entity

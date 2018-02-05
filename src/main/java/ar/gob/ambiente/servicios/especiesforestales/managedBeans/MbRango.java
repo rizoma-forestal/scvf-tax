@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
@@ -25,23 +20,38 @@ import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Bean de respaldo para la gestión de los Rangos
  * @author rincostante
  */
 public class MbRango implements Serializable{
-
+    /**
+     * Variable privada: Rango Entidad que se gestiona mediante el bean
+     */
     private Rango current;
+    /**
+     * Variable privada: List<Rango> Listado de Rangos para poblar la tabla con todos los orígenes registrados
+     */
     private List<Rango> listado = null;
+    /**
+     * Variable privada: List<Rango> para el filtrado de la tabla
+     */
     private List<Rango> listaFilter;    
+    /**
+     * Variable privada: List<Autor> Listado que muestra las Especies vinculadas al autor
+     */
     private List<Especie> listEspFilter;
-    
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Origen
+     */
     @EJB
     private RangoFacade rangoFacade;
-
+    /**
+     * Variable privada: boolean que indica si se inició el bean
+     */
     private boolean iniciado; 
     
     /**
-     * Creates a new instance of MbRango
+     * Constructor
      */
     public MbRango() {
     }
@@ -61,7 +71,10 @@ public class MbRango implements Serializable{
     public void setCurrent(Rango current) {
         this.current = current;
     }
-
+    /**
+     * Método que obtiene el listado de todos los Rangos, solo si no está instanciado ya
+     * @return List<Rango> listado con todos los Rangos registrados
+     */
     public List<Rango> getListado() {
         if (listado == null || listado.isEmpty()) {
             listado = getFacade().findAll();
@@ -121,14 +134,16 @@ public class MbRango implements Serializable{
     }
     
     /**
-     * @return acción para el detalle de la entidad
+     * Redireccionamiento a la vista detalle
+     * @return String nombre de la vista
      */
     public String prepareView() {
         return "view";
     }
     
-    /** (Probablemente haya que embeberlo con el listado para una misma vista)
-     * @return acción para el formulario de nuevo
+    /**
+     * Redireccionamiento a la vista new para crear un Rango
+     * @return String nombre de la vista
      */
     public String prepareCreate() {
         current = new Rango();
@@ -143,8 +158,8 @@ public class MbRango implements Serializable{
     }    
     
     /**
-     * Método que verifica que el Cargo que se quiere eliminar no esté siento utilizado por otra entidad
-     * @return 
+     * Redireccionamiento a la vista edit para editar un Rango
+     * @return String nombre de la vista
      */
     public String prepareDestroy(){
         boolean libre = getFacade().noTieneDependencias(current.getId());
@@ -192,8 +207,9 @@ public class MbRango implements Serializable{
      * Métodos de operación
      **********************/
     /**
-    * @return 
-    */   
+    * Método para la creación de un nuevo Rango
+    * @return String nombre de la vista detalle o null si hay error
+    */  
     public String create() {     
         try {
             getFacade().create(current);
@@ -205,7 +221,10 @@ public class MbRango implements Serializable{
         }
     }
     
-
+    /**
+     * Método para la actualización de un Rango existente
+     * @return String nombre de la vista detalle o null si hay error
+     */
     public String update() {
         try {
             getFacade().edit(current);
@@ -218,16 +237,16 @@ public class MbRango implements Serializable{
     }    
     
     /**
-     * Restea la entidad
+     * Método privado que restea la entidad
      */
     private void recreateModel() {
         listado.clear();
     }    
     
     /**
-     * @return La entidad gestionada
+     * Método que instancia a la entidad Rango
+     * @return Rango entidad a gestionar
      */
- 
     public Rango getSelected() {
         if (current == null) {
             current = new Rango();
@@ -236,8 +255,9 @@ public class MbRango implements Serializable{
     } 
     
     /**
-     * @param id equivalente al id de la entidad persistida
-     * @return la entidad correspondiente
+     * Método que obtiene un Rango según su id
+     * @param id Long equivalente al id de la entidad persistida
+     * @return Rango la entidad correspondiente
      */
     public Rango getRango(java.lang.Long id) {
         return rangoFacade.find(id);
@@ -248,12 +268,17 @@ public class MbRango implements Serializable{
     ** Métodos privados **
     **********************/
     /**
-     * @return el Facade
+     * Método que devuelve el facade para el acceso a datos del Rango
+     * @return EJB RangoFacade Acceso a datos
      */
     private RangoFacade getFacade() {
         return rangoFacade;
     }    
-    
+    /**
+     * Método para validar que el Rango cuyo nombre se recibe ya está registrado
+     * @param arg2 Object Contenido del campo de texto correspondiente al nombre
+     * @throws ValidatorException 
+     */
     private void validarExistente(Object arg2) throws ValidatorException{
         if(!getFacade().existe((String)arg2)){
             throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateRangoExistente")));
@@ -261,7 +286,7 @@ public class MbRango implements Serializable{
     }    
     
     /**
-     * Opera el borrado de la entidad
+     * Método privado que opera el borrado de la entidad
      */
     private void performDestroy() {
         try {

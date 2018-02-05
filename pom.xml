@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ar.gob.ambiente.servicios</groupId>
-    <artifactId>especiesVegetales</artifactId>
-    <version>1.0.0</version>
+    <artifactId>scvf-tax</artifactId>
+    <version>1.1.0</version>
     <packaging>war</packaging>
 
-    <name>especiesVegetales</name>
+    <name>sacvefor-taxonomias</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -94,6 +94,11 @@
           <groupId>org.apache.poi</groupId>
           <artifactId>poi-ooxml</artifactId>
           <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
         </dependency>
     </dependencies>
 

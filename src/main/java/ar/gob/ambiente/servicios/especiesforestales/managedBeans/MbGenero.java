@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
 import ar.gob.ambiente.servicios.especiesforestales.entidades.AdminEntidad;
@@ -27,46 +23,68 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 
 
-
-
 /**
- *
+ * Bean de respaldo para la gestión de Géneros
  * @author carmendariz
  */
 public class MbGenero implements Serializable{
-    
-    
+    /**
+     * Variable privada: Género Entidad que se gestiona mediante el bean
+     */
     private Genero current;
+    /**
+     * Variable privada: DataModel Listado de Géneros para poblar la tabla con todos los registrados
+     */
     private DataModel items = null;
+    /**
+     * Variable privada: List<Genero> para el filtrado de la tabla
+     */
     private List<Genero> listaFilter;
-
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Familias
+     */
     @EJB
     private FamiliaFacade familiaFacade;
-    
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Géneros
+     */
     @EJB
     private GeneroFacade generoFacade;
-    
-    //private int selectedItemIndex;
-    //private String selectParam;    
-    //private List<String> listaNombres;  
-    private List<Familia> listaFamilia;
-    private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
-    private MbLogin login;
-    private Usuario usLogeado;
-    private boolean iniciado;
-
-
     /**
-     * Creates a new instance of MbGenero
+     * Variable privada: List<Familia> para seleccionar y asignar a un Género
+     */
+    private List<Familia> listaFamilia;
+    /**
+     * Variable privada: Entero que indica el tipo de actualización que se hará:
+     * 0=updateNormal | 1=deshabiliar | 2=habilitar
+     */
+    private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
+    /**
+     * Variable privada: MbLogin bean de gestión de la sesión del usuario
+     */
+    private MbLogin login;
+    /**
+     * Variable privada: Usuario usuario logeado
+     */
+    private Usuario usLogeado;
+    /**
+     * Variable privada: boolean que indica si se inició el bean
+     */
+    private boolean iniciado;
+    
+    /**
+     * Constructor
      */
     public MbGenero() {
     }
    
+    /**
+     * Método que se ejecuta luego de instanciada la clase e inicializa los datos del usuario
+     */    
     @PostConstruct
     public void init(){
         iniciado = false;
@@ -74,6 +92,7 @@ public class MbGenero implements Serializable{
         login = (MbLogin)ctx.getSessionMap().get("mbLogin");
         if(login != null) usLogeado = login.getUsLogeado();
     }
+    
     /**
      * Método que borra de la memoria los MB innecesarios al cargar el listado 
      */
@@ -110,7 +129,6 @@ public class MbGenero implements Serializable{
         this.current = current;
     }
     
-
     public List<Familia> getListaFamilia() {
         return listaFamilia;
     }
@@ -132,9 +150,12 @@ public class MbGenero implements Serializable{
         return current;
     } 
 
+    /**
+     * Método que instancia los Items que componen el listado
+     * @return DataModel Items que componen el listado
+     */    
     public DataModel getItems() {
         if (items == null) {
-            //items = getPagination().createPageDataModel();
             items = new ListDataModel(getFacade().findAll());
         }
         return items;
@@ -145,7 +166,9 @@ public class MbGenero implements Serializable{
 ** Métodos de inicialización **
 *******************************/
     /**
-     * @return acción para el listado de entidades a mostrar en el list
+     * Redireccionamiento a la vista con el listado
+     * previo reseteo del listado
+     * @return String nombre de la vista
      */
     public String prepareList() {
         recreateModel();
@@ -153,14 +176,16 @@ public class MbGenero implements Serializable{
     }
 
     /**
-     * @return acción para el detalle de la entidad
+     * Redireccionamiento a la vista detalle
+     * @return String nombre de la vista
      */
     public String prepareView() {
         return "view";
     }
 
-    /** (Probablemente haya que embeberlo con el listado para una misma vista)
-     * @return acción para el formulario de nuevo
+    /**
+     * Método que instancia el Género y puebla el listado de Familias para su selección
+     * @return String nombre de la vista para la creación
      */
     public String prepareCreate() {
         listaFamilia = familiaFacade.getActivos();
@@ -169,14 +194,20 @@ public class MbGenero implements Serializable{
     }
     
     /**
-     * @return acción para la edición de la entidad
+     * Redireccionamiento a la vista edit para editar un Género
+     * previa carga del listado de las Familias disponibles
+     * @return String nombre de la vista para la edición
      */
     public String prepareEdit() {
         listaFamilia = familiaFacade.getActivos();        
         return "edit";
     }
  
-    
+    /**
+     * Método que vuelve a la vista inicial
+     * previo reseteo del listado
+     * @return String nombre de la vista inicial
+     */
     public String prepareInicio(){
         recreateModel();
         return "/faces/index";
@@ -184,24 +215,26 @@ public class MbGenero implements Serializable{
     
     /**
      * Método para preparar la búsqueda
-     * @return la ruta a la vista que muestra los resultados de la consulta en forma de listado
+     * @return String la ruta a la vista que muestra los resultados de la consulta en forma de listado
      */
     public String prepareSelect(){
-        //items = null;
-       // buscarGenero();//
         return "list";
     }
     
-        /**
-     * @return mensaje que notifica la actualizacion de estado
-     */    
-   public void habilitar() {
+    /**
+     * Método que prepara la habilitación de un Género.
+     * Setea el tipo de actualización, la ejecuta y resetea el listado
+     */  
+    public void habilitar() {
         update = 2;
         update();        
         recreateModel();
     }  
+
      /**
-     */    
+     * Método que prepara la deshabilitación de un Género.
+     * Setea el tipo de actualización, la ejecuta y resetea el listado
+     */        
     public void deshabilitar() {
        if (getFacade().tieneDependencias(current.getId())){
           update = 1;
@@ -238,6 +271,11 @@ public class MbGenero implements Serializable{
         }
     }
     
+    /**
+     * Método privado que valida que un Género no exista ya según sus datos únicos
+     * @param arg2
+     * @throws ValidatorException 
+     */
     private void validarExistente(Object arg2) throws ValidatorException{
         if(!getFacade().existe((String)arg2)){
             throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateGeneroExistente")));
@@ -245,7 +283,7 @@ public class MbGenero implements Serializable{
     }
     
     /**
-     * Restea la entidad
+     * Método privado que restea el listado
      */
     private void recreateModel() {
         items = null;
@@ -254,11 +292,15 @@ public class MbGenero implements Serializable{
     /*************************
     ** Métodos de operación **
     **************************/
+    
     /**
-     * @return 
+     * Método para que implementa la creación de un Género:
+     * Instancia la entidad administrativa, valida que no exista un Género con los mismos datos únicos,
+     * y si todo es correcto ejecuta el método create() del facade y devuelve el nombre de la vista detalle.
+     * En caso contrario devuelve null
+     * @return String nombre de la vista detalle o null
      */
-
-        public String create() {
+    public String create() {
         // Creación de la entidad de administración y asignación
         Date date = new Date(System.currentTimeMillis());
         AdminEntidad admEnt = new AdminEntidad();
@@ -277,7 +319,10 @@ public class MbGenero implements Serializable{
     }
 
     /**
-     * @return mensaje que notifica la actualización
+     * Método para que implementa la actualización de un Género, sea para la edición, habilitación o deshabilitación:
+     * Actualiza la entidad administrativa según corresponda, procede según el valor de "update",
+     * ejecuta el método edit() del facade y devuelve el nombre de la vista detalle o null.
+     * @return String nombre de la vista detalle o null
      */
     public String update() {
           Date date = new Date(System.currentTimeMillis());
@@ -302,19 +347,20 @@ public class MbGenero implements Serializable{
         }
         // acualizo
         try {
-            if(update == 0){
-                getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroUpdated"));
-                return "view";
-            }else if(update == 1){
-                getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroDeshabilitado"));
-                return "view";
-            }else{
-                getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroHabilitado"));
-                return "view";
-            }
+              switch (update) {
+                  case 0:
+                      getFacade().edit(current);
+                      JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroUpdated"));
+                      return "view";
+                  case 1:
+                      getFacade().edit(current);
+                      JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroDeshabilitado"));
+                      return "view";
+                  default:
+                      getFacade().edit(current);
+                      JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroHabilitado"));
+                      return "view";
+              }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("GeneroUpdatedErrorOccured"));
             return null;
@@ -325,23 +371,11 @@ public class MbGenero implements Serializable{
     /*************************
     ** Métodos de selección **
     **************************/
-    /**
-     * @return la totalidad de las entidades persistidas formateadas
-     */
-    public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(generoFacade.findAll(), false);
-    }
 
     /**
-     * @return de a una las entidades persistidas formateadas
-     */
-    public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(generoFacade.findAll(), true);
-    }
-
-    /**
-     * @param id equivalente al id de la entidad persistida
-     * @return la entidad correspondiente
+     * Método que obtiene un Género según su id
+     * @param id Long id de la Género a buscar
+     * @return Género la entidad correspondiente
      */
     public Genero getGenero(java.lang.Long id) {
         return generoFacade.find(id);
@@ -351,22 +385,11 @@ public class MbGenero implements Serializable{
     ** Métodos privados **
     **********************/
     /**
-     * @return el Facade
+     * Método privado que devuelve el facade para el acceso a datos de las Géneros 
+     * @return EJB GeneroFacade Acceso a datos
      */
     private GeneroFacade getFacade() {
         return generoFacade;
-    }
-    
-    /**
-     * Opera el borrado de la entidad
-     */
-    private void performDestroy() {
-        try {
-            //getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("GeneroDeleted"));
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("GeneroDeletedErrorOccured"));
-        }
     }
     
     /**

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
@@ -23,12 +18,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Entidad que encapsula los datos de los usuarios
- * Se vincula con:
- *      Agente,
- *      Docente,
- *      Rol,
- *      AdmEntidad
+ * Entidad que encapsula la información concerniente a los usuarios de la aplicación.
+ * Tanto sea de la interface como de la API rest
  * @author rincostante
  */
 @XmlRootElement(name = "usuario")
@@ -36,16 +27,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "usuario")
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    /**
+     * Variable privada: Identificador único
+     */  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    /**
+     * Variable privada de tipo Rol: rol al que pertenece el usuario
+     */
     @ManyToOne /*(fetch=FetchType.LAZY)*/
     @JoinColumn(name="rol_id")
     private Rol rol;
     
     /**
-     * Campo de texto que indica el nombre del usuario
+     * Variable privada: indica el login del usuario
      */        
     @Column (nullable=false, length=20, unique=true)
     @NotNull(message = "{entidades.fieldNotNullError}")
@@ -53,7 +51,7 @@ public class Usuario implements Serializable {
     private String nombre;     
     
     /**
-     * Campo de texto que indica el nombre del usuario
+     * Variable privada: indica el nombre completo del usuario
      */        
     @Column (nullable=false, length=100)
     @NotNull(message = "{entidades.fieldNotNullError}")
@@ -61,7 +59,7 @@ public class Usuario implements Serializable {
     private String nombreCompleto;       
     
     /**
-     * Campo de tipo AdmEntidad que encapsula los datos propios para su trazabilidad.
+     * Variable privada de tipo AdmEntidad: encapsula los datos propios para su trazabilidad.
      */
     @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @NotNull(message = "{enitdades.objectNotNullError}") 
@@ -75,18 +73,10 @@ public class Usuario implements Serializable {
         this.nombreCompleto = nombreCompleto;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getNombre() {
         return nombre;
     }
 
-    /**
-     *
-     * @param nombre
-     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -99,42 +89,26 @@ public class Usuario implements Serializable {
         this.rol = rol;
     }
 
-    /**
-     *
-     * @return
-     */
     public AdminEntidad getAdmin() {
         return admin;
     }
 
-    /**
-     *
-     * @param admin
-     */
     public void setAdmin(AdminEntidad admin) {
         this.admin = admin;
     }
 
-    /**
-     *
-     * @return
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     *
-     * @param id
-     */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     *
-     * @return
-     */
+     * Método que crea un hash con a partir de la id del usuario
+     * @return int Un entero con el hash
+     */      
     @Override
     public int hashCode() {
         int hash = 0;
@@ -143,10 +117,10 @@ public class Usuario implements Serializable {
     }
 
     /**
-     *
-     * @param object
-     * @return
-     */
+     * Método que compara una instancia de Usuario con otra según su id
+     * @param object La instancia de Usuario a comparar con la presente
+     * @return boolean Verdadero si son iguales, falso si son distintas
+     */          
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -161,16 +135,11 @@ public class Usuario implements Serializable {
     }
 
     /**
-     *
-     * @return
-     */
+     * Método que devuelve un String con el id del Usuario
+     * @return String id del Usuario en formato String
+     */   
     @Override
     public String toString() {
         return "ar.gob.ambiente.servicios.especiesforestales.entidades.Usuario[ id=" + id + " ]";
     }
-
-    public Object getAdminentidad() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }
