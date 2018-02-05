@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
@@ -22,7 +17,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entidad que encapsula los datos del Origen de las especies.
+ * Se omite la documentación de los métodos get y set.
  * @author rincostante
  */
 @XmlRootElement(name = "origen")
@@ -30,22 +26,39 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "origen")
 public class Origen implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    /**
+     * Variable privada: Identificador único
+     */  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    /**
+     * Variable privada: Nombre del origen de la especie
+     */ 
     @Column (nullable=false, length=50, unique=true)
     @NotNull(message = "El campo nombre no puede quedar nulo")
     @Size(message = "El campo nombre debe tener entre 1 y 50 caracteres", min = 1, max = 50)
     private String nombre;   
    
+    /**
+     * Variable privada de tipo List<Especie>: Listado de especies que comparten el mismo origen
+     */
     @OneToMany(mappedBy="origen")
     private List<Especie> especies;           
 
+    /**
+     * Constructor
+     */
     public Origen(){
         especies = new ArrayList<>();
     }
 
+    /**
+     * El listado de especies que comparten el mismo origen no estará presente en la información suministrada por la API
+     * @return List<Especie> listado de especies que comparten origen.
+     */ 
     @XmlTransient
     public List<Especie> getEspecies() {
         return especies;
@@ -71,6 +84,10 @@ public class Origen implements Serializable {
         this.id = id;
     }
 
+    /**
+     * Método que crea un hash con a partir de la id del origen
+     * @return int Un entero con el hash
+     */       
     @Override
     public int hashCode() {
         int hash = 0;
@@ -78,6 +95,11 @@ public class Origen implements Serializable {
         return hash;
     }
 
+    /**
+     * Método que compara una instancia de Origen con otra según su id
+     * @param object La instancia de Origen a comparar con la presente
+     * @return boolean Verdadero si son iguales, falso si son distintas
+     */  
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -91,6 +113,10 @@ public class Origen implements Serializable {
         return true;
     }
 
+    /**
+     * Método que devuelve un String con el id del Origen
+     * @return String id del Origen en formato String
+     */     
     @Override
     public String toString() {
         return "ar.gob.ambiente.servicios.especiesforestales.entidades.Origen[ id=" + id + " ]";

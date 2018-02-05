@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.seervicios;
 
@@ -15,7 +10,6 @@ import ar.gob.ambiente.servicios.especiesforestales.entidades.Morfologia;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Origen;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Publicacion;
 import ar.gob.ambiente.servicios.especiesforestales.entidades.Rango;
-import ar.gob.ambiente.servicios.especiesforestales.entidades.util.Categorias;
 import ar.gob.ambiente.servicios.especiesforestales.facades.AutorFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.CitesFacade;
 import ar.gob.ambiente.servicios.especiesforestales.facades.EspecieFacade;
@@ -35,33 +29,68 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- *
+ * EJB que actúa como interface de servicios de acceso a datos expuesta para ser consumida por el web service EspeciesVegWebService
  * @author Administrador
+ * @deprecated Esta clase forma parte de la anterior implementación de API de servicios SOAP, reemplazada por la API Rest
  */
 @Stateless
 @LocalBean
 public class EspeciesServicio{
-    // inyecto todos los facades
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Especies
+     */
     @EJB
     private EspecieFacade especieFacade;
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Especies
+     */
     @EJB
     private FamiliaFacade familiaFacade;
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Especies
+     */
     @EJB
     private GeneroFacade generoFacade;
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Especies
+     */
     @EJB
     private AutorFacade autorFacade;
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Especies
+     */
     @EJB
     private CitesFacade citesFacade;
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Especies
+     */
     @EJB
     private MorfologiaFacade morfologiaFacade;
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Especies
+     */
     @EJB
     private OrigenFacade origenFacade;
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Especies
+     */
     @EJB
     private PublicacionFacade publicacionFacade;
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Especies
+     */
     @EJB
     private RangoFacade rangoFacade;
+    /**
+     * Variable privada para el logeo en el servidor
+     */
     private static final Logger logger = Logger.getLogger(Especie.class.getName());
 
+    /**
+     * Método que obtiene los autores registrados mediente el método findAll()
+     * Inscribe en el log del server el resultado de la operación
+     * @return List<Autor> Listado de los autores registrados
+     */
     public List<Autor> getAutores() {
         List<Autor> lstAutores = new ArrayList();
         Date date;
@@ -76,6 +105,11 @@ public class EspeciesServicio{
         return lstAutores;
     }
 
+    /**
+     * Método que obtiene los tipos de Cites registrados mediente el método findAll()
+     * Inscribe en el log del server el resultado de la operación
+     * @return List<Cites> Listado de los tipos de Cites registrados
+     */    
     public List<Cites> getCites() {
         List<Cites> lstCites = new ArrayList();
         Date date;
@@ -90,6 +124,11 @@ public class EspeciesServicio{
         return lstCites;
     }
 
+    /**
+     * Método que obtiene las Morfologías registradas mediente el método findAll()
+     * Inscribe en el log del server el resultado de la operación
+     * @return List<Morfologia> Listado de las Morfologías registradas
+     */    
     public List<Morfologia> getMorfologias() {
         List<Morfologia> lstMorfologias = new ArrayList();
         Date date;
@@ -104,6 +143,11 @@ public class EspeciesServicio{
         return lstMorfologias;
     }
 
+    /**
+     * Método que obtiene los Orígenes registrados mediente el método findAll()
+     * Inscribe en el log del server el resultado de la operación
+     * @return List<Origen> Listado de los Orígenes registrados
+     */
     public List<Origen> getOrigenes() {
         List<Origen> lstOrigenes = new ArrayList();
         Date date;
@@ -118,6 +162,11 @@ public class EspeciesServicio{
         return lstOrigenes;
     }
 
+    /**
+     * Método que obtiene las Publicaciones registradas mediente el método findAll()
+     * Inscribe en el log del server el resultado de la operación
+     * @return List<Publicacion> Listado de las Publicaciones registradas
+     */       
     public List<Publicacion> getPublicaciones() {
         List<Publicacion> lstPublicaciones = new ArrayList();
         Date date;
@@ -132,6 +181,11 @@ public class EspeciesServicio{
         return lstPublicaciones;
     }
 
+    /**
+     * Método que obtiene los Rangos registrados mediente el método findAll()
+     * Inscribe en el log del server el resultado de la operación
+     * @return List<Rango> Listado de los Rangos registrados
+     */    
     public List<Rango> getRangos() {
         List<Rango> lstRangos = new ArrayList();
         Date date;
@@ -146,6 +200,11 @@ public class EspeciesServicio{
         return lstRangos;
     }
 
+    /**
+     * Método que obtiene las Especies registradas habilitadas mediente el método getHabilitadas()
+     * Inscribe en el log del server el resultado de la operación
+     * @return List<Especie> Listado de las Especies registradas habilitadas
+     */      
     public List<Especie> getEspecies() {
         List<Especie> lstEspecies = new ArrayList();
         Date date;
@@ -160,6 +219,11 @@ public class EspeciesServicio{
         return lstEspecies;
     }
 
+    /**
+     * Método que obtiene las Familias registradas habilitadas mediente el método getActivos()
+     * Inscribe en el log del server el resultado de la operación
+     * @return List<Familia> Listado de las Familias registradas habilitadas
+     */     
     public List<Familia> getFamilias() {
         List<Familia> lstFamilias = new ArrayList();
         Date date;
@@ -174,6 +238,11 @@ public class EspeciesServicio{
         return lstFamilias;
     }
 
+    /**
+     * Método que obtiene los Generos registrados habilitados mediente el método getActivos()
+     * Inscribe en el log del server el resultado de la operación
+     * @return List<Genero> Listado de los Generos registrados habilitados
+     */        
     public List<Genero> getGeneros() {
         List<Genero> lstGeneros = new ArrayList();
         Date date;
@@ -187,7 +256,14 @@ public class EspeciesServicio{
         }
         return lstGeneros;
     }
-
+    
+    /**
+     * Método que obtiene los Generos registrados habilitados 
+     * según el id de la Familia a la que pertenecien mediente el método getGenerosXIdFamilia(Long id)
+     * Inscribe en el log del server el resultado de la operación
+     * @param id Long id de la Familia
+     * @return List<Genero> Listado de los Generos registrados habilitados pertenecientes al id de la Familia solicitado
+     */    
     public List<Genero> getGenerosXFamilia(Long id) {
         List<Genero> lstGeneros = new ArrayList();
         Date date;
@@ -202,6 +278,13 @@ public class EspeciesServicio{
         return lstGeneros;
     }
 
+    /**
+     * Método que obtiene las Especies registradas habilitadas 
+     * según el id del Género al que pertenecien mediente el método getXGenero(Long id)
+     * Inscribe en el log del server el resultado de la operación
+     * @param idGenero Long id del Género
+     * @return List<Especie> Listado de las Especies registradas habilitadas pertenecientes al id del Género solicitado
+     */      
     public List<Especie> getEspeciesXGenero(Long idGenero) {
         List<Especie> lstEspecies = new ArrayList();
         Date date;
@@ -216,6 +299,12 @@ public class EspeciesServicio{
         return lstEspecies;        
     }
 
+    /**
+     * Método que obtiene las Especies registradas habilitadas según su nombre, mediente el método getXString(String nombre)
+     * Inscribe en el log del server el resultado de la operación
+     * @param cadena String parte del nombre a buscar
+     * @return List<Especie> Listado de las Especies registradas habilitadas que contengan el nombre dado
+     */       
     public List<Especie> getEspeciesXnombre(String cadena) {
         List<Especie> lstEspecies = new ArrayList();
         Date date;
@@ -230,6 +319,13 @@ public class EspeciesServicio{
         return lstEspecies;
     }
 
+    /**
+     * Método que obtiene las Especies registradas habilitadas según se vincule a la sub espeice recibida,
+     * mediente el método getXSubespecie(String nombre)
+     * Inscribe en el log del server el resultado de la operación
+     * @param subespecie String nombre de la sub especie
+     * @return List<Especie> Listado de las Especies registradas habilitadas vinculadas a la sub especie dada
+     */        
     public List<Especie> getEspeciesXSubespecie(String subespecie) {
         List<Especie> lstEspecies = new ArrayList();
         Date date;
@@ -244,6 +340,14 @@ public class EspeciesServicio{
         return lstEspecies; 
     }
 
+    /**
+     * Método que obtiene las Especies registradas habilitadas que pertenezcan a alguna de las categorías recibidas,
+     * mediente el método getEspeciesXCategorias(String categorias).
+     * Se entiende como categoría: Autores, Cites, Morfología, Origen, etc.
+     * Inscribe en el log del server el resultado de la operación
+     * @param categorias String nombre de Autores, Cites, Morfología, Origen, etc
+     * @return List<Especie> Listado de las Especies registradas habilitadas que pertenezcan a alguna de las categorías recibidas
+     */       
     public List<Especie> getEspeciesXCategorias(String categorias) {
         List<Especie> lstEspecies = new ArrayList();
         Date date;
@@ -258,6 +362,11 @@ public class EspeciesServicio{
         return lstEspecies; 
     }
 
+    /**
+     * Método que obtiene una Espece según su id, mediante el método find(Long id)
+     * @param id Long identificador de la Especie buscada
+     * @return Especie Especie correspondiente al id recibido
+     */
     public Especie getEspecie(Long id) {
         Especie esp;
         Date date;

@@ -29,6 +29,8 @@ public class ApplicationConfig extends Application {
         resources.add(ar.gob.ambiente.servicios.especiesforestales.rest.EspecieFacadeSvfREST.class);
         resources.add(ar.gob.ambiente.servicios.especiesforestales.rest.FamiliaFacadeSvfREST.class);
         resources.add(ar.gob.ambiente.servicios.especiesforestales.rest.GeneroFacadeSvfREST.class);
+        resources.add(ar.gob.ambiente.servicios.especiesforestales.rest.RestSecurityFilter.class);
+        resources.add(ar.gob.ambiente.servicios.especiesforestales.rest.UsuarioResource.class);
     }
     
 }
