@@ -33,24 +33,18 @@ public class UsuarioResource {
      * @apiVersion 1.0.0
      * @apiName GetUsuario
      * @apiGroup Usuario
-     * 
      * @apiDescription Método para obtener el token para incluir en los header de los request a efectuar por parte del cliente.
      * Recibe un nombre de usuario, valida que esté registrado correctamente con el método local validarUsuarioApi(user) y, de ser así,  
      * genera un token y lo devuelve al usuario.
-     *
      * @apiParam {String} nombre Nombre del usuario autorizado para consumir el servicio.
-     *
      * @apiSuccess {String} authorization  Token de autenticación para enviar como header en los métodos de consulta.
-     *
-     * @apiSuccessExample Success-Response:
+     * @apiSuccessExample Respuesta exitosa:
      *     HTTP/1.1 200 OK
      *     {
      *       "authorization": "{{token}}"
      *     }
-     *
      * @apiError UsuarioInvalido Mensaje vacío.
-     *
-     * @apiErrorExample Error-Response:
+     * @apiErrorExample Respuesta de error:
      *     HTTP/1.1 404 Not Found
      *     {}
      */          

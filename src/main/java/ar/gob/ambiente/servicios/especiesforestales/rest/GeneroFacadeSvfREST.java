@@ -32,24 +32,20 @@ public class GeneroFacadeSvfREST {
     /**
      * @api {get} /svf_generos/:id Ver un Género
      * @apiExample {curl} Ejemplo de uso:
-     *     curl -i -H "Content-Type: application/json" -X GET -d /especiesVegetales/rest/svf_generos/1
+     *     curl -i -H "authorization: xXyYvWzZ" -X GET -d /especiesVegetales/rest/svf_generos/1
      * @apiVersion 1.0.0
      * @apiName GetGenero
      * @apiGroup Generos
-     *
      * @apiHeader {String} Authorization Token recibido al autenticar el usuario
-     * 
      * @apiHeaderExample {json} Ejemplo de header:
      *     {
-     *       "Authorization": "ssNjyzTYUqNUefxw4NOAtWGrpimMD96VXRxRlseoHewGxqqhnIw"
+     *       "Authorization": "xXyYvWzZ"
      *     } 
-     * 
+     * @apiParam {Long} id Identificador único del Género
      * @apiDescription Método para obtener un Género existente según el id remitido.
      * Obtiene el género mediante el método local find(id)
-     * 
      * @apiSuccess {ar.gob.ambiente.sacvefor.servicios.especies.Genero} Genero Detalle del género registrado.
-     *
-     * @apiSuccessExample Success-Response:
+     * @apiSuccessExample Respuesta exitosa:
      *     HTTP/1.1 200 OK
      *     {
      *       {
@@ -67,8 +63,7 @@ public class GeneroFacadeSvfREST {
      *     }
      *
      * @apiError GeneroNotFound No existe género registrado con ese id.
-     *
-     * @apiErrorExample Error-Response:
+     * @apiErrorExample Respuesta de error:
      *     HTTP/1.1 400 Not Found
      *     {
      *       "error": "No hay género registrado con el id recibido"
@@ -85,24 +80,19 @@ public class GeneroFacadeSvfREST {
     /**
      * @api {get} /svf_generos Ver todos los Géneros
      * @apiExample {curl} Ejemplo de uso:
-     *     curl -i -H "Content-Type: application/json" -X GET -d /especiesVegetales/rest/svf_generos
+     *     curl -X GET -d /especiesVegetales/rest/svf_generos -H "authorization: xXyYvWzZ"
      * @apiVersion 1.0.0
      * @apiName GetGeneros
      * @apiGroup Generos
-     *
      * @apiHeader {String} Authorization Token recibido al autenticar el usuario
-     * 
      * @apiHeaderExample {json} Ejemplo de header:
      *     {
-     *       "Authorization": "ssNjyzTYUqNUefxw4NOAtWGrpimMD96VXRxRlseoHewGxqqhnIw"
+     *       "Authorization": "xXyYvWzZ"
      *     } 
-     * 
      * @apiDescription Método para obtener un listado de los Géneros existentes.
      * Obtiene los géneros mediante el método local findAll()
-     * 
      * @apiSuccess {ar.gob.ambiente.sacvefor.servicios.especies.Genero} Genero Listado con todos los Géneros registrados.
-     *
-     * @apiSuccessExample Success-Response:
+     * @apiSuccessExample Respuesta exitosa:
      *     HTTP/1.1 200 OK
      *     {
      *       "generos": [
@@ -128,10 +118,8 @@ public class GeneroFacadeSvfREST {
      *          "esSacvefor": "true"}
      *          ]
      *     }
-     *
      * @apiError GenerosNotFound No existen géneros registrados.
-     *
-     * @apiErrorExample Error-Response:
+     * @apiErrorExample Respuesta de error:
      *     HTTP/1.1 400 Not Found
      *     {
      *       "error": "No hay Géneros registrados"
@@ -147,24 +135,20 @@ public class GeneroFacadeSvfREST {
     /**
      * @api {get} /svf_generos/:id/especies Ver las Especies de un Género
      * @apiExample {curl} Ejemplo de uso:
-     *     curl -i -H "Content-Type: application/json" -X GET -d /especiesVegetales/rest/svf_generos/6760/especies
+     *     curl -X GET -d /especiesVegetales/rest/svf_generos/6760/especies -H "authorization: xXyYvWzZ"
      * @apiVersion 1.0.0
      * @apiName GetEspecies
      * @apiGroup Generos
-     *
      * @apiHeader {String} Authorization Token recibido al autenticar el usuario
-     * 
      * @apiHeaderExample {json} Ejemplo de header:
      *     {
-     *       "Authorization": "ssNjyzTYUqNUefxw4NOAtWGrpimMD96VXRxRlseoHewGxqqhnIw"
+     *       "Authorization": "xXyYvWzZ"
      *     } 
-     * 
+     * @apiParam {Long} id Identificador único del Género
      * @apiDescription Método para obtener las Especies asociadas a un Género existente según el id remitido.
      * Obtiene las especies mediante el método local getSvfEspeciesXIdGenero(id)
-     * 
      * @apiSuccess {ar.gob.ambiente.sacvefor.servicios.especies.Especie} Especie Listado de las Especies registradas vinculadas al Género cuyo id se recibió.
-     *
-     * @apiSuccessExample Success-Response:
+     * @apiSuccessExample Respuesta exitosa:
      *     HTTP/1.1 200 OK
      *      {
      *          "especies": [
@@ -234,10 +218,8 @@ public class GeneroFacadeSvfREST {
      *              }
      *          ]
      *      }
-     * 
      * @apiError EspeciesNotFound No existen especies registradas vinculadas a la id del género.
-     *
-     * @apiErrorExample Error-Response:
+     * @apiErrorExample Respuesta de error:
      *     HTTP/1.1 400 Not Found
      *     {
      *       "error": "No hay especies registradas vinculadas al id del género recibido."

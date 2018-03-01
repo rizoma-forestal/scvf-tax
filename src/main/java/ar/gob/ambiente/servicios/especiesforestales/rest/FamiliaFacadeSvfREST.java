@@ -32,24 +32,20 @@ public class FamiliaFacadeSvfREST {
     /**
      * @api {get} /svf_familias/:id Ver una Familia
      * @apiExample {curl} Ejemplo de uso:
-     *     curl -i -H "Content-Type: application/json" -X GET -d /especiesVegetales/rest/svf_familias/2
+     *     curl -X GET -d /especiesVegetales/rest/svf_familias/2 -H "authorization: xXyYvWzZ"
      * @apiVersion 1.0.0
      * @apiName GetFamilia
      * @apiGroup Familias
-     *
      * @apiHeader {String} Authorization Token recibido al autenticar el usuario
-     * 
      * @apiHeaderExample {json} Ejemplo de header:
      *     {
-     *       "Authorization": "ssNjyzTYUqNUefxw4NOAtWGrpimMD96VXRxRlseoHewGxqqhnIw"
+     *       "Authorization": "xXyYvWzZ"
      *     } 
-     * 
+     * @apiParam {Long} id Identificador único de la Familia
      * @apiDescription Método para obtener una Familia existente según el id remitido.
      * Obtiene la familia mediante el método local find(id)
-     * 
      * @apiSuccess {ar.gob.ambiente.sacvefor.servicios.especies.Familia} Familia Detalle de la familia registrada.
-     *
-     * @apiSuccessExample Success-Response:
+     * @apiSuccessExample Respuesta exitosa:
      *     HTTP/1.1 200 OK
      *     {
      *       {
@@ -59,10 +55,8 @@ public class FamiliaFacadeSvfREST {
      *          "esSacvefor": "true"
      *       }
      *     }
-     *
      * @apiError FamiliaNotFound No existe familia registrada con ese id.
-     *
-     * @apiErrorExample Error-Response:
+     * @apiErrorExample Respuesta de error:
      *     HTTP/1.1 400 Not Found
      *     {
      *       "error": "No hay familia registrada con el id recibido"
@@ -79,24 +73,19 @@ public class FamiliaFacadeSvfREST {
     /**
      * @api {get} /svf_familias Ver todas las Familias
      * @apiExample {curl} Ejemplo de uso:
-     *     curl -i -H "Content-Type: application/json" -X GET -d /especiesVegetales/rest/svf_familias
+     *     curl -X GET -d /especiesVegetales/rest/svf_familias -H "authorization: xXyYvWzZ"
      * @apiVersion 1.0.0
      * @apiName GetFamilias
      * @apiGroup Familias
-     *
      * @apiHeader {String} Authorization Token recibido al autenticar el usuario
-     * 
      * @apiHeaderExample {json} Ejemplo de header:
      *     {
-     *       "Authorization": "ssNjyzTYUqNUefxw4NOAtWGrpimMD96VXRxRlseoHewGxqqhnIw"
+     *       "Authorization": "xXyYvWzZ"
      *     } 
-     * 
      * @apiDescription Método para obtener un listado de las Familias existentes.
      * Obtiene las familias mediante el método local findAll()
-     * 
      * @apiSuccess {ar.gob.ambiente.sacvefor.servicios.especies.Familia} Familias Listado con todas las Familias registradas.
-     *
-     * @apiSuccessExample Success-Response:
+     * @apiSuccessExample Respuesta exitosa:
      *     HTTP/1.1 200 OK
      *     {
      *       "familias": [
@@ -110,10 +99,8 @@ public class FamiliaFacadeSvfREST {
      *          "esSacvefor": "true"}
      *          ]
      *     }
-     *
      * @apiError FamiliasNotFound No existen familias registradas.
-     *
-     * @apiErrorExample Error-Response:
+     * @apiErrorExample Respuesta de error:
      *     HTTP/1.1 400 Not Found
      *     {
      *       "error": "No hay Familias registradas"
@@ -129,24 +116,20 @@ public class FamiliaFacadeSvfREST {
     /**
      * @api {get} /svf_familias/:id/generos Ver los Géneros de una Familia
      * @apiExample {curl} Ejemplo de uso:
-     *     curl -i -H "Content-Type: application/json" -X GET -d /especiesVegetales/rest/svf_familias/2/generos
+     *     curl -X GET -d /especiesVegetales/rest/svf_familias/2/generos -H "authorization: xXyYvWzZ"
      * @apiVersion 1.0.0
      * @apiName GetGeneros
      * @apiGroup Familias
-     *
      * @apiHeader {String} Authorization Token recibido al autenticar el usuario
-     * 
      * @apiHeaderExample {json} Ejemplo de header:
      *     {
-     *       "Authorization": "ssNjyzTYUqNUefxw4NOAtWGrpimMD96VXRxRlseoHewGxqqhnIw"
+     *       "Authorization": "xXyYvWzZ"
      *     } 
-     * 
+     * @apiParam {Long} id Identificador único de la Familia
      * @apiDescription Método para obtener los Géneros asociados a una Familia existente según el id remitido.
      * Obtiene los géneros mediante el método local getSvfGenerosXIdFamilia(id)
-     * 
      * @apiSuccess {ar.gob.ambiente.sacvefor.servicios.especies.Genero} Genero Listado de los Géneros registrados vinculados a la Familia cuyo id se recibió.
-     *
-     * @apiSuccessExample Success-Response:
+     * @apiSuccessExample Respuesta exitosa:
      *     HTTP/1.1 200 OK
      *     {
      *       "generos": [
@@ -162,10 +145,9 @@ public class FamiliaFacadeSvfREST {
      *          "esSacvefor": "true"}
      *          ]
      *     }
-     *
      * @apiError GenerosNotFound No existen géneros registrados vinculados a la id de la familia.
      *
-     * @apiErrorExample Error-Response:
+     * @apiErrorExample Respuesta de error:
      *     HTTP/1.1 400 Not Found
      *     {
      *       "error": "No hay géneros registrados vinculados al id de la familia recibido."
