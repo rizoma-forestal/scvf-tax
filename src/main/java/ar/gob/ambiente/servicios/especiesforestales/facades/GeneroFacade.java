@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.facades;
 
@@ -15,20 +10,30 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
- *
+ * Clase que implementa la abstracta para el acceso a datos de la entidad Género.
  * @author carmendariz
  */
 @Stateless
 public class GeneroFacade extends AbstractFacade<Genero> {
+    
+    /**
+     * Variable privada: EntityManager al que se le indica la unidad de persistencia mediante la cual accederá a la base de datos
+     */   
     @PersistenceContext(unitName = "ar.gob.ambiente.servicios_especiesForestales_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-
+    /**
+     * Método que implementa el abstracto para la obtención del EntityManager
+     * @return EntityManager para acceder a datos
+     */   
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
+    /**
+     * Constructor
+     */
     public GeneroFacade() {
         super(Genero.class);
     }
@@ -36,8 +41,8 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     /**
      * Método que devuelve todas las Generos que contienen la cadena recibida como parámetro 
      * dentro de alguno de sus campos string, en este caso el nombre.
-     * @param stringParam: cadena que buscará en todos los campos de tipo varchar de la tabla correspondiente
-     * @return: El conjunto de resultados provenientes de la búsqueda. 
+     * @param stringParam String cadena que buscará en todos los campos de tipo varchar de la tabla correspondiente
+     * @return List<Genero> Listado de todos los géneros que contienen el nombre recibido como parámetro
      */      
     public Genero getXNombre(String stringParam){
         List<Genero> lstGen;
@@ -57,8 +62,8 @@ public class GeneroFacade extends AbstractFacade<Genero> {
 
     /**
      * Metodo que verifica si ya existe la entidad.
-     * @param aBuscar: es la cadena que buscara para ver si ya existe en la BDD
-     * @return: devuelve True o False
+     * @param aBuscar String cadena que buscara para ver si ya existe en la BDD
+     * @return boolean True o False según exista o no
      */
     public boolean existe(String aBuscar){
         em = getEntityManager();
@@ -73,8 +78,8 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     
     /**
      * Método que verifica si la entidad tiene dependencia (Hijos)
-     * @param id: ID de la entidad
-     * @return: True o False
+     * @param id Long ID de la entidad
+     * @return boolean True o False según tenga o no dependencias
      */
     public boolean tieneDependencias(Long id){
         em = getEntityManager();        
@@ -89,8 +94,8 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     }
     
     /**
-     * Metodo para el autocompletado de la búsqueda por nombre
-     * @return 
+     * Metodo que obtiene un listado con los nombres de los Géneros habilitados registrados
+     * @return List<String> Listado de los nombres de todos los Géneros registrados
      */
     public List<String> getNombres(){
         em = getEntityManager();
@@ -101,7 +106,7 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     } 
    /**
      * Método que devuelve un LIST con las entidades HABILITADAS
-     * @return: True o False
+     * @return List<Genero> Listado de los Géneros habilitados
      */
     public List<Genero> getActivos(){
         em = getEntityManager();        
@@ -114,9 +119,9 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     }   
     
     /**
-     * Método que devuelve todos los Géneros (forestales, solo para SACVeFor)
+     * Método que devuelve todos los Géneros habilitados (forestales, solo para SACVeFor)
      * A utilizar por API REST
-     * @return los Géneros vinculados al SACVeFor
+     * @return List<Genero> Listado de los Géneros vinculados al SACVeFor
      */
     public List<Genero> getSvfActivos(){
         em = getEntityManager();        
@@ -131,9 +136,9 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     }    
     
     /**
-     * Método que devuelve todos los géneros de una familia
-     * @param familia
-     * @return 
+     * Método que devuelve todos los Géneros habilitados de una familia
+     * @param familia Familia Familia a la cual pertenecen los Géneros obtenidos
+     * @return List<Genero> Listado de los Géneros vinculados a la Familia recibida
      */
     public List<Genero> getGenerosXFamilia(Familia familia){
         em = getEntityManager();        
@@ -146,10 +151,10 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     }
 
     /**
-     * Método que devuelve el género según el id de una familia.
-     * A utilizar en el servcio
-     * @param id
-     * @return 
+     * Método que devuelve los Géneros habilitados según el id de una familia.
+     * A utilizar por API REST
+     * @param id Long Id de la Familia cuyos Géneros se devuelven
+     * @return List<Genero> Listado de los Géneros vinculados a la Familia cuyo id se recibió
      */
     public List<Genero> getGenerosXIdFamilia(Long id){
         em = getEntityManager();        
@@ -163,11 +168,11 @@ public class GeneroFacade extends AbstractFacade<Genero> {
     }
     
     /**
-     * Método que devuelve todos los géneros (forestales, solo para SACVeFor)
+     * Método que devuelve todos los géneros habilitados (forestales, solo para SACVeFor)
      * a partir del id de la familia
      * A utilizar por API REST
-     * @param id correspondiente al id de la Familia
-     * @return los Géneros correspondientes al id de la Familia solicitado
+     * @param id Long id de la Familia
+     * @return List<Genero> Listado de los Géneros vinculados a la Familia cuyo id se recibió
      */
     public List<Genero> getSvfGenerosXIdFamilia(Long id){
         em = getEntityManager();        

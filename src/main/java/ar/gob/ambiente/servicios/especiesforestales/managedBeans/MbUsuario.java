@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates 
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
@@ -35,42 +30,89 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Bean de respaldo para la gestión de los Usuarios
  * @author rincostante
  */
 public class MbUsuario implements Serializable{
+    /**
+     * Variable privada: Cliente del servicio soap de aplicaciones
+     */
     @WebServiceRef
     private AccesoAppWebService_Service service;
-    
+    /**
+     * Variable privada: Usuario Entidad que se gestiona mediante el bean
+     */
     private Usuario current;
+    /**
+     * Variable privada: List<Usuario> Listado de Usuarios para poblar la tabla con todos los orígenes registrados
+     */
     private List<Usuario> listado;
+    /**
+     * Variable privada: List<Usuario> Listado de flitrado de la tabla
+     */
     private List<Usuario> listFilter;
+    /**
+     * Variable privada: Usuario usuario logeado
+     */
     private Usuario usLogeado;
+    /**
+     * Variable privada: MbLogin bean de gestión de la sesión del usuario
+     */
     private MbLogin login;   
+    /**
+     * Variable privada: boolean que indica si se inició el bean
+     */
     private boolean iniciado;  
-    private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
-    
+    /**
+     * Variable privada: Entero que indica el tipo de actualización que se hará:
+     * 0=updateNormal | 1=deshabiliar | 2=habilitar
+     */
+    private int update;
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Rol
+     */
     @EJB
     private RolFacade rolFacade;
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Usuario
+     */
     @EJB
-    private UsuarioFacade usuarioFacade;       
+    private UsuarioFacade usuarioFacade;    
+    /**
+     * Variable privada: List<Rol> Listado de los roles vinculados al Usuario
+     */ 
     private List<Rol> listaRol;
-    
+    /**
+     * Variable privada: List<Aplicacion> Listado de las aplicaciones vinculadas al Usuario
+     */ 
     private List<Aplicacion> lstApp;
+    /**
+     * Variable privada: Long id de la Aplicación
+     */
     private Long idApp;
-    private List<String> lstUsDisponibles; //Lista de pares usNombre - usNombreCompleto disponibles para poblar el combo
-    private String usSeleccionado; //String con los datos del usuario usNombre - usNombreCompleto
+    /**
+     * Variable privada: List<String> Lista de pares usNombre - usNombreCompleto disponibles para poblar el combo
+     */
+    private List<String> lstUsDisponibles;
+    /**
+     * Variable privada: String datos del usuario usNombre - usNombreCompleto
+     */
+    private String usSeleccionado;
+    /**
+     * Variable privada: Logger logger
+     */
     private static final Logger logger = Logger.getLogger(Usuario.class.getName());
 
     /**
-     * Creates a new instance of MbUsuario
+     * Constructor
      */
     public MbUsuario() {
     }
     
     /**
-     *
-     */
+     * Método que se ejecuta luego de instanciada la clase e inicializa los datos del usuario
+     * Lista las aplicaciones disponibles mediante verAplicaciones()
+     */  
     @PostConstruct
     public void init(){
         lstUsDisponibles = new ArrayList();
@@ -139,7 +181,10 @@ public class MbUsuario implements Serializable{
     public void setListaRol(List<Rol> listaRol) {
         this.listaRol = listaRol;
     }
-    
+    /**
+     * Método que instancia el listado de usuarios existentes
+     * @return List<Usuario> listado de usuarios
+     */
     public List<Usuario> getListado() {
         if(listado == null){
             listado = getFacade().findAll();
@@ -165,7 +210,8 @@ public class MbUsuario implements Serializable{
      ********************************/    
     
     /**
-     * @return La entidad gestionada
+     * Método que instancia a la entidad Usuario
+     * @return Rol entidad a gestionar
      */
     public Usuario getSelected() {
         if (current == null) {
@@ -174,9 +220,10 @@ public class MbUsuario implements Serializable{
         return current;
     }  
     
-    /*
-     * Método para inicializar el listado de los Usuarios habilitados
-     * @return acción para el listado de entidades
+    /**
+     * Redireccionamiento a la vista con el listado
+     * previo reseteo del listado
+     * @return String nombre de la vista
      */
     public String prepareList() {
         iniciado = true;
@@ -184,14 +231,16 @@ public class MbUsuario implements Serializable{
     }    
     
     /**
-     * @return acción para el detalle de la entidad
+     * Redireccionamiento a la vista detalle
+     * @return String nombre de la vista
      */
     public String prepareView() {
         return "view";
     }  
     
     /**
-     * @return acción para la edición de la entidad
+     * Redireccionamiento a la vista edit para editar un Usuario
+     * @return String nombre de la vista para la edición
      */
     public String prepareEdit() {
         // cargo los roles
@@ -201,7 +250,10 @@ public class MbUsuario implements Serializable{
     }    
     
     /**
-     * @return acción para el formulario de nuevo
+     * Busca la aplicación, lista los usuarios existentes y los disponibles mediante el método verUsuariosPorIdApp(),
+     * carga los roles, instancia la entidad y 
+     * redirecciona a la vista new para crear un Usuario
+     * @return String nombre de la vista
      */
     public String prepareCreate() {
         // inicializo variables
@@ -256,56 +308,51 @@ public class MbUsuario implements Serializable{
     }    
     
     /**
-     *
-     * @return
+     * Método que redirecciona a la página principal
+     * @return String nombre de la página principal
      */
     public String prepareInicio(){
         recreateModel();
         return "/faces/index";
     }
     
-        /**
+    /**
      * Método para preparar la búsqueda
-     * @return la ruta a la vista que muestra los resultados de la consulta en forma de listado
+     * @return String ruta a la vista que muestra los resultados de la consulta en forma de listado
      */
     public String prepareSelect(){
         return "list";
     }
     
-         /**
-     * @return mensaje que notifica la actualizacion de estado
-     */    
+    /**
+     * Método que prepara la habilitación de un Rol.
+     * Setea el tipo de actualización, la ejecuta y resetea el listado
+     */  
     public String habilitar() {
         current.getAdmin().setHabilitado(true);
         update();        
         recreateModel();
         return "view";
     } 
-    
+     /**
+     * Método que prepara la deshabilitación de un Rol.
+     * Setea el tipo de actualización, la ejecuta y resetea el listado
+     */    
     public String deshabilitar() {
-        if (getFacade().noTieneDependencias(current.getId())){
-            current.getAdmin().setHabilitado(false);
-            update();        
-            recreateModel();
-        }
-        else{
-            //No Deshabilita 
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioNonDeletable"));            
-        }
+        current.getAdmin().setHabilitado(false);
+        update();        
+        recreateModel();
+
         return "view";
     } 
     
-    /**
-     * 
-     */
+
     public void prepareHabilitar(){
         update = 2;
         update();        
     }
     
-    /**
-     * 
-     */
+
     public void prepareDesHabilitar(){
         update = 1;
         update();        
@@ -318,7 +365,7 @@ public class MbUsuario implements Serializable{
     /**
      * Méto que inserta uno nuevo Usuario en la base de datos, previamente genera una entidad de administración
      * con los datos necesarios y luego se la asigna a la persona
-     * @return mensaje que notifica la inserción
+     * @return String mensaje que notifica la inserción
      */
     public String create() {
         try {
@@ -348,7 +395,7 @@ public class MbUsuario implements Serializable{
     /**
      * Método que actualiza un nuevo Docente en la base de datos.
      * Previamente actualiza los datos de administración
-     * @return mensaje que notifica la actualización
+     * @return String mensaje que notifica la actualización
      */
     public String update() {    
         try {
@@ -370,18 +417,19 @@ public class MbUsuario implements Serializable{
             }
 
             // Actualizo
-            if(update == 0){
-                getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
-                return "view";
-            }else if(update == 1){
-                getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioDeshabilitado"));
-                return "view";
-            }else{
-                getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioHabilitado"));
-                return "view";
+            switch (update) {
+                case 0:
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
+                    return "view";
+                case 1:
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioDeshabilitado"));
+                    return "view";
+                default:
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioHabilitado"));
+                    return "view";
             }
                 
         } catch (Exception e) {
@@ -391,8 +439,9 @@ public class MbUsuario implements Serializable{
     }    
     
     /**
-     * @param id equivalente al id de la entidad persistida
-     * @return la entidad correspondiente
+     * Método que obtiene un Usuario según su id
+     * @param id Long id de la Usuario a buscar
+     * @return Usuario la entidad correspondiente
      */
     public Usuario getUsuario(java.lang.Long id) {
         return getFacade().find(id);
@@ -403,14 +452,15 @@ public class MbUsuario implements Serializable{
     ** Métodos privados **
     **********************/
     /**
-     * @return el Facade
+     * Método privado que devuelve el facade para el acceso a datos del Usuario 
+     * @return EJB UsuarioFacade Acceso a datos
      */
     private UsuarioFacade getFacade() {
         return usuarioFacade;
     }    
     
     /**
-     * Restea la entidad
+     * Método privado que restea la entidad
      */
     private void recreateModel() {
         listado.clear();
@@ -419,6 +469,10 @@ public class MbUsuario implements Serializable{
         usSeleccionado = "";
     }      
 
+    /**
+     * Método privado para ver las aplicaciones mediante el servicio soap
+     * @return List<Aplicacion> Aplicaciones existentes
+     */
     private List<Aplicacion> verAplicaciones() {
         List<Aplicacion> result;
         try{
@@ -434,6 +488,10 @@ public class MbUsuario implements Serializable{
         return result;
     }  
     
+    /**
+     * Método privado para listaro los usuarios por aplicación mediante el servicio soap
+     * @return List<ar.gob.ambiente.servicios.especiesforestales.wsExt.Usuario> Listado de los usuarios por aplicación
+     */
     private List<ar.gob.ambiente.servicios.especiesforestales.wsExt.Usuario> verUsuariosPorIdApp(){
         List<ar.gob.ambiente.servicios.especiesforestales.wsExt.Usuario> result;
         try{
@@ -456,13 +514,6 @@ public class MbUsuario implements Serializable{
     @FacesConverter(forClass = Usuario.class)
     public static class UsuarioControllerConverter implements Converter {
 
-        /**
-         *
-         * @param facesContext
-         * @param component
-         * @param value
-         * @return
-         */
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -492,13 +543,6 @@ public class MbUsuario implements Serializable{
             return sb.toString();
         }
 
-        /**
-         *
-         * @param facesContext
-         * @param component
-         * @param object
-         * @return
-         */
         @Override
         public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
             if (object == null) {

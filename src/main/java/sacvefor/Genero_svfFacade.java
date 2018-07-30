@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sacvefor;
 
 import java.util.List;
@@ -12,7 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
- *
+ * Clase que implementa la abstracta para el acceso a datos de la entidad Género para la migración desde el SACVeFor.
+ * @deprecated solo utilizada para la migración desde el SACVeFor, ya realizada
  * @author rincostante
  */
 @Stateless

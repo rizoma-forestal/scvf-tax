@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
@@ -26,38 +21,59 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 
 
 /**
- *
+ * Bean de respaldo para la gestión de Familias
  * @author carmendariz
  */
 public class MbFamilia implements Serializable{
-    
+    /**
+     * Variable privada: Familia Entidad que se gestiona mediante el bean
+     */
     private Familia current;
+    /**
+     * Variable privada: DataModel Listado de Familias para poblar la tabla con todos los registrados
+     */
     private DataModel items = null;
+    /**
+     * Variable privada: List<Familia> para el filtrado de la tabla
+     */
     private List<Familia> listaFilter;
-    
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Familias
+     */
     @EJB
     private FamiliaFacade familiaFacade;
-    
-    //private int selectedItemIndex;
-    //private String selectParam;    
-    //private List<String> listaNombres;    
+    /**
+     * Variable privada: Entero que indica el tipo de actualización que se hará:
+     * 0=updateNormal | 1=deshabiliar | 2=habilitar
+    */
     private int update; // 0=updateNormal | 1=deshabiliar | 2=habilitar
+    /**
+     * Variable privada: MbLogin bean de gestión de la sesión del usuario
+     */
     private MbLogin login;
+    /**
+     * Variable privada: Usuario usuario logeado
+     */
     private Usuario usLogeado;
+    /**
+     * Variable privada: boolean que indica si se inició el bean
+     */
     private boolean iniciado;
 
     /**
-     * Creates a new instance of MbFamilia
+     * Constructor
      */
     public MbFamilia() {   
     }
     
+    /**
+     * Método que se ejecuta luego de instanciada la clase e inicializa los datos del usuario
+     */
     @PostConstruct
     public void init(){
         iniciado = false;
@@ -106,8 +122,10 @@ public class MbFamilia implements Serializable{
     /********************************
      ** Métodos para la navegación **
      ********************************/
+
     /**
-     * @return La entidad gestionada
+     * Método que instancia la Familia a gestionar
+     * @return Familia La entidad gestionada
      */
     public Familia getSelected() {
         if (current == null) {
@@ -118,11 +136,11 @@ public class MbFamilia implements Serializable{
     }   
     
     /**
-     * @return el listado de entidades a mostrar en el list
+     * Método que instancia los Items que componen el listado
+     * @return DataModel Items que componen el listado
      */
     public DataModel getItems() {
         if (items == null) {
-            //items = getPagination().createPageDataModel();
             items = new ListDataModel(getFacade().findAll());
         }
         return items;
@@ -133,7 +151,9 @@ public class MbFamilia implements Serializable{
      ** Métodos de inicialización **
      *******************************/
     /**
-     * @return acción para el listado de entidades
+     * Redireccionamiento a la vista con el listado
+     * previo reseteo del listado
+     * @return String nombre de la vista
      */
     public String prepareList() {
         recreateModel();
@@ -142,14 +162,16 @@ public class MbFamilia implements Serializable{
     
 
     /**
-     * @return acción para el detalle de la entidad
+     * Redireccionamiento a la vista detalle
+     * @return String nombre de la vista
      */
     public String prepareView() {
         return "view";
     }
 
-    /** (Probablemente haya que embeberlo con el listado para una misma vista)
-     * @return acción para el formulario de nuevo
+    /**
+     * Método que instancia la Familia
+     * @return String nombre de la vista para la creación
      */
     public String prepareCreate() {
         current = new Familia();
@@ -157,12 +179,18 @@ public class MbFamilia implements Serializable{
     }
 
     /**
-     * @return acción para la edición de la entidad
+     * Redireccionamiento a la vista edit para editar una Familia
+     * @return String nombre de la vista para la edición
      */
     public String prepareEdit() {
         return "edit";
     }
     
+    /**
+     * Método que vuelve a la vista inicial
+     * previo reseteo del listado
+     * @return String nombre de la vista inicial
+     */
     public String prepareInicio(){
         recreateModel();
         return "/faces/index";
@@ -170,15 +198,15 @@ public class MbFamilia implements Serializable{
     
     /**
      * Método para preparar la búsqueda
-     * @return la ruta a la vista que muestra los resultados de la consulta en forma de listado
+     * @return String ruta a la vista que muestra los resultados de la consulta en forma de listado
      */
     public String prepareSelect(){
-        //items = null;
-        //buscarFamilia();
         return "list";
     }
     
     /**
+     * Método que prepara la habilitación de una Familia.
+     * Setea el tipo de actualización, la ejecuta y resetea el listado
      */    
     public void habilitar() {
         update = 2;
@@ -186,6 +214,8 @@ public class MbFamilia implements Serializable{
         recreateModel();
     }  
      /**
+     * Método que prepara la deshabilitación de una Familia.
+     * Setea el tipo de actualización, la ejecuta y resetea el listado
      */    
     public void deshabilitar() {
        if (getFacade().noTieneDependencias(current.getId())){
@@ -222,7 +252,11 @@ public class MbFamilia implements Serializable{
         }
     }
         
-    
+    /**
+     * Método privado que valida que una Familia no exista ya según sus datos únicos
+     * @param arg2
+     * @throws ValidatorException 
+     */
     private void validarExistente(Object arg2) throws ValidatorException{
         if(!getFacade().existe((String)arg2)){
             throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateFamiliaExistente")));
@@ -230,7 +264,7 @@ public class MbFamilia implements Serializable{
     }
     
     /**
-     * Restea la entidad
+     * Método privado que restea el listado
      */
     private void recreateModel() {
         items = null;
@@ -241,7 +275,11 @@ public class MbFamilia implements Serializable{
     ** Métodos de operación **
     **************************/
     /**
-     * @return 
+     * Método para que implementa la creación de una Familia:
+     * Instancia la entidad administrativa, valida que no exista una Familia con los mismos datos únicos,
+     * y si todo es correcto ejecuta el método create() del facade y devuelve el nombre de la vista detalle.
+     * En caso contrario devuelve null
+     * @return String nombre de la vista detalle o null
      */
     public String create() {
         // Creación de la entidad de administración y asignación
@@ -262,11 +300,13 @@ public class MbFamilia implements Serializable{
     }
 
     /**
-     * @return mensaje que notifica la actualización
+     * Método para que implementa la actualización de una Familia, sea para la edición, habilitación o deshabilitación:
+     * Actualiza la entidad administrativa según corresponda, procede según el valor de "update",
+     * ejecuta el método edit() del facade y devuelve el nombre de la vista detalle o null.
+     * @return String nombre de la vista detalle o null
      */
     public String update() {
         Date date = new Date(System.currentTimeMillis());
-        Familia fam;
         
         // actualizamos según el valor de update
         if(update == 1){
@@ -288,18 +328,19 @@ public class MbFamilia implements Serializable{
 
         // acualizo según la operación seleccionada
         try {
-            if(update == 0){
-                getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaUpdated"));
-                return "view";
-            }else if(update == 1){
-                getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaDeshabilitada"));
-                return "view";
-            }else{
-                getFacade().edit(current);
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaHabilitada"));
-                return "view";
+            switch (update) {
+                case 0:
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaUpdated"));
+                    return "view";
+                case 1:
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaDeshabilitada"));
+                    return "view";
+                default:
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaHabilitada"));
+                    return "view";
             }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("FamiliaUpdatedErrorOccured"));
@@ -310,23 +351,11 @@ public class MbFamilia implements Serializable{
     /*************************
     ** Métodos de selección **
     **************************/
-    /**
-     * @return la totalidad de las entidades persistidas formateadas
-     */
-    public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(familiaFacade.findAll(), false);
-    }
 
     /**
-     * @return de a una las entidades persistidas formateadas
-     */
-    public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(familiaFacade.findAll(), true);
-    }
-
-    /**
-     * @param id equivalente al id de la entidad persistida
-     * @return la entidad correspondiente
+     * Método que obtiene una Familia según su id
+     * @param id Long id de la Familia a buscar
+     * @return Familia la entidad correspondiente
      */
     public Familia getFamilia(java.lang.Long id) {
         return familiaFacade.find(id);
@@ -336,30 +365,19 @@ public class MbFamilia implements Serializable{
     ** Métodos privados **
     **********************/
     /**
-     * @return el Facade
+     * Método privado que devuelve el facade para el acceso a datos de las Familias 
+     * @return EJB FamiliaFacade Acceso a datos
      */
     private FamiliaFacade getFacade() {
         return familiaFacade;
-    }
-    
-    /**
-     * Opera el borrado de la entidad
-     */
-    private void performDestroy() {
-        try {
-            //getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FamiliaDeleted"));
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("FamiliaDeletedErrorOccured"));
-        }
     }
     
     
     /********************************************************************
     ** Converter. Se debe actualizar la entidad y el facade respectivo **
     *********************************************************************/
-@FacesConverter(forClass = Familia.class)
-public static class FamiliaControllerConverter implements Converter {
+    @FacesConverter(forClass = Familia.class)
+    public static class FamiliaControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {

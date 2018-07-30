@@ -1,15 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sacvefor;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
- *
+ * Clase abstracta que es implementada por todas las facade de acceso a datos para todas las entidades 
+ * destinadas a contener los datos migrados del SACVeFor.
+ * @deprecated solo utilizada para la migración desde el SACVeFor, ya realizada
  * @author rincostante
  */
 public abstract class AbstractFacade<T> {

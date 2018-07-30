@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.entidades.util;
 
@@ -22,7 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * Filtro para gestionar la autorización de acceso de los usuarios.
+ * Se concentra principalmente en el método doFilter()
  * @author rincostante
  */
 public class LoginFilter implements Filter {
@@ -97,14 +93,19 @@ public class LoginFilter implements Filter {
     }
 
     /**
+     * Método público que procesa el request. Si la url no está protegida (validado mediante noProteger(urlStr))
+     * da curso a la petición, en caso contrario, consulta mediante una cookie si el usuario ya está logeado,
+     * si lo está, da curso a la petición, si no lo está, se redirecciona a la aplicación de logeo, previo guardado de
+     * la url requerida en ua cookie. Una vez validado el usuario en la aplicación de logeo, la petición vuelve a ser
+     * interceptada por el filtro y dirigida a su destino requerido originalmente.
+     * @param request Request que se está procesando
+     * @param response Response que surge como resultado del procesamiento
+     * @param chain FilterChain con el que se hará el procesamiento
      *
-     * @param request The servlet request we are processing
-     * @param response The servlet response we are creating
-     * @param chain The filter chain we are processing
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception ServletException if a servlet error occurs
+     * @exception IOException is hay un input/output error
+     * @exception ServletException si ocurre un error de servlet
      */
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
@@ -115,7 +116,6 @@ public class LoginFilter implements Filter {
         //Proceso la URL que está requiriendo el cliente
         String urlStr = req.getRequestURL().toString().toLowerCase();
         boolean noProteger = noProteger(urlStr);
-        //System.out.println(urlStr + " - desprotegido=[" + noProteger + "]");
 
         //Si no requiere protección continúo normalmente.
         if (noProteger(urlStr)) {
@@ -190,8 +190,12 @@ public class LoginFilter implements Filter {
         */
     }
     
+    /**
+     * Método privado consumido por doFilter() para validar la protección o nó de la ruta de acceso requerida
+     * @param urlStr String ruta de acceso requerido
+     * @return boolean Verdadero si no necesita protección y falso si la requiere
+     */
     private boolean noProteger(String urlStr) {
-
     /*
      * Este es un buen lugar para colocar y programar todos los patrones que
      * creamos convenientes para determinar cuales de los recursos no
@@ -218,31 +222,17 @@ public class LoginFilter implements Filter {
       return false;
     }     
 
-    /**
-     * Return the filter configuration object for this filter.
-     */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);
     }
 
-    /**
-     * Set the filter configuration object for this filter.
-     *
-     * @param filterConfig The filter configuration object
-     */
     public void setFilterConfig(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
     }
 
-    /**
-     * Destroy method for this filter
-     */
     public void destroy() {        
     }
 
-    /**
-     * Init method for this filter
-     */
     public void init(FilterConfig filterConfig) {        
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
@@ -252,9 +242,6 @@ public class LoginFilter implements Filter {
         }
     }
 
-    /**
-     * Return a String representation of this object.
-     */
     @Override
     public String toString() {
         if (filterConfig == null) {

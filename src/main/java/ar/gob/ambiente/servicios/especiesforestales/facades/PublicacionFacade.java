@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.facades;
 
@@ -13,28 +8,39 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
- *
+ * Clase que implementa la abstracta para el acceso a datos de la entidad Publicación.
  * @author rincostante
  */
 @Stateless
 public class PublicacionFacade extends AbstractFacade<Publicacion> {
+    
+    /**
+     * Variable privada: EntityManager al que se le indica la unidad de persistencia mediante la cual accederá a la base de datos
+     */ 
     @PersistenceContext(unitName = "ar.gob.ambiente.servicios_especiesForestales_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
+    /**
+     * Método que implementa el abstracto para la obtención del EntityManager
+     * @return EntityManager para acceder a datos
+     */   
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
+    /**
+     * Constructor
+     */
     public PublicacionFacade() {
         super(Publicacion.class);
     }
     
     /**
      * Metodo que verifica si ya existe la entidad.
-     * @param nombre
-     * @param anio
-     * @return: devuelve True o False
+     * @param nombre String nombre de la publicación a buscar
+     * @param anio Entero año de la publicación a buscar
+     * @return boolean devuelve True o False según el caso
      */
     public boolean noExiste(String nombre, int anio){
         em = getEntityManager();       
@@ -47,6 +53,12 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         return q.getResultList().isEmpty();
     }  
     
+    /**
+     * Método que devuelve una Publicación existente con el nombre y año recibidos como parámetros
+     * @param nombre String nombre de la Publicación
+     * @param anio Entero año de la Publicación
+     * @return Publicacion Publicación con el nombre y el año recibidos
+     */
     public Publicacion getExistente(String nombre, int anio){
         em = getEntityManager();       
         String queryString = "SELECT pub FROM Publicacion pub "
@@ -60,8 +72,8 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
     
     /**
      * Método que verifica si la entidad tiene dependencias
-     * @param id: ID de la entidad
-     * @return: True o False
+     * @param id Long ID de la entidad
+     * @return boolean True o False según tenga o no tenga dependencias
      */
     public boolean noTieneDependencias(Long id){
         em = getEntityManager();       
@@ -75,7 +87,17 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         return q.getResultList().isEmpty();
     }    
 
-    public boolean existe(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Método que valida si existe una Publicación con el nombre recibido
+     * @param nombre String nombre de la Publicación
+     * @return boolean True o False según exista o no la Publicación
+     */
+    public boolean noExisteXNombre(String nombre) {
+        em = getEntityManager();       
+        String queryString = "SELECT pub.nombre FROM Publicacion pub "
+                + "WHERE pub.nombre = :nombre";
+        Query q = em.createQuery(queryString)
+                .setParameter("nombre", nombre);
+        return q.getResultList().isEmpty();
     }
 }

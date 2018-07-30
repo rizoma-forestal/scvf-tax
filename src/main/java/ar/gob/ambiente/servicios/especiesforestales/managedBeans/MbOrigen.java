@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
@@ -25,23 +20,38 @@ import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Bean de respaldo para la gestión de los Origenes
  * @author rincostante
  */
 public class MbOrigen implements Serializable{
-    
+    /**
+     * Variable privada: Autor Entidad que se gestiona mediante el bean
+     */
     private Origen current;
+    /**
+     * Variable privada: List<Origen> Listado de Orígenes para poblar la tabla con todos los orígenes registrados
+     */
     private List<Origen> listado = null;
-    private List<Origen> listaFilter;    
-    private List<Especie> listEspFilter;
-    
+    /**
+     * Variable privada: List<Origen> para el filtrado de la tabla
+     */
+    private List<Origen> listaFilter;   
+    /**
+     * Variable privada: List<Autor> Listado que muestra las Especies vinculadas al autor
+     */
+    private List<Especie> listEspFilter;    
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Origen
+     */
     @EJB
     private OrigenFacade origenFacade;
-
+    /**
+     * Variable privada: boolean que indica si se inició el bean
+     */
     private boolean iniciado;      
 
     /**
-     * Creates a new instance of MbOrigen
+     * Contructor
      */
     public MbOrigen() {
     }
@@ -62,6 +72,10 @@ public class MbOrigen implements Serializable{
         this.current = current;
     }
 
+    /**
+     * Método que obtiene el listado de todos los Origenes, solo si no está instanciado ya
+     * @return List<Origen> listado con todos los Origenes registrados
+     */
     public List<Origen> getListado() {
         if (listado == null || listado.isEmpty()) {
             listado = getFacade().findAll();
@@ -112,7 +126,8 @@ public class MbOrigen implements Serializable{
     }   
     
     /**
-     * @return acción para el listado de entidades a mostrar en el list
+     * Redireccionamiento a la vista con el listado
+     * @return String nombre de la vista
      */
     public String prepareList() {
         recreateModel();
@@ -120,14 +135,16 @@ public class MbOrigen implements Serializable{
     }
     
     /**
-     * @return acción para el detalle de la entidad
+     * Redireccionamiento a la vista detalle
+     * @return String nombre de la vista
      */
     public String prepareView() {
         return "view";
     }
     
-    /** (Probablemente haya que embeberlo con el listado para una misma vista)
-     * @return acción para el formulario de nuevo
+    /**
+     * Redireccionamiento a la vista new para crear un Origen
+     * @return String nombre de la vista
      */
     public String prepareCreate() {
         current = new Origen();
@@ -142,8 +159,8 @@ public class MbOrigen implements Serializable{
     }    
     
     /**
-     * Método que verifica que el Cargo que se quiere eliminar no esté siento utilizado por otra entidad
-     * @return 
+     * Redireccionamiento a la vista edit para editar un Origen
+     * @return String nombre de la vista
      */
     public String prepareDestroy(){
         boolean libre = getFacade().noTieneDependencias(current.getId());
@@ -191,7 +208,8 @@ public class MbOrigen implements Serializable{
      * Métodos de operación
      **********************/
     /**
-    * @return 
+    * Método para la creación de un nuevo Origen
+    * @return String nombre de la vista detalle o null si hay error
     */   
     public String create() {     
         try {
@@ -204,7 +222,10 @@ public class MbOrigen implements Serializable{
         }
     }
     
-
+    /**
+     * Método para la actualización de un Origen existente
+     * @return String nombre de la vista detalle o null si hay error
+     */
     public String update() {
         try {
             getFacade().edit(current);
@@ -217,16 +238,16 @@ public class MbOrigen implements Serializable{
     }    
     
     /**
-     * Restea la entidad
+     * Método privado que Restea la entidad
      */
     private void recreateModel() {
         listado.clear();
     }    
     
     /**
-     * @return La entidad gestionada
+     * Método que instancia a la entidad Origen
+     * @return Origen entidad a gestionar
      */
- 
     public Origen getSelected() {
         if (current == null) {
             current = new Origen();
@@ -235,8 +256,9 @@ public class MbOrigen implements Serializable{
     } 
     
     /**
-     * @param id equivalente al id de la entidad persistida
-     * @return la entidad correspondiente
+     * Método que obtiene un Origen según su id
+     * @param id Long equivalente al id de la entidad persistida
+     * @return Origen la entidad correspondiente
      */
     public Origen getOrigen(java.lang.Long id) {
         return origenFacade.find(id);
@@ -247,12 +269,18 @@ public class MbOrigen implements Serializable{
     ** Métodos privados **
     **********************/
     /**
-     * @return el Facade
+     * Método que devuelve el facade para el acceso a datos del Origen
+     * @return EJB OrigenFacade Acceso a datos
      */
     private OrigenFacade getFacade() {
         return origenFacade;
     }    
     
+    /**
+     * Método para validar que el Origen cuyo nombre se recibe ya está registrado
+     * @param arg2 Object Contenido del campo de texto correspondiente al nombre
+     * @throws ValidatorException 
+     */
     private void validarExistente(Object arg2) throws ValidatorException{
         if(!getFacade().existe((String)arg2)){
             throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateOrigenExistente")));
@@ -260,7 +288,7 @@ public class MbOrigen implements Serializable{
     }    
     
     /**
-     * Opera el borrado de la entidad
+     * Método privado que opera el borrado de la entidad
      */
     private void performDestroy() {
         try {

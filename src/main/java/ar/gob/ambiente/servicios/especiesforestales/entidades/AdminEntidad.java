@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.entidades;
 
@@ -24,7 +19,8 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Enditad administrativa que gestiona las inserciones, modificaciones y bajas del resto de las entidades.
+ * Se omite la documentación de los métodos get y set.
  * @author rincostante
  */
 @XmlRootElement(name = "adminentidad")
@@ -32,31 +28,57 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "adminentidad")
 public class AdminEntidad implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    /**
+     * Variable privada: Identificador único
+     */    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    /**
+     * Variable privada: Usuario que dio de alta la entidad
+     */        
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="usalta_id", nullable=false)
     @NotNull(message = "Debe haber un usuario dealta")
     private Usuario usAlta;
 
+    /**
+     * Variable privada: Fecha de alta de la entidad
+     */  
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaAlta;
     
+    /**
+     * Variable privada: Usuario que modificó la entidad
+     */      
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="usmodif_id", nullable=true)
     private Usuario usModif;
     
+    /**
+     * Variable privada: Fecha en que se modificó la entidad
+     */      
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaModif;
     
+    /**
+     * Variable privada: Usuario que dio de baja la entidad
+     */      
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="usbaja_id", nullable=true)
     private Usuario usBaja;
     
+    /**
+     * Variable privada: Fecha en que se dio de baja a la entidad
+     */        
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaBaja;
+    
+    /**
+     * Variable privada: Condición de habilitado de la entidad
+     */        
     private boolean habilitado;
 
     /**
@@ -77,6 +99,10 @@ public class AdminEntidad implements Serializable {
     @Transient
     String strFechaBaja;
     
+    /**
+     * Método que genera un String con la fecha de baja
+     * @return String La fecha en formato String
+     */
     public String getStrFechaBaja() {
         if(fechaBaja != null){
             SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
@@ -86,13 +112,17 @@ public class AdminEntidad implements Serializable {
         return "";
     }
 
+    /**
+     * Método que setea la Fecha de baja en formato String
+     * @param strFechaBaja Fecha de baja en formato String
+     */
     public void setStrFechaBaja(String strFechaBaja) {
         this.strFechaBaja = strFechaBaja;
     }
 
     /**
-     * 
-     * @return 
+     * Método que genera un String con la fecha de alta
+     * @return String La fecha en formato String
      */
     public String getStrFechaAlta() {
         SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
@@ -100,10 +130,18 @@ public class AdminEntidad implements Serializable {
         return strFechaAlta;
     }
 
+    /**
+     * Método que setea la Fecha de alta en formato String
+     * @param strFechaAlta Fecha de alta en formato String
+     */    
     public void setStrFechaAlta(String strFechaAlta) {
         this.strFechaAlta = strFechaAlta;
     }    
     
+    /**
+     * Método que genera un String con la fecha de modificación
+     * @return String La fecha en formato String
+     */
     public String getStrFechaModif(){
         if(fechaModif != null){
             SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
@@ -113,6 +151,10 @@ public class AdminEntidad implements Serializable {
         return "";
     }
     
+    /**
+     * Método que setea la Fecha de modificación en formato String
+     * @param strFechaModif Fecha de modificación en formato String
+     */        
     public void setStrFechaModif(String strFechaModif){
         this.strFechaModif = strFechaModif;
     }
@@ -181,6 +223,10 @@ public class AdminEntidad implements Serializable {
         this.id = id;
     }
 
+    /**
+     * Método que crea un hash con a partir de la id de la entidad
+     * @return int Un entero con el hash
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -188,6 +234,11 @@ public class AdminEntidad implements Serializable {
         return hash;
     }
 
+    /**
+     * Método que compara una instancia de esta entidad con otra según su id
+     * @param object La instancia de entidad a comparar con la presente
+     * @return boolean Verdadero si son iguales, falso si son distintas
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -198,6 +249,10 @@ public class AdminEntidad implements Serializable {
         return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
+    /**
+     * Método que devuelve un String con el id de la entidad
+     * @return String id de la entidad en formato String
+     */
     @Override
     public String toString() {
         return "ar.gob.ambiente.servicios.especiesforestales.entidades.AdminEntidad[ id=" + id + " ]";

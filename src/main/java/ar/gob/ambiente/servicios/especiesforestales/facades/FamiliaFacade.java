@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.facades;
 
@@ -14,20 +9,29 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
- *
+ * Clase que implementa la abstracta para el acceso a datos de la entidad Familia.
  * @author carmendariz
  */
 @Stateless
 public class FamiliaFacade extends AbstractFacade<Familia> {
+    
+    /**
+     * Variable privada: EntityManager al que se le indica la unidad de persistencia mediante la cual accederá a la base de datos
+     */   
     @PersistenceContext(unitName = "ar.gob.ambiente.servicios_especiesForestales_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
+    /**
+     * Método que implementa el abstracto para la obtención del EntityManager
+     * @return EntityManager para acceder a datos
+     */   
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
+    
     /**
-     *
+     * Constructor
      */
     public FamiliaFacade() {
         super(Familia.class);
@@ -36,8 +40,8 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
     /**
      * Método que devuelve todas las Familias que contienen la cadena recibida como parámetro 
      * dentro de alguno de sus campos string, en este caso el nombre.
-     * @param stringParam: cadena que buscará en todos los campos de tipo varchar de la tabla correspondiente
-     * @return: El conjunto de resultados provenientes de la búsqueda. 
+     * @param stringParam String cadena que buscará en todos los campos de tipo varchar de la tabla correspondiente
+     * @return List<Familia> Listado de todas las Familias encontradas
      */      
     public Familia getXNombre(String stringParam){
         List<Familia> lstFam;
@@ -56,8 +60,8 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
 
     /**
      * Metodo que verifica si ya existe la entidad.
-     * @param aBuscar: es la cadena que buscara para ver si ya existe en la BDD
-     * @return: devuelve True o False
+     * @param aBuscar String cadena que buscara para ver si ya existe en la BDD
+     * @return boolean True o False según exista o no
      */
     public boolean existe(String aBuscar){
         em = getEntityManager();       
@@ -69,9 +73,9 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
     }      
     
     /**
-     * Metodo que verifica si ya existe la entidad.
-     * @param aBuscar: es la cadena que buscara para ver si ya existe en la BDD
-     * @return: devuelve True o False
+     * Metodo que devuelve la Familia cuyo nombre se recibe como parámetro
+     * @param aBuscar String nombre de la Familia a buscar
+     * @return Familia Familia obtenida o null
      */
     public Familia getExistente(String aBuscar){
         em = getEntityManager();       
@@ -85,8 +89,8 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
     
     /**
      * Método que verifica si la entidad tiene dependencia (Hijos) en estado HABILITADO
-     * @param id: ID de la entidad
-     * @return: True o False
+     * @param id Long ID de la entidad
+     * @return boolean True o False según tenga o no dependencias
      */
     public boolean noTieneDependencias(Long id){
         em = getEntityManager();       
@@ -99,8 +103,8 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
         return q.getResultList().isEmpty();
     }
      /**
-     * Metodo para el autocompletado de la búsqueda por nombre
-     * @return 
+     * Metodo que obtiene un listado con los nombres de las Familias habilitadas registradas
+     * @return List<String> Listado de los nombres de todas las Familias registradas
      */  
 
     public List<String> getNombres(){
@@ -113,7 +117,7 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
     
    /**
      * Método que devuelve un LIST con las entidades HABILITADAS
-     * @return: True o False
+     * @return List<Familia> Listado de las Familias habilitadas
      */
     public List<Familia> getActivos(){
         em = getEntityManager();        
@@ -129,7 +133,7 @@ public class FamiliaFacade extends AbstractFacade<Familia> {
     /**
      * Método que devuelve todos las Familias (forestales, solo para SACVeFor)
      * A utilizar por API REST
-     * @return las Familias vinculadas al SACVeFor
+     * @return List<Familia> las Familias vinculadas al SACVeFor
      */
     public List<Familia> getSvfActivas(){
         em = getEntityManager();        

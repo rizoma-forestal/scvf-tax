@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.ws;
 
@@ -24,7 +19,8 @@ import java.util.List;
 import javax.ejb.EJB;
 
 /**
- *
+ * Servicio web SOAP generado para compartir la información con el SIIF en su etapa de desarrollo
+ * @deprecated Este servicio forma parte de la anterior implementación de API de servicios SOAP, reemplazada por la API Rest
  * @author Administrador
  */
 @WebService(serviceName="EspeciesVegWebService")
@@ -35,8 +31,8 @@ public class EspeciesVegWebService {
     private EspeciesServicio espSrv;
 
     /**
-     * Web service operation
-     * @return 
+     * Web service operation que obtiene los Autores registrados
+     * @return List<Autor> Listado de Autores
      */
     @WebMethod(operationName = "verAutores")
     public List<Autor> verAutores() {
@@ -44,8 +40,8 @@ public class EspeciesVegWebService {
     }
 
     /**
-     * Web service operation
-     * @return 
+     * Web service operation que obtiene los tipos de Cites registrados
+     * @return List<Cites> Listado de tipos de Cites
      */
     @WebMethod(operationName = "verCites")
     public List<Cites> verCites() {
@@ -53,8 +49,8 @@ public class EspeciesVegWebService {
     }
     
     /**
-     * Web service operation
-     * @return 
+     * Web service operation que obtiene las Morfologías registradas
+     * @return List<Morfologia> Listado de Morfologías
      */
     @WebMethod(operationName = "verMorfologias")
     public List<Morfologia> verMorfologias() {
@@ -62,8 +58,8 @@ public class EspeciesVegWebService {
     }    
     
     /**
-     * Web service operation
-     * @return 
+     * Web service operation que obtiene los Orígenes registrados
+     * @return List<Origen> Listado de Orígenes
      */
     @WebMethod(operationName = "verOrigen")
     public List<Origen> verOrigen() {
@@ -71,8 +67,8 @@ public class EspeciesVegWebService {
     }    
     
     /**
-     * Web service operation
-     * @return 
+     * Web service operation que obtiene las Publicaciones registradas
+     * @return List<Publicacion> Listado de Publicaciones
      */
     @WebMethod(operationName = "verPublicacion")
     public List<Publicacion> verPublicacion() {
@@ -80,8 +76,8 @@ public class EspeciesVegWebService {
     }    
     
     /**
-     * Web service operation
-     * @return 
+     * Web service operation que obtiene los Rangos registrados
+     * @return List<Rango> Listado de Rangos
      */
     @WebMethod(operationName = "verRango")
     public List<Rango> verRango() {
@@ -89,8 +85,8 @@ public class EspeciesVegWebService {
     }   
     
     /**
-     * Web service operation
-     * @return 
+     * Web service operation que obtiene las Familias registradas habilitadas
+     * @return List<Familia> Listado de Familias registradas
      */
     @WebMethod(operationName = "verFamilias")
     public List<Familia> verFamilias() {
@@ -98,8 +94,8 @@ public class EspeciesVegWebService {
     }
     
     /**
-     * Web service operation
-     * @return 
+     * Web service operation que obtiene los Generos registrados habilitados
+     * @return List<Genero> Listado de Generos registrados
      */
     @WebMethod(operationName = "verGeneros")
     public List<Genero> verGeneros() {
@@ -107,8 +103,8 @@ public class EspeciesVegWebService {
     }
     
     /**
-     * Web service operation
-     * @return 
+     * Web service operation que obtiene los Especies registradas habilitadas
+     * @return List<Especie> Listado de Especies registradas
      */
     @WebMethod(operationName = "verEspecies")
     public List<Especie> verEspecies() {
@@ -116,9 +112,9 @@ public class EspeciesVegWebService {
     }    
 
     /**
-     * Web service operation
-     * @param id
-     * @return 
+     * Web service operation obtiene una Especie según su id
+     * @param id Long id de la Especie
+     * @return Especie Especie correspondiente a la id recibida
      */
     @WebMethod(operationName = "buscarEspecie")
     public Especie buscarEspecie(@WebParam(name = "id") Long id) {
@@ -126,9 +122,9 @@ public class EspeciesVegWebService {
     }
 
     /**
-     * Web service operation
-     * @param idFamilia
-     * @return 
+     * Web service operation obtiene un Género según el id de la Familia a la que pertenece
+     * @param idFamilia Long id de la Familia
+     * @return List<Genero> listado de Géneros pertenecientes a la Familia cuya id se recibió
      */
     @WebMethod(operationName = "verGenerosPorFamilia")
     public List<Genero> verGenerosPorFamilia(@WebParam(name = "idFamilia") Long idFamilia) {
@@ -136,9 +132,9 @@ public class EspeciesVegWebService {
     }
 
     /**
-     * Web service operation
-     * @param idGenero
-     * @return 
+     * Web service operation obtiene una Especie según el id del Género al que pertenece
+     * @param idGenero Long id del Género
+     * @return List<Especie> listado de las Especies pertenecientes al Género cuyo id se recibió
      */
     @WebMethod(operationName = "verEspeciesPorGenero")
     public List<Especie> verEspeciesPorGenero(@WebParam(name = "idGenero") Long idGenero) {
@@ -146,9 +142,9 @@ public class EspeciesVegWebService {
     }
 
     /**
-     * Web service operation
-     * @param nombre
-     * @return 
+     * Web service operation que obtiene todas las Especies que contengan en el nombre la cadena recibida
+     * @param nombre String componente del nombre a buscar
+     * @return List<Especie> listado de las Especies cuyo nombre contiene la cadena recibida
      */
     @WebMethod(operationName = "buscarEspeciesPorNombre")
     public List<Especie> buscarEspeciesPorNombre(@WebParam(name = "nombre") String nombre) {
@@ -156,9 +152,9 @@ public class EspeciesVegWebService {
     }
 
     /**
-     * Web service operation
-     * @param subespecie
-     * @return 
+     * Web service operation que obtiene las Especies que formen parte de la Subespecie dada
+     * @param subespecie String subespecie contenedora de las Especies a buscar
+     * @return List<Especie> listado de las Especies pertenecientes a la subespecie dada
      */
     @WebMethod(operationName = "buscarEspeciesPorSubespecie")
     public List<Especie> buscarEspeciesPorSubespecie(@WebParam(name = "subespecie") String subespecie) {
@@ -166,9 +162,10 @@ public class EspeciesVegWebService {
     }
 
     /**
-     * Web service operation
-     * @param categorias
-     * @return 
+     * Web service operation que obtiene todas las especies que entre sus categorías 
+     * (Autores, Cites, Morfología, Origen, etc.) consigne una con alguno de los nombres recibidos
+     * @param categorias String cadena que contiene uno o más nombres de categorías separados por ","
+     * @return List<Especie> listado de las Especies obtenidas
      */
     @WebMethod(operationName = "buscarEspeciesPorCategorias")
     public List<Especie> buscarEspeciesPorCategorias(@WebParam(name = "categorias") String categorias) {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
@@ -25,23 +20,44 @@ import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Bean de respaldo para la gestión de Cites
  * @author rincostante
  */
 public class MbCites implements Serializable{
     
+    /**
+     * Variable privada: Cites Entidad que se gestiona mediante el bean
+     */
     private Cites current;
+    
+    /**
+     * Variable privada: List<Cites> Listado de Cites para poblar la tabla con todos los registrados
+     */
     private List<Cites> listado = null;
+    
+    /**
+     * Variable privada: List<Cites> para el filtrado de la tabla
+     */
     private List<Cites> listaFilter;  
+    
+    /**
+     * Listado que muestra las Especies vinculadas a tipo de Cites
+     */
     private List<Especie> listEspFilter;
     
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Cites
+     */    
     @EJB
     private CitesFacade citesFacade;
 
+    /**
+     * Variable privada: boolean que indica si se inició el bean
+     */    
     private boolean iniciado;     
 
     /**
-     * Creates a new instance of MbCites
+     * Constructor
      */
     public MbCites() {
     }
@@ -62,6 +78,10 @@ public class MbCites implements Serializable{
         this.current = current;
     }
 
+    /**
+     * Método que obtiene el listado de todos los Cites, solo si no está instanciado ya
+     * @return List<Cites> listado con todos los Cites registrados
+     */    
     public List<Cites> getListado() {
         if (listado == null || listado.isEmpty()) {
             listado = getFacade().findAll();
@@ -113,7 +133,8 @@ public class MbCites implements Serializable{
     }   
     
     /**
-     * @return acción para el listado de entidades a mostrar en el list
+     * Redireccionamiento a la vista con el listado
+     * @return String nombre de la vista
      */
     public String prepareList() {
         recreateModel();
@@ -121,14 +142,16 @@ public class MbCites implements Serializable{
     }
     
     /**
-     * @return acción para el detalle de la entidad
+     * Redireccionamiento a la vista detalle
+     * @return String nombre de la vista
      */
     public String prepareView() {
         return "view";
     }
     
-    /** (Probablemente haya que embeberlo con el listado para una misma vista)
-     * @return acción para el formulario de nuevo
+    /**
+     * Redireccionamiento a la vista new para crear un Cites
+     * @return String nombre de la vista
      */
     public String prepareCreate() {
         current = new Cites();
@@ -136,15 +159,16 @@ public class MbCites implements Serializable{
     }   
     
     /**
-     * @return acción para la edición de la entidad
+     * Redireccionamiento a la vista edit para editar un Cites
+     * @return String nombre de la vista
      */
     public String prepareEdit() {
         return "edit";
     }    
     
     /**
-     * Método que verifica que el Cargo que se quiere eliminar no esté siento utilizado por otra entidad
-     * @return 
+     * Método que verifica que el Cites que se quiere eliminar no esté siento utilizado por otra entidad y redirecciona a la vista detalle
+     * @return String nombre de la vista
      */
     public String prepareDestroy(){
         boolean libre = getFacade().noTieneDependencias(current.getId());
@@ -192,7 +216,8 @@ public class MbCites implements Serializable{
      * Métodos de operación
      **********************/
     /**
-    * @return 
+    * Método para la creación de un nuevo Cites
+    * @return String nombre de la vista detalle o null si hay error
     */   
     public String create() {     
         try {
@@ -205,7 +230,10 @@ public class MbCites implements Serializable{
         }
     }
     
-
+    /**
+     * Método para la actualización de un Autor existente
+     * @return String nombre de la vista detalle o null si hay error
+     */
     public String update() {
         try {
             getFacade().edit(current);
@@ -218,14 +246,15 @@ public class MbCites implements Serializable{
     }    
     
     /**
-     * Restea la entidad
+     * Método que restea la entidad
      */
     private void recreateModel() {
         listado.clear();
     }    
     
     /**
-     * @return La entidad gestionada
+     * Método que instancia a la entidad Cites
+     * @return Cites entidad a gestionar
      */
  
     public Cites getSelected() {
@@ -236,8 +265,9 @@ public class MbCites implements Serializable{
     } 
     
     /**
-     * @param id equivalente al id de la entidad persistida
-     * @return la entidad correspondiente
+     * Método que obtiene un Cites según su id
+     * @param id Long equivalente al id de la entidad persistida
+     * @return Cites la entidad correspondiente
      */
     public Cites getCites(java.lang.Long id) {
         return citesFacade.find(id);
@@ -248,12 +278,18 @@ public class MbCites implements Serializable{
     ** Métodos privados **
     **********************/
     /**
-     * @return el Facade
+     * Método que devuelve el facade para el acceso a datos del Cites
+     * @return EJB CitesFacade Acceso a datos
      */
     private CitesFacade getFacade() {
         return citesFacade;
     }    
     
+    /**
+     * Método para validar que el Cites cuyo nombre se recibe ya está registrado
+     * @param arg2 Object Contenido del campo de texto correspondiente al nombre
+     * @throws ValidatorException 
+     */    
     private void validarExistente(Object arg2) throws ValidatorException{
         if(!getFacade().existe((String)arg2)){
             throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateCitesExistente")));

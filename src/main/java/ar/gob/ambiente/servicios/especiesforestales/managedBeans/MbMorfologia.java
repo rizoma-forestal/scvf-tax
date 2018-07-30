@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ar.gob.ambiente.servicios.especiesforestales.managedBeans;
 
@@ -25,22 +20,37 @@ import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Bean de respaldo para la gestión de las Morfologías
  * @author rincostante
  */
 public class MbMorfologia implements Serializable{
-
+    /**
+     * Variable privada: Morfologia Entidad que se gestiona mediante el bean
+     */
     private Morfologia current;
+    /**
+     * Variable privada: List<Morfologia> Listado de morfologías para poblar la tabla con todos los autores registrados
+     */
     private List<Morfologia> listado = null;
-    private List<Morfologia> listaFilter;    
+    /**
+     * Variable privada: List<Morfologia> para el filtrado de la tabla
+     */
+    private List<Morfologia> listaFilter;   
+    /**
+     * Variable privada: List<Autor> Listado que muestra las Especies vinculadas al autor
+     */
     private List<Especie> listEspFilter;
-    
+    /**
+     * Variable privada: EJB inyectado para el acceso a datos de Morfología
+     */
     @EJB
     private MorfologiaFacade morfologiaFacade;
-
+    /**
+     * Variable privada: boolean que indica si se inició el bean
+     */
     private boolean iniciado;         
     /**
-     * Creates a new instance of MbMorfologia
+     * Constructor
      */
     public MbMorfologia() {
     }
@@ -60,7 +70,10 @@ public class MbMorfologia implements Serializable{
     public void setCurrent(Morfologia current) {
         this.current = current;
     }
-
+    /**
+     * Método que obtiene el listado de todos los Morfologías, solo si no está instanciado ya
+     * @return List<Morfologia> listado con todos los Morfologías registradas
+     */
     public List<Morfologia> getListado() {
         if (listado == null || listado.isEmpty()) {
             listado = getFacade().findAll();
@@ -112,7 +125,8 @@ public class MbMorfologia implements Serializable{
     }   
     
     /**
-     * @return acción para el listado de entidades a mostrar en el list
+     * Redireccionamiento a la vista con el listado
+     * @return String nombre de la vista
      */
     public String prepareList() {
         recreateModel();
@@ -120,14 +134,16 @@ public class MbMorfologia implements Serializable{
     }
     
     /**
-     * @return acción para el detalle de la entidad
+     * Redireccionamiento a la vista detalle
+     * @return String nombre de la vista
      */
     public String prepareView() {
         return "view";
     }
     
-    /** (Probablemente haya que embeberlo con el listado para una misma vista)
-     * @return acción para el formulario de nuevo
+    /**
+     * Redireccionamiento a la vista new para crear una Morfologia
+     * @return String nombre de la vista
      */
     public String prepareCreate() {
         current = new Morfologia();
@@ -135,15 +151,16 @@ public class MbMorfologia implements Serializable{
     }   
     
     /**
-     * @return acción para la edición de la entidad
+     * Redireccionamiento a la vista edit para editar una Morfologia
+     * @return String nombre de la vista
      */
     public String prepareEdit() {
         return "edit";
     }    
     
     /**
-     * Método que verifica que el Cargo que se quiere eliminar no esté siento utilizado por otra entidad
-     * @return 
+     * Método que verifica que la Morfologia que se quiere eliminar no esté siento utilizado por otra entidad y redirecciona a la vista detalle
+     * @return String nombre de la vista
      */
     public String prepareDestroy(){
         boolean libre = getFacade().noTieneDependencias(current.getId());
@@ -191,7 +208,8 @@ public class MbMorfologia implements Serializable{
      * Métodos de operación
      **********************/
     /**
-    * @return 
+    * Método para la creación de una nueva Morfologia
+    * @return String nombre de la vista detalle o null si hay error
     */   
     public String create() {     
         try {
@@ -204,7 +222,10 @@ public class MbMorfologia implements Serializable{
         }
     }
     
-
+    /**
+     * Método para la actualización de una Morfologia existente
+     * @return String nombre de la vista detalle o null si hay error
+     */
     public String update() {
         try {
             getFacade().edit(current);
@@ -217,16 +238,16 @@ public class MbMorfologia implements Serializable{
     }    
     
     /**
-     * Restea la entidad
+     * Método privado que restea la entidad
      */
     private void recreateModel() {
         listado.clear();
     }    
     
     /**
-     * @return La entidad gestionada
+     * Método que instancia a la entidad Morfologia
+     * @return Autor entidad a gestionar
      */
- 
     public Morfologia getSelected() {
         if (current == null) {
             current = new Morfologia();
@@ -235,8 +256,9 @@ public class MbMorfologia implements Serializable{
     } 
     
     /**
-     * @param id equivalente al id de la entidad persistida
-     * @return la entidad correspondiente
+     * Método que obtiene una Morfologia según su id
+     * @param id Long equivalente al id de la entidad persistida
+     * @return Morfologia la entidad correspondiente
      */
     public Morfologia getMorfologia(java.lang.Long id) {
         return morfologiaFacade.find(id);
@@ -247,12 +269,17 @@ public class MbMorfologia implements Serializable{
     ** Métodos privados **
     **********************/
     /**
-     * @return el Facade
+     * Método que devuelve el facade para el acceso a datos de la Morfologia
+     * @return EJB MorfologiaFacade Acceso a datos
      */
     private MorfologiaFacade getFacade() {
         return morfologiaFacade;
     }    
-    
+    /**
+     * Método para validar que la Morfologia cuyo nombre se recibe ya está registrado
+     * @param arg2 Object Contenido del campo de texto correspondiente al nombre
+     * @throws ValidatorException 
+     */
     private void validarExistente(Object arg2) throws ValidatorException{
         if(!getFacade().existe((String)arg2)){
             throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("CreateMorfologiaExistente")));
