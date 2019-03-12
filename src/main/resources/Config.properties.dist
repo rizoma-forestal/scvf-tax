@@ -1,7 +1,9 @@
 
 # Ruta de acceseso al contenedor
 Servidor=http://localhost:8080
+#Servidor=http://sacvefor.srv.bosquesnativos.net.ar
 
-# Ruta de la aplicaci\u00f3n SSO que realizar\u00e1 la autenticaci\u00f3n de usuarios
+# Ruta de la aplicación SSO que realizará la autenticación de usuarios
 RutaAutenticacion=http://localhost:8080/gestionAplicaciones
+#RutaAutenticacion=http://sacvefor.srv.bosquesnativos.net.ar/gestionAplicaciones
 
